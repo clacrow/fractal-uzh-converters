@@ -74,4 +74,18 @@ TASK_LIST = [
         ],
         docs_info="file:docs_info/operetta_task.md",
     ),
+    ConverterCompoundTask(
+        name="Convert MD ImageXpress HCS.ai Plate to OME-Zarr",
+        executable_init="md_imagexpress_hcsai/convert_md_init_task.py",
+        executable="common/image_in_plate_compute_task.py",
+        meta_init={"cpus_per_task": 1, "mem": 4000},
+        meta={"cpus_per_task": 1, "mem": 4000},
+        category="Conversion",
+        modality="HCS",
+        tags=[
+            "MD ImageXpress HCS.ai",
+            "Plate converter",
+        ],
+        docs_info="file:docs_info/md_imagexpress_hcsai_task.md",
+    ),
 ]

@@ -1,0 +1,3 @@
+Well Row,Well Column,Site Number,TimePoint,Workflow Name,Internal Workflow Name,Search Name,# Peaks Expected,Jog Number,Start (Um),End (Um),Step size (Um),Search Time (Ms),Peak #1 (Um),Peak #2 (Um),Peak #3 (Um)
+3,5,1,1,plateBottomAndWellBottomTogetherWorkflow,internalMultiPeakSearchWorkflow,MultiPeakSearch (CoarseSearch),2,0,18053.340000,18595.124810,2.184616,349,18327.180000,18445.680000,0.000000
+3,5,1,1,plateBottomAndWellBottomTogetherWorkflow,internalMultiPeakSearchWorkflow,SinglePeakSearch (FineSearch),1,0,18440.211250,18451.148750,0.266768,185,18444.660000,0.000000,0.000000
