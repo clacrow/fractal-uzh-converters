@@ -26,6 +26,11 @@ INPUT_MODELS = [
         "cq3k/utils.py",
         "CQ3KAcquisitionModel",
     ),
+    (
+        "fractal_uzh_converters",
+        "md_imagexpress_hcsai/utils.py",
+        "MDImageXpressHCSaiAcquisitionModel",
+    )
 ]
 INPUT_MODELS += converters_tools_models()
 

@@ -2948,38 +2948,6 @@
             "type": "string",
             "description": "Missing description for BackendType."
           },
-          "BaseAcquisitionModel": {
-            "description": "Base model for acquisitions.",
-            "properties": {
-              "path": {
-                "title": "Path",
-                "type": "string",
-                "description": "Path to the acquisition directory. Should contain MeasurementData.mlf and MeasurementDetail.mrf files."
-              },
-              "plate_name": {
-                "title": "Plate Name",
-                "type": "string",
-                "description": "Optional custom name for the plate. If not provided, the name will be the acquisition directory name."
-              },
-              "acquisition_id": {
-                "default": 0,
-                "minimum": 0,
-                "title": "Acquisition Id",
-                "type": "integer",
-                "description": "Acquisition ID, used to identify the acquisition in case of multiple acquisitions."
-              },
-              "advanced": {
-                "$ref": "#/$defs/AcquisitionOptions",
-                "title": "Advanced",
-                "description": "Advanced acquisition options."
-              }
-            },
-            "required": [
-              "path"
-            ],
-            "title": "BaseAcquisitionModel",
-            "type": "object"
-          },
           "ChannelInfo": {
             "description": "Channel information.",
             "properties": {
@@ -3157,6 +3125,38 @@
               }
             },
             "title": "FovBasedChunking",
+            "type": "object"
+          },
+          "MDImageXpressHCSaiAcquisitionModel": {
+            "description": "Acquisition details for the MD ImageXpress HCS.ai microscope data.",
+            "properties": {
+              "path": {
+                "title": "Path",
+                "type": "string",
+                "description": "Path to the acquisition directory. For the MD ImageXpress HCS.ai, this should be one of the \"experiment{_mode}\" directories. It should contain the \"*.jdce\" metadata file, the \"*.csv\" file with the list of tiff files and the \"timepoint{n}\" subdirectories with the tiff files. For more details, see the Info page."
+              },
+              "plate_name": {
+                "title": "Plate Name",
+                "type": "string",
+                "description": "Optional custom name for the plate."
+              },
+              "acquisition_id": {
+                "default": 0,
+                "minimum": 0,
+                "title": "Acquisition Id",
+                "type": "integer",
+                "description": "Acquisition ID, used to identify the acquisition in case of multiple acquisitions."
+              },
+              "advanced": {
+                "$ref": "#/$defs/AcquisitionOptions",
+                "title": "Advanced",
+                "description": "Advanced acquisition options."
+              }
+            },
+            "required": [
+              "path"
+            ],
+            "title": "MDImageXpressHCSaiAcquisitionModel",
             "type": "object"
           },
           "OmeZarrOptions": {
@@ -3393,15 +3393,15 @@
           "zarr_dir": {
             "title": "Zarr Dir",
             "type": "string",
-            "description": "Directory to store the Zarr files."
+            "description": "Missing description"
           },
           "acquisitions": {
             "items": {
-              "$ref": "#/$defs/BaseAcquisitionModel"
+              "$ref": "#/$defs/MDImageXpressHCSaiAcquisitionModel"
             },
             "title": "Acquisitions",
             "type": "array",
-            "description": "List of raw acquisitions to convert to OME-Zarr."
+            "description": "Missing description"
           },
           "converter_options": {
             "$ref": "#/$defs/ConverterOptions",
@@ -3430,13 +3430,13 @@
               }
             },
             "title": "Converter Options",
-            "description": "Advanced converter options."
+            "description": "Missing description"
           },
           "overwrite": {
             "$ref": "#/$defs/OverwriteMode",
             "default": "No Overwrite",
             "title": "Overwrite",
-            "description": "Overwrite mode for existing data. - \"No Overwrite\": Do not overwrite existing data. - \"Overwrite\": Remove and replace existing data. - \"Extend\": Extend existing data without removing it. Default is \"No Overwrite\"."
+            "description": "Missing description"
           }
         },
         "required": [

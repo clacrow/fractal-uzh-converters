@@ -10,10 +10,10 @@ from ome_zarr_converters_tools import (
 from pydantic import validate_call
 
 from fractal_uzh_converters.common import (
-    BaseAcquisitionModel,
     parse_acquisitions,
 )
 from fractal_uzh_converters.md_imagexpress_hcsai.utils import (
+    MDImageXpressHCSaiAcquisitionModel,
     parse_md_metadata,
 )
 
@@ -29,7 +29,7 @@ def convert_md_init_task(
     # Fractal parameters
     zarr_dir: str,
     # Task parameters
-    acquisitions: list[BaseAcquisitionModel],
+    acquisitions: list[MDImageXpressHCSaiAcquisitionModel],
     converter_options: ConverterOptions = default_converter_options,
     overwrite: OverwriteMode = OverwriteMode.NO_OVERWRITE,
 ):
@@ -37,8 +37,8 @@ def convert_md_init_task(
 
     Args:
         zarr_dir (str): Directory to store the Zarr files.
-        acquisitions (list[BaseAcquisitionModel]): List of raw acquisitions to
-            convert to OME-Zarr.
+        acquisitions (list[MDImageXpressHCSaiAcquisitionModel]): List of raw
+        acquisitions to convert to OME-Zarr.
         converter_options (ConverterOptions): Advanced converter options.
         overwrite (OverwriteMode): Overwrite mode for existing data.
             - "No Overwrite": Do not overwrite existing data.

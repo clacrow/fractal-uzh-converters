@@ -28,6 +28,30 @@ logger = logging.getLogger(__name__)
 
 ######################################################################
 #
+# Acquisition Input Model
+#
+######################################################################
+
+
+class MDImageXpressHCSaiAcquisitionModel(BaseAcquisitionModel):
+    """Acquisition details for the MD ImageXpress HCS.ai microscope data.
+
+    Attributes:
+        path: Path to the acquisition directory.
+            For the MD ImageXpress HCS.ai, this should be one of the
+            "experiment{_mode}" directories. It should contain the "*.jdce"
+            metadata file, the "*.csv" file with the list of tiff files and
+            the "timepoint{n}" subdirectories with the tiff files. For more
+            details, see the Info page.
+        plate_name: Optional custom name for the plate.
+        acquisition_id: Acquisition ID,
+            used to identify the acquisition in case of multiple acquisitions.
+        advanced: Advanced acquisition options.
+    """
+
+
+######################################################################
+#
 # Load MD metadata
 #
 ######################################################################
@@ -141,7 +165,7 @@ def construct_tiles_table(df_csv, acquisition_dir):
 
 def parse_md_metadata(
     *,
-    acquisition_model: BaseAcquisitionModel,
+    acquisition_model: MDImageXpressHCSaiAcquisitionModel,
     converter_options: ConverterOptions,
 ) -> list[TiledImage]:
     """Parse MD ImageXpress HCS.ai metadata and return a list of TiledImages.
@@ -158,7 +182,6 @@ def parse_md_metadata(
     condition_table = acquisition_model.get_condition_table()
     if condition_table:
         raise NotImplementedError("Condition tables are not yet supported.")
-
 
     # Load channel metadata from .jdce file
     jdce_files = sorted(Path(acquisition_dir).glob("*.jdce"))
@@ -223,7 +246,7 @@ def parse_md_metadata(
     tiles = hcs_images_from_dataframe(
         tiles_table=tiles_table,
         acquisition_details=acq,
-        plate_name=acquisition_model.plate_name,
+        plate_name=acquisition_model.normalized_plate_name,  # TODO: read plate name properly
         acquisition_id=acquisition_model.acquisition_id,
     )
 
