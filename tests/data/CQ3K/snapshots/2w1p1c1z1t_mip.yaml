@@ -20,6 +20,10 @@ plates:
         - 1.0
         - 0.3242218675179569
         - 0.3242218675179569
+        channel_labels:
+        - channel_0
+        wavelength_ids:
+        - channel_0
         types:
           is_3D: false
         attributes:
@@ -54,6 +58,10 @@ plates:
         - 1.0
         - 0.3242218675179569
         - 0.3242218675179569
+        channel_labels:
+        - channel_0
+        wavelength_ids:
+        - channel_0
         types:
           is_3D: false
         attributes:

@@ -19,6 +19,10 @@ plates:
         - 1.0
         - 0.5979760809567617
         - 0.5979760809567617
+        channel_labels:
+        - Fluorescein (FITC)
+        wavelength_ids:
+        - '525'
         types:
           is_3D: false
         attributes:
