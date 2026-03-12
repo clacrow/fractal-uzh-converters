@@ -159,7 +159,6 @@ def parse_md_metadata(
     if condition_table:
         raise NotImplementedError("Condition tables are not yet supported.")
 
-
     # Load channel metadata from .jdce file
     jdce_files = sorted(Path(acquisition_dir).glob("*.jdce"))
     if len(jdce_files) == 0:
