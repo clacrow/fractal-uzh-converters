@@ -19,18 +19,21 @@ plates:
         - 1.0
         - 0.5979760809567617
         - 0.5979760809567617
+        channel_labels:
+        - Fluorescein (FITC)
+        wavelength_ids:
+        - '525'
         types:
           is_3D: false
         attributes:
-          plate: 1w1p1c1z1t.zarr
-          well: C11
-          acquisition: 0
           drug: drugA & drugB
           concentration: 0.2 & None
           replicate: 1 & 2
           bool_col: True & False
+          plate: 1w1p1c1z1t.zarr
+          well: C11
+          acquisition: 0
         tables:
-          condition_table:
           well_ROI_table:
             rois:
               image:
@@ -42,3 +45,4 @@ plates:
                   max: 44239.0
                   hash: e46dbe494948247754027b354e95dcfd9db0041cabc0a0d25d9db203f5e7406f
                 yx_origin: null
+          condition_table: null
