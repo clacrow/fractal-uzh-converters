@@ -19,6 +19,10 @@ plates:
         - 1.0
         - 0.325
         - 0.325
+        channel_labels:
+        - '405 nm #1'
+        wavelength_ids:
+        - '405 nm #1'
         types:
           is_3D: false
         attributes:

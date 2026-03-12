@@ -42,6 +42,8 @@ class ImageAssertionModel(BaseModel):
     axes: tuple[str, ...]
     shape: tuple[int, ...]
     pixelsize: tuple[float, ...]
+    channel_labels: list[str] = Field(default_factory=list)
+    wavelength_ids: list[str | None] = Field(default_factory=list)
     types: dict[str, bool] = Field(default_factory=dict)
     attributes: dict[str, str | int | float] = Field(default_factory=dict)
     tables: dict[str, TableAssertionModel | None] = Field(default_factory=dict)
@@ -186,6 +188,10 @@ def _post_compute_checks(
             assert image.axes == img_assert.axes
             assert image.shape == img_assert.shape
             assert np.allclose(image.pixel_size.tzyx, img_assert.pixelsize)
+            if img_assert.channel_labels:
+                assert ome_zarr_image.channel_labels == list(img_assert.channel_labels)
+            if img_assert.wavelength_ids:
+                assert ome_zarr_image.wavelength_ids == list(img_assert.wavelength_ids)
             _check_roi_tables(
                 ome_zarr_image=ome_zarr_image,
                 image_assertions=img_assert,
@@ -223,6 +229,8 @@ def _generate_snapshot(
                 "axes": list(image.axes),
                 "shape": list(image.shape),
                 "pixelsize": list(image.pixel_size.tzyx),
+                "channel_labels": ome_zarr_image.channel_labels,
+                "wavelength_ids": ome_zarr_image.wavelength_ids,
             }
 
             full_path = f"{plate_name}/{img_path}"
