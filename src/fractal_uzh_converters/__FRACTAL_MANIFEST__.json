@@ -157,17 +157,24 @@
             "additionalProperties": false,
             "description": "Options for the OME-Zarr conversion process.",
             "properties": {
+              "writer_mode": {
+                "$ref": "#/$defs/WriterMode",
+                "default": "By FOV",
+                "title": "Writer Mode",
+                "description": "Mode for writing data during conversion. - By Tile: Write data one tile at a time. This consumes less memory, but may be slower. - By Tile (Using Dask): Write tiles in parallel using Dask. This is usually faster than writing by tile sequentially, but may consume more memory. - By FOV: Write data one field of view at a time. This may the best compromise between speed and memory usage in most cases. - By FOV (Using Dask): Write fields of view in parallel using Dask. This is usually faster than writing by FOV sequentially, but may consume more memory. - In Memory: Load all data into memory before writing."
+              },
               "tiling_mode": {
                 "$ref": "#/$defs/TilingMode",
                 "default": "Auto",
                 "title": "Tiling Mode",
                 "description": "Tiling mode to use during conversion. - Auto: Automatically determine if Snap to Grid is possible, otherwise use Snap to Corners. - Snap to Grid: Tile images to fit a regular grid. This is only possible if image positions align to a grid (potentially with overlap). - Snap to Corners: Tile images to fit a grid defined by the corner positions. - Inplace: Write tiles in their original positions without tiling. This may lead to artifacts if microscope stage positions are not precise. - No Tiling: Each field of view is written as a single OME-Zarr."
               },
-              "writer_mode": {
-                "$ref": "#/$defs/WriterMode",
-                "default": "By FOV",
-                "title": "Writer Mode",
-                "description": "Mode for writing data during conversion. - By Tile: Write data one tile at a time. This consumes less memory, but may be slower. - By Tile (Using Dask): Write tiles in parallel using Dask. This is usually faster than writing by tile sequentially, but may consume more memory. - By FOV: Write data one field of view at a time. This may the best compromise between speed and memory usage in most cases. - By FOV (Using Dask): Write fields of view in parallel using Dask. This is usually faster than writing by FOV sequentially, but may consume more memory. - In Memory: Load all data into memory before writing."
+              "tiling_tolerance": {
+                "default": 0,
+                "minimum": 0,
+                "title": "Tiling Tolerance (in pixels)",
+                "type": "number",
+                "description": "Tolerance in pixels for determining if Snap to Grid is possible. This accounts for minor jitter in microscope stage positions when determining if Snap to Grid tiling can be applied."
               },
               "alignment_correction": {
                 "$ref": "#/$defs/AlignmentCorrections",
@@ -597,8 +604,9 @@
           "converter_options": {
             "$ref": "#/$defs/ConverterOptions",
             "default": {
-              "tiling_mode": "Auto",
               "writer_mode": "By FOV",
+              "tiling_mode": "Auto",
+              "tiling_tolerance": 0.0,
               "alignment_correction": {
                 "align_t": false,
                 "align_xy": false,
@@ -704,17 +712,24 @@
             "additionalProperties": false,
             "description": "Options for the OME-Zarr conversion process.",
             "properties": {
+              "writer_mode": {
+                "$ref": "#/$defs/WriterMode",
+                "default": "By FOV",
+                "title": "Writer Mode",
+                "description": "Mode for writing data during conversion. - By Tile: Write data one tile at a time. This consumes less memory, but may be slower. - By Tile (Using Dask): Write tiles in parallel using Dask. This is usually faster than writing by tile sequentially, but may consume more memory. - By FOV: Write data one field of view at a time. This may the best compromise between speed and memory usage in most cases. - By FOV (Using Dask): Write fields of view in parallel using Dask. This is usually faster than writing by FOV sequentially, but may consume more memory. - In Memory: Load all data into memory before writing."
+              },
               "tiling_mode": {
                 "$ref": "#/$defs/TilingMode",
                 "default": "Auto",
                 "title": "Tiling Mode",
                 "description": "Tiling mode to use during conversion. - Auto: Automatically determine if Snap to Grid is possible, otherwise use Snap to Corners. - Snap to Grid: Tile images to fit a regular grid. This is only possible if image positions align to a grid (potentially with overlap). - Snap to Corners: Tile images to fit a grid defined by the corner positions. - Inplace: Write tiles in their original positions without tiling. This may lead to artifacts if microscope stage positions are not precise. - No Tiling: Each field of view is written as a single OME-Zarr."
               },
-              "writer_mode": {
-                "$ref": "#/$defs/WriterMode",
-                "default": "By FOV",
-                "title": "Writer Mode",
-                "description": "Mode for writing data during conversion. - By Tile: Write data one tile at a time. This consumes less memory, but may be slower. - By Tile (Using Dask): Write tiles in parallel using Dask. This is usually faster than writing by tile sequentially, but may consume more memory. - By FOV: Write data one field of view at a time. This may the best compromise between speed and memory usage in most cases. - By FOV (Using Dask): Write fields of view in parallel using Dask. This is usually faster than writing by FOV sequentially, but may consume more memory. - In Memory: Load all data into memory before writing."
+              "tiling_tolerance": {
+                "default": 0,
+                "minimum": 0,
+                "title": "Tiling Tolerance (in pixels)",
+                "type": "number",
+                "description": "Tolerance in pixels for determining if Snap to Grid is possible. This accounts for minor jitter in microscope stage positions when determining if Snap to Grid tiling can be applied."
               },
               "alignment_correction": {
                 "$ref": "#/$defs/AlignmentCorrections",
@@ -1138,17 +1153,24 @@
             "additionalProperties": false,
             "description": "Options for the OME-Zarr conversion process.",
             "properties": {
+              "writer_mode": {
+                "$ref": "#/$defs/WriterMode",
+                "default": "By FOV",
+                "title": "Writer Mode",
+                "description": "Mode for writing data during conversion. - By Tile: Write data one tile at a time. This consumes less memory, but may be slower. - By Tile (Using Dask): Write tiles in parallel using Dask. This is usually faster than writing by tile sequentially, but may consume more memory. - By FOV: Write data one field of view at a time. This may the best compromise between speed and memory usage in most cases. - By FOV (Using Dask): Write fields of view in parallel using Dask. This is usually faster than writing by FOV sequentially, but may consume more memory. - In Memory: Load all data into memory before writing."
+              },
               "tiling_mode": {
                 "$ref": "#/$defs/TilingMode",
                 "default": "Auto",
                 "title": "Tiling Mode",
                 "description": "Tiling mode to use during conversion. - Auto: Automatically determine if Snap to Grid is possible, otherwise use Snap to Corners. - Snap to Grid: Tile images to fit a regular grid. This is only possible if image positions align to a grid (potentially with overlap). - Snap to Corners: Tile images to fit a grid defined by the corner positions. - Inplace: Write tiles in their original positions without tiling. This may lead to artifacts if microscope stage positions are not precise. - No Tiling: Each field of view is written as a single OME-Zarr."
               },
-              "writer_mode": {
-                "$ref": "#/$defs/WriterMode",
-                "default": "By FOV",
-                "title": "Writer Mode",
-                "description": "Mode for writing data during conversion. - By Tile: Write data one tile at a time. This consumes less memory, but may be slower. - By Tile (Using Dask): Write tiles in parallel using Dask. This is usually faster than writing by tile sequentially, but may consume more memory. - By FOV: Write data one field of view at a time. This may the best compromise between speed and memory usage in most cases. - By FOV (Using Dask): Write fields of view in parallel using Dask. This is usually faster than writing by FOV sequentially, but may consume more memory. - In Memory: Load all data into memory before writing."
+              "tiling_tolerance": {
+                "default": 0,
+                "minimum": 0,
+                "title": "Tiling Tolerance (in pixels)",
+                "type": "number",
+                "description": "Tolerance in pixels for determining if Snap to Grid is possible. This accounts for minor jitter in microscope stage positions when determining if Snap to Grid tiling can be applied."
               },
               "alignment_correction": {
                 "$ref": "#/$defs/AlignmentCorrections",
@@ -1534,8 +1556,9 @@
           "converter_options": {
             "$ref": "#/$defs/ConverterOptions",
             "default": {
-              "tiling_mode": "Auto",
               "writer_mode": "By FOV",
+              "tiling_mode": "Auto",
+              "tiling_tolerance": 0.0,
               "alignment_correction": {
                 "align_t": false,
                 "align_xy": false,
@@ -1641,17 +1664,24 @@
             "additionalProperties": false,
             "description": "Options for the OME-Zarr conversion process.",
             "properties": {
+              "writer_mode": {
+                "$ref": "#/$defs/WriterMode",
+                "default": "By FOV",
+                "title": "Writer Mode",
+                "description": "Mode for writing data during conversion. - By Tile: Write data one tile at a time. This consumes less memory, but may be slower. - By Tile (Using Dask): Write tiles in parallel using Dask. This is usually faster than writing by tile sequentially, but may consume more memory. - By FOV: Write data one field of view at a time. This may the best compromise between speed and memory usage in most cases. - By FOV (Using Dask): Write fields of view in parallel using Dask. This is usually faster than writing by FOV sequentially, but may consume more memory. - In Memory: Load all data into memory before writing."
+              },
               "tiling_mode": {
                 "$ref": "#/$defs/TilingMode",
                 "default": "Auto",
                 "title": "Tiling Mode",
                 "description": "Tiling mode to use during conversion. - Auto: Automatically determine if Snap to Grid is possible, otherwise use Snap to Corners. - Snap to Grid: Tile images to fit a regular grid. This is only possible if image positions align to a grid (potentially with overlap). - Snap to Corners: Tile images to fit a grid defined by the corner positions. - Inplace: Write tiles in their original positions without tiling. This may lead to artifacts if microscope stage positions are not precise. - No Tiling: Each field of view is written as a single OME-Zarr."
               },
-              "writer_mode": {
-                "$ref": "#/$defs/WriterMode",
-                "default": "By FOV",
-                "title": "Writer Mode",
-                "description": "Mode for writing data during conversion. - By Tile: Write data one tile at a time. This consumes less memory, but may be slower. - By Tile (Using Dask): Write tiles in parallel using Dask. This is usually faster than writing by tile sequentially, but may consume more memory. - By FOV: Write data one field of view at a time. This may the best compromise between speed and memory usage in most cases. - By FOV (Using Dask): Write fields of view in parallel using Dask. This is usually faster than writing by FOV sequentially, but may consume more memory. - In Memory: Load all data into memory before writing."
+              "tiling_tolerance": {
+                "default": 0,
+                "minimum": 0,
+                "title": "Tiling Tolerance (in pixels)",
+                "type": "number",
+                "description": "Tolerance in pixels for determining if Snap to Grid is possible. This accounts for minor jitter in microscope stage positions when determining if Snap to Grid tiling can be applied."
               },
               "alignment_correction": {
                 "$ref": "#/$defs/AlignmentCorrections",
@@ -2042,17 +2072,24 @@
             "additionalProperties": false,
             "description": "Options for the OME-Zarr conversion process.",
             "properties": {
+              "writer_mode": {
+                "$ref": "#/$defs/WriterMode",
+                "default": "By FOV",
+                "title": "Writer Mode",
+                "description": "Mode for writing data during conversion. - By Tile: Write data one tile at a time. This consumes less memory, but may be slower. - By Tile (Using Dask): Write tiles in parallel using Dask. This is usually faster than writing by tile sequentially, but may consume more memory. - By FOV: Write data one field of view at a time. This may the best compromise between speed and memory usage in most cases. - By FOV (Using Dask): Write fields of view in parallel using Dask. This is usually faster than writing by FOV sequentially, but may consume more memory. - In Memory: Load all data into memory before writing."
+              },
               "tiling_mode": {
                 "$ref": "#/$defs/TilingMode",
                 "default": "Auto",
                 "title": "Tiling Mode",
                 "description": "Tiling mode to use during conversion. - Auto: Automatically determine if Snap to Grid is possible, otherwise use Snap to Corners. - Snap to Grid: Tile images to fit a regular grid. This is only possible if image positions align to a grid (potentially with overlap). - Snap to Corners: Tile images to fit a grid defined by the corner positions. - Inplace: Write tiles in their original positions without tiling. This may lead to artifacts if microscope stage positions are not precise. - No Tiling: Each field of view is written as a single OME-Zarr."
               },
-              "writer_mode": {
-                "$ref": "#/$defs/WriterMode",
-                "default": "By FOV",
-                "title": "Writer Mode",
-                "description": "Mode for writing data during conversion. - By Tile: Write data one tile at a time. This consumes less memory, but may be slower. - By Tile (Using Dask): Write tiles in parallel using Dask. This is usually faster than writing by tile sequentially, but may consume more memory. - By FOV: Write data one field of view at a time. This may the best compromise between speed and memory usage in most cases. - By FOV (Using Dask): Write fields of view in parallel using Dask. This is usually faster than writing by FOV sequentially, but may consume more memory. - In Memory: Load all data into memory before writing."
+              "tiling_tolerance": {
+                "default": 0,
+                "minimum": 0,
+                "title": "Tiling Tolerance (in pixels)",
+                "type": "number",
+                "description": "Tolerance in pixels for determining if Snap to Grid is possible. This accounts for minor jitter in microscope stage positions when determining if Snap to Grid tiling can be applied."
               },
               "alignment_correction": {
                 "$ref": "#/$defs/AlignmentCorrections",
@@ -2470,8 +2507,9 @@
           "converter_options": {
             "$ref": "#/$defs/ConverterOptions",
             "default": {
-              "tiling_mode": "Auto",
               "writer_mode": "By FOV",
+              "tiling_mode": "Auto",
+              "tiling_tolerance": 0.0,
               "alignment_correction": {
                 "align_t": false,
                 "align_xy": false,
@@ -2577,17 +2615,24 @@
             "additionalProperties": false,
             "description": "Options for the OME-Zarr conversion process.",
             "properties": {
+              "writer_mode": {
+                "$ref": "#/$defs/WriterMode",
+                "default": "By FOV",
+                "title": "Writer Mode",
+                "description": "Mode for writing data during conversion. - By Tile: Write data one tile at a time. This consumes less memory, but may be slower. - By Tile (Using Dask): Write tiles in parallel using Dask. This is usually faster than writing by tile sequentially, but may consume more memory. - By FOV: Write data one field of view at a time. This may the best compromise between speed and memory usage in most cases. - By FOV (Using Dask): Write fields of view in parallel using Dask. This is usually faster than writing by FOV sequentially, but may consume more memory. - In Memory: Load all data into memory before writing."
+              },
               "tiling_mode": {
                 "$ref": "#/$defs/TilingMode",
                 "default": "Auto",
                 "title": "Tiling Mode",
                 "description": "Tiling mode to use during conversion. - Auto: Automatically determine if Snap to Grid is possible, otherwise use Snap to Corners. - Snap to Grid: Tile images to fit a regular grid. This is only possible if image positions align to a grid (potentially with overlap). - Snap to Corners: Tile images to fit a grid defined by the corner positions. - Inplace: Write tiles in their original positions without tiling. This may lead to artifacts if microscope stage positions are not precise. - No Tiling: Each field of view is written as a single OME-Zarr."
               },
-              "writer_mode": {
-                "$ref": "#/$defs/WriterMode",
-                "default": "By FOV",
-                "title": "Writer Mode",
-                "description": "Mode for writing data during conversion. - By Tile: Write data one tile at a time. This consumes less memory, but may be slower. - By Tile (Using Dask): Write tiles in parallel using Dask. This is usually faster than writing by tile sequentially, but may consume more memory. - By FOV: Write data one field of view at a time. This may the best compromise between speed and memory usage in most cases. - By FOV (Using Dask): Write fields of view in parallel using Dask. This is usually faster than writing by FOV sequentially, but may consume more memory. - In Memory: Load all data into memory before writing."
+              "tiling_tolerance": {
+                "default": 0,
+                "minimum": 0,
+                "title": "Tiling Tolerance (in pixels)",
+                "type": "number",
+                "description": "Tolerance in pixels for determining if Snap to Grid is possible. This accounts for minor jitter in microscope stage positions when determining if Snap to Grid tiling can be applied."
               },
               "alignment_correction": {
                 "$ref": "#/$defs/AlignmentCorrections",
@@ -3010,17 +3055,24 @@
             "additionalProperties": false,
             "description": "Options for the OME-Zarr conversion process.",
             "properties": {
+              "writer_mode": {
+                "$ref": "#/$defs/WriterMode",
+                "default": "By FOV",
+                "title": "Writer Mode",
+                "description": "Mode for writing data during conversion. - By Tile: Write data one tile at a time. This consumes less memory, but may be slower. - By Tile (Using Dask): Write tiles in parallel using Dask. This is usually faster than writing by tile sequentially, but may consume more memory. - By FOV: Write data one field of view at a time. This may the best compromise between speed and memory usage in most cases. - By FOV (Using Dask): Write fields of view in parallel using Dask. This is usually faster than writing by FOV sequentially, but may consume more memory. - In Memory: Load all data into memory before writing."
+              },
               "tiling_mode": {
                 "$ref": "#/$defs/TilingMode",
                 "default": "Auto",
                 "title": "Tiling Mode",
                 "description": "Tiling mode to use during conversion. - Auto: Automatically determine if Snap to Grid is possible, otherwise use Snap to Corners. - Snap to Grid: Tile images to fit a regular grid. This is only possible if image positions align to a grid (potentially with overlap). - Snap to Corners: Tile images to fit a grid defined by the corner positions. - Inplace: Write tiles in their original positions without tiling. This may lead to artifacts if microscope stage positions are not precise. - No Tiling: Each field of view is written as a single OME-Zarr."
               },
-              "writer_mode": {
-                "$ref": "#/$defs/WriterMode",
-                "default": "By FOV",
-                "title": "Writer Mode",
-                "description": "Mode for writing data during conversion. - By Tile: Write data one tile at a time. This consumes less memory, but may be slower. - By Tile (Using Dask): Write tiles in parallel using Dask. This is usually faster than writing by tile sequentially, but may consume more memory. - By FOV: Write data one field of view at a time. This may the best compromise between speed and memory usage in most cases. - By FOV (Using Dask): Write fields of view in parallel using Dask. This is usually faster than writing by FOV sequentially, but may consume more memory. - In Memory: Load all data into memory before writing."
+              "tiling_tolerance": {
+                "default": 0,
+                "minimum": 0,
+                "title": "Tiling Tolerance (in pixels)",
+                "type": "number",
+                "description": "Tolerance in pixels for determining if Snap to Grid is possible. This accounts for minor jitter in microscope stage positions when determining if Snap to Grid tiling can be applied."
               },
               "alignment_correction": {
                 "$ref": "#/$defs/AlignmentCorrections",
@@ -3406,8 +3458,9 @@
           "converter_options": {
             "$ref": "#/$defs/ConverterOptions",
             "default": {
-              "tiling_mode": "Auto",
               "writer_mode": "By FOV",
+              "tiling_mode": "Auto",
+              "tiling_tolerance": 0.0,
               "alignment_correction": {
                 "align_t": false,
                 "align_xy": false,
@@ -3513,17 +3566,24 @@
             "additionalProperties": false,
             "description": "Options for the OME-Zarr conversion process.",
             "properties": {
+              "writer_mode": {
+                "$ref": "#/$defs/WriterMode",
+                "default": "By FOV",
+                "title": "Writer Mode",
+                "description": "Mode for writing data during conversion. - By Tile: Write data one tile at a time. This consumes less memory, but may be slower. - By Tile (Using Dask): Write tiles in parallel using Dask. This is usually faster than writing by tile sequentially, but may consume more memory. - By FOV: Write data one field of view at a time. This may the best compromise between speed and memory usage in most cases. - By FOV (Using Dask): Write fields of view in parallel using Dask. This is usually faster than writing by FOV sequentially, but may consume more memory. - In Memory: Load all data into memory before writing."
+              },
               "tiling_mode": {
                 "$ref": "#/$defs/TilingMode",
                 "default": "Auto",
                 "title": "Tiling Mode",
                 "description": "Tiling mode to use during conversion. - Auto: Automatically determine if Snap to Grid is possible, otherwise use Snap to Corners. - Snap to Grid: Tile images to fit a regular grid. This is only possible if image positions align to a grid (potentially with overlap). - Snap to Corners: Tile images to fit a grid defined by the corner positions. - Inplace: Write tiles in their original positions without tiling. This may lead to artifacts if microscope stage positions are not precise. - No Tiling: Each field of view is written as a single OME-Zarr."
               },
-              "writer_mode": {
-                "$ref": "#/$defs/WriterMode",
-                "default": "By FOV",
-                "title": "Writer Mode",
-                "description": "Mode for writing data during conversion. - By Tile: Write data one tile at a time. This consumes less memory, but may be slower. - By Tile (Using Dask): Write tiles in parallel using Dask. This is usually faster than writing by tile sequentially, but may consume more memory. - By FOV: Write data one field of view at a time. This may the best compromise between speed and memory usage in most cases. - By FOV (Using Dask): Write fields of view in parallel using Dask. This is usually faster than writing by FOV sequentially, but may consume more memory. - In Memory: Load all data into memory before writing."
+              "tiling_tolerance": {
+                "default": 0,
+                "minimum": 0,
+                "title": "Tiling Tolerance (in pixels)",
+                "type": "number",
+                "description": "Tolerance in pixels for determining if Snap to Grid is possible. This accounts for minor jitter in microscope stage positions when determining if Snap to Grid tiling can be applied."
               },
               "alignment_correction": {
                 "$ref": "#/$defs/AlignmentCorrections",
