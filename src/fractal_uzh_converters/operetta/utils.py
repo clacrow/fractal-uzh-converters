@@ -102,6 +102,7 @@ class OperettaImageMeta(BaseModel):
     channel_id: int = Field(..., alias="ChannelID")
     timepoint_id: int = Field(..., alias="TimepointID")
     channel_name: str = Field(..., alias="ChannelName")
+    wavelength_id: MeasureWithUnit = Field(..., alias="MainEmissionWavelength")
     resolution_x: MeasureWithUnit = Field(..., alias="ImageResolutionX")
     resolution_y: MeasureWithUnit = Field(..., alias="ImageResolutionY")
     image_size_x: int = Field(..., alias="ImageSizeX")
@@ -146,7 +147,7 @@ def _parse(path: str) -> dict[str, Any]:
         return xmltodict.parse(
             f.read(),
             process_namespaces=True,
-            namespaces={"http://www.perkinelmer.com/PEHH/HarmonyV5": None},  # type: ignore
+            namespaces={"http://www.perkinelmer.com/PEHH/HarmonyV5": None},
             attr_prefix="",
             cdata_key="Value",
         )
@@ -198,6 +199,15 @@ def _channel_names(images: list[OperettaImageMeta]) -> list[str]:
     return [channel_names[ch_id] for ch_id in sorted(channel_names.keys())]
 
 
+def _wavelength_ids(images: list[OperettaImageMeta]) -> list[str | None]:
+    """Get unique wavelength IDs from image records."""
+    wavelength_ids = {}
+    for img in images:
+        if img.channel_id not in wavelength_ids:
+            wavelength_ids[img.channel_id] = str(int(img.wavelength_id.value))
+    return [wavelength_ids[ch_id] for ch_id in sorted(wavelength_ids.keys())]
+
+
 def _get_data_type(images: list[OperettaImageMeta]) -> DataTypeEnum:
     """Determine data type based on max intensity across all images."""
     if not images:
@@ -220,6 +230,7 @@ def build_acquisition_details(
     pixelsize_x = detail.resolution_x.to_um()
     pixelsize_y = detail.resolution_y.to_um()
     channel_names = _channel_names(images)
+    wavelength_ids = _wavelength_ids(images)
     z_spacing = _get_z_spacing(images)
     t_spacing = 1
     data_type = _get_data_type(images)
@@ -231,7 +242,10 @@ def build_acquisition_details(
             "Using x size for pixelsize."
         )
     axes = default_axes_builder(is_time_series=is_time_series)
-    channels = [ChannelInfo(channel_label=ch_name) for ch_name in channel_names]
+    channels = [
+        ChannelInfo(channel_label=ch_name, wavelength_id=w_id)
+        for (ch_name, w_id) in zip(channel_names, wavelength_ids, strict=True)
+    ]
     acquisition_detail = AcquisitionDetails(
         pixelsize=pixelsize_x,
         z_spacing=z_spacing,
