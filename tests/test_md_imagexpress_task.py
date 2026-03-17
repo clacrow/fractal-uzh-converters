@@ -21,8 +21,7 @@ SNAPSHOT_DIR = Path(__file__).parent / "data" / "MDImageXpressHCSAI" / "snapshot
                         "path": "tests/data/MDImageXpressHCSAI"
                         "/MD_reference_acquisitions"
                         "/1w1s1t1c1z_binning4x4"
-                        "/test_data_20260302_135747"
-                        "/experiment",
+                        "/test_data_20260302_135747",
                         "acquisition_id": 0,
                         "plate_name": "Plate",
                     }

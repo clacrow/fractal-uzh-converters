@@ -29,8 +29,13 @@ INPUT_MODELS = [
     (
         "fractal_uzh_converters",
         "md_imagexpress_hcsai/utils.py",
+        "MDAcquisitionOptions",
+    ),
+    (
+        "fractal_uzh_converters",
+        "md_imagexpress_hcsai/utils.py",
         "MDImageXpressHCSaiAcquisitionModel",
-    )
+    ),
 ]
 INPUT_MODELS += converters_tools_models()
 

@@ -2831,7 +2831,7 @@
         "MD ImageXpress HCS.ai",
         "Plate converter"
       ],
-      "docs_info": "### Purpose\n\n- Convert images acquired with an MD ImageXpress HCS.ai microscope to an OME-Zarr Plate.\n\n### Outputs\n\n- An OME-Zarr Plate.\n\n### Limitations\n\n- This task has been tested on a limited set of acquisitions. It may not work on all MD ImageXpress acquisitions.\n\n### Expected inputs\n\nThe following directory structure is expected:\n\n```text\nexperiment{_mode}/\n\u251c\u2500\u2500 {acquisition_name}.jdce\n\u251c\u2500\u2500 image_metadata_1.csv\n\u251c\u2500\u2500 timepoint0/\n\u2514\u2500\u2500 timepoint1/\n    \u251c\u2500\u2500 {protocol_name}_t1_C05_s0_w0_z0.tif\n    \u251c\u2500\u2500 {protocol_name}_t1_C05_s0_w0_z1.tif\n    \u2514\u2500\u2500 ...\n```\n\n`Path` should point to the `experiment{_mode}` folder.\nDepending on what options are chosen during acquisition, multiple experiment folders can appear. The tested cases are:\n- Default: If only stacks / only projections / only single planes are saved, a single folder appears:\n    - `experiment`\n- If both stacks and projections or single planes are stored, two folders appear:\n    - `experiment`: contains the projection or single plane data\n    - `experiment_z_stack`: contains the full z-stack data\n- If the montage or stitching functionality is used, also two folders appear:\n    - `experiment`: contains the unstitched tiles (usually preferred for use in Fractal)\n    - `experiment_montage` contains the stitched / montaged images\n",
+      "docs_info": "### Purpose\n\n- Convert images acquired with an MD ImageXpress HCS.ai microscope to an OME-Zarr Plate.\n\n### Outputs\n\n- An OME-Zarr Plate.\n\n### Limitations\n\n- This task has been tested on a limited set of acquisitions. It may not work on all MD ImageXpress acquisitions.\n\n### Expected inputs\n\nThe following directory structure is expected:\n\n```text\n{protocol_name}_{date-time}\n\u251c\u2500\u2500 {protocol_name}.mxprotocol\n\u251c\u2500\u2500 autofocus/\n\u2514\u2500\u2500 experiment{_mode}/\n    \u251c\u2500\u2500 {acquisition_name}.jdce\n    \u251c\u2500\u2500 image_metadata_1.csv\n    \u251c\u2500\u2500 timepoint0/\n    \u2514\u2500\u2500 timepoint1/\n        \u251c\u2500\u2500 {protocol_name}_t1_C05_s0_w0_z0.tif\n        \u251c\u2500\u2500 {protocol_name}_t1_C05_s0_w0_z1.tif\n        \u2514\u2500\u2500 ...\n```\n\n`Path` should point to the `{protocol_name}_{date-time}` folder or the `{protocol_name}.mxprotocol` file.\n",
       "type": "converter_compound",
       "executable_non_parallel": "md_imagexpress_hcsai/convert_md_init_task.py",
       "executable_parallel": "common/image_in_plate_compute_task.py",
@@ -2845,72 +2845,6 @@
       },
       "args_schema_non_parallel": {
         "$defs": {
-          "AcquisitionOptions": {
-            "description": "Acquisition options for conversion.",
-            "properties": {
-              "channels": {
-                "items": {
-                  "$ref": "#/$defs/ChannelInfo"
-                },
-                "title": "Channels",
-                "type": "array",
-                "description": "List of channel information."
-              },
-              "pixel_info": {
-                "$ref": "#/$defs/PixelSizeModel",
-                "title": "Pixel Size Information",
-                "description": "Pixel size information."
-              },
-              "condition_table_path": {
-                "title": "Condition Table Path",
-                "type": "string",
-                "description": "Optional path to a condition table CSV file."
-              },
-              "axes": {
-                "title": "Axes",
-                "type": "string",
-                "description": "Axes to use for the image data, e.g. \"czyx\"."
-              },
-              "data_type": {
-                "$ref": "#/$defs/DataTypeEnum",
-                "title": "Data Type",
-                "description": "Data type of the image data."
-              },
-              "stage_corrections": {
-                "$ref": "#/$defs/StageCorrections",
-                "title": "Stage Corrections",
-                "description": "Stage orientation corrections."
-              },
-              "filters": {
-                "items": {
-                  "discriminator": {
-                    "mapping": {
-                      "Path Regex Exclude Filter": "#/$defs/RegexExcludeFilter",
-                      "Path Regex Include Filter": "#/$defs/RegexIncludeFilter",
-                      "Well Filter": "#/$defs/WellFilter"
-                    },
-                    "propertyName": "name"
-                  },
-                  "oneOf": [
-                    {
-                      "$ref": "#/$defs/RegexExcludeFilter"
-                    },
-                    {
-                      "$ref": "#/$defs/RegexIncludeFilter"
-                    },
-                    {
-                      "$ref": "#/$defs/WellFilter"
-                    }
-                  ]
-                },
-                "title": "Filters",
-                "type": "array",
-                "description": "List of filters to apply."
-              }
-            },
-            "title": "AcquisitionOptions",
-            "type": "object"
-          },
           "AlignmentCorrections": {
             "additionalProperties": false,
             "description": "Alignment correction for stage positions.",
@@ -3127,18 +3061,96 @@
             "title": "FovBasedChunking",
             "type": "object"
           },
+          "MDAcquisitionOptions": {
+            "description": "Acquisition options for conversion.",
+            "properties": {
+              "channels": {
+                "items": {
+                  "$ref": "#/$defs/ChannelInfo"
+                },
+                "title": "Channels",
+                "type": "array",
+                "description": "List of channel information."
+              },
+              "pixel_info": {
+                "$ref": "#/$defs/PixelSizeModel",
+                "title": "Pixel Size Information",
+                "description": "Pixel size information."
+              },
+              "condition_table_path": {
+                "title": "Condition Table Path",
+                "type": "string",
+                "description": "Optional path to a condition table CSV file."
+              },
+              "axes": {
+                "title": "Axes",
+                "type": "string",
+                "description": "Axes to use for the image data, e.g. \"czyx\"."
+              },
+              "data_type": {
+                "$ref": "#/$defs/DataTypeEnum",
+                "title": "Data Type",
+                "description": "Data type of the image data."
+              },
+              "stage_corrections": {
+                "$ref": "#/$defs/StageCorrections",
+                "title": "Stage Corrections",
+                "description": "Stage orientation corrections."
+              },
+              "filters": {
+                "items": {
+                  "discriminator": {
+                    "mapping": {
+                      "Path Regex Exclude Filter": "#/$defs/RegexExcludeFilter",
+                      "Path Regex Include Filter": "#/$defs/RegexIncludeFilter",
+                      "Well Filter": "#/$defs/WellFilter"
+                    },
+                    "propertyName": "name"
+                  },
+                  "oneOf": [
+                    {
+                      "$ref": "#/$defs/RegexExcludeFilter"
+                    },
+                    {
+                      "$ref": "#/$defs/RegexIncludeFilter"
+                    },
+                    {
+                      "$ref": "#/$defs/WellFilter"
+                    }
+                  ]
+                },
+                "title": "Filters",
+                "type": "array",
+                "description": "List of filters to apply."
+              },
+              "convert_only_projections": {
+                "default": false,
+                "title": "Convert Only Projections",
+                "type": "boolean",
+                "description": "If True, only convert projection images, if available."
+              },
+              "convert_montages": {
+                "default": false,
+                "title": "Convert Montages",
+                "type": "boolean",
+                "description": "If True, convert montaged / stitched images, if available."
+              }
+            },
+            "title": "MDAcquisitionOptions",
+            "type": "object"
+          },
           "MDImageXpressHCSaiAcquisitionModel": {
             "description": "Acquisition details for the MD ImageXpress HCS.ai microscope data.",
             "properties": {
               "path": {
                 "title": "Path",
                 "type": "string",
-                "description": "Path to the acquisition directory. For the MD ImageXpress HCS.ai, this should be one of the \"experiment{_mode}\" directories. It should contain the \"*.jdce\" metadata file, the \"*.csv\" file with the list of tiff files and the \"timepoint{n}\" subdirectories with the tiff files. For more details, see the Info page."
+                "description": "Path to the *.mxprotocol file or the folder containing it."
               },
               "plate_name": {
                 "title": "Plate Name",
                 "type": "string",
-                "description": "Optional custom name for the plate."
+                "description": "Optional custom name for the plate. If not provided, the name will be the acquisition directory name."
               },
               "acquisition_id": {
                 "default": 0,
@@ -3148,7 +3160,7 @@
                 "description": "Acquisition ID, used to identify the acquisition in case of multiple acquisitions."
               },
               "advanced": {
-                "$ref": "#/$defs/AcquisitionOptions",
+                "$ref": "#/$defs/MDAcquisitionOptions",
                 "title": "Advanced",
                 "description": "Advanced acquisition options."
               }

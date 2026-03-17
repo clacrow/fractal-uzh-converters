@@ -5,8 +5,10 @@ import logging
 from pathlib import Path
 
 import pandas as pd
+import polars
 from ome_zarr_converters_tools import (
     AcquisitionDetails,
+    AcquisitionOptions,
     ChannelInfo,
     ConverterOptions,
     TiledImage,
@@ -15,10 +17,8 @@ from ome_zarr_converters_tools import (
     tiles_aggregation_pipeline,
 )
 from ome_zarr_converters_tools.core import hcs_images_from_dataframe
+from pydantic import BaseModel, Field, field_validator
 
-from fractal_uzh_converters.common import (
-    BaseAcquisitionModel,
-)
 from fractal_uzh_converters.md_imagexpress_hcsai.color_utils import (
     wavelength_to_default_color,
 )
@@ -33,21 +33,78 @@ logger = logging.getLogger(__name__)
 ######################################################################
 
 
-class MDImageXpressHCSaiAcquisitionModel(BaseAcquisitionModel):
+class MDAcquisitionOptions(AcquisitionOptions):
+    """Acquisition options for conversion.
+
+    Attributes:
+        channels: List of channel information.
+        pixel_info: Pixel size information.
+        condition_table_path: Optional path to a condition table CSV file.
+        axes: Axes to use for the image data, e.g. "czyx".
+        data_type: Data type of the image data.
+        stage_corrections: Stage orientation corrections.
+        filters: List of filters to apply.
+        convert_only_projections: If True, only convert projection images, if available.
+        convert_montages: If True, convert montaged / stitched images, if available.
+    """
+
+    convert_only_projections: bool = Field(default=False)
+    convert_montages: bool = Field(default=False)
+
+
+class MDImageXpressHCSaiAcquisitionModel(BaseModel):
     """Acquisition details for the MD ImageXpress HCS.ai microscope data.
 
     Attributes:
-        path: Path to the acquisition directory.
-            For the MD ImageXpress HCS.ai, this should be one of the
-            "experiment{_mode}" directories. It should contain the "*.jdce"
-            metadata file, the "*.csv" file with the list of tiff files and
-            the "timepoint{n}" subdirectories with the tiff files. For more
-            details, see the Info page.
-        plate_name: Optional custom name for the plate.
+        path: Path to the *.mxprotocol file or the folder containing it.
+        plate_name: Optional custom name for the plate. If not provided, the name will
+            be the acquisition directory name.
         acquisition_id: Acquisition ID,
             used to identify the acquisition in case of multiple acquisitions.
+        convert_only_projections: If True, only convert projection images, if available.
+        convert_montages: If True, convert montaged / stitched images, if available.
         advanced: Advanced acquisition options.
     """
+
+    path: str
+    plate_name: str | None = None
+    acquisition_id: int = Field(default=0, ge=0)
+    advanced: MDAcquisitionOptions = Field(default_factory=MDAcquisitionOptions)
+
+    @property
+    def normalized_plate_name(self) -> str:
+        """Get the normalized plate name."""
+        if self.plate_name is not None:
+            return self.plate_name
+        name = self.path.rstrip("/").split("/")[-1]
+        return name
+
+    def get_condition_table(self) -> polars.DataFrame | None:
+        """Get the path to the condition table if it exists."""
+        if self.advanced.condition_table_path is not None:
+            try:
+                return polars.read_csv(self.advanced.condition_table_path)
+            except Exception as e:
+                raise ValueError(
+                    "Failed to read condition table at "
+                    f"{self.advanced.condition_table_path}: {e}"
+                ) from e
+        return None
+
+    @field_validator("path", mode="before")
+    @classmethod
+    def validate_path(cls, v: str) -> str:
+        """Make the path more flexible.
+
+        Allow:
+         - path/to/acquisition/{protocol}.mxprotocol
+         - path/to/acquisition/
+        """
+        v = v.rstrip("/")
+        if v.endswith(".mxprotocol"):
+            # Strip the filename to get the directory
+            return str(Path(v).parent)
+        return v
 
 
 ######################################################################
@@ -117,7 +174,6 @@ def parse_jdce_metadata(file_path):
         "objective": calib["ObjectiveName"],
         "binning": camera["Binning"],
         "is_time_series": is_time_series,
-        "is_z_stack": z_step_um > 0,
     }
 
 
@@ -138,6 +194,8 @@ def construct_tiles_table(df_csv, acquisition_dir):
     )
 
     tiles_table["fov_name"] = "FOV" + df_csv["Field"].astype(str)
+    # using the field offsets instead of the stage positions, as they are more robust
+    # and consistent across wells
     # tiles_table["start_x"] = df_csv["PositionXUm"]
     # tiles_table["start_y"] = df_csv["PositionYUm"]
     tiles_table["start_x"] = df_csv["FieldOffsetPointX"]
@@ -177,19 +235,70 @@ def parse_md_metadata(
     Returns:
         List of TiledImage objects ready for conversion.
     """
-    acquisition_dir = acquisition_model.path
+    root_dir = acquisition_model.path
+
+    # Discover available experiment directories
+    available_dirs = {
+        "montage": list(Path(root_dir).glob("experiment_montage")),
+        "z_stack": list(Path(root_dir).glob("experiment_z_stack")),
+        "standard": list(Path(root_dir).glob("experiment")),
+    }
+
+    # Check if any experiment directories exist
+    if not any(available_dirs.values()):
+        raise FileNotFoundError(
+            f"No 'experiment*' folders found in {root_dir}. Please ensure the path is "
+            "correct and contains the expected folder structure."
+        )
+
+    # Select the appropriate directory based on conversion options
+    if acquisition_model.advanced.convert_montages:
+        # convert_montages==True -> look for 'experiment_montage' folder
+        if not available_dirs["montage"]:
+            available = [k for k, v in available_dirs.items() if v]
+            raise FileNotFoundError(
+                f"No 'experiment_montage' folder found in {root_dir} for montages. "
+                f"Available folders: {available}. "
+                "Hint: Disable the 'convert_montages' option."
+            )
+        experiment_dir = available_dirs["montage"][0]
+    elif not acquisition_model.advanced.convert_only_projections:
+        # convert_montages==False & convert_only_projections==False
+        # -> prefer 'experiment_z_stack', fall back to 'experiment'
+        if available_dirs["z_stack"]:
+            experiment_dir = available_dirs["z_stack"][0]
+        elif available_dirs["standard"]:
+            experiment_dir = available_dirs["standard"][0]
+        else:
+            available = [k for k, v in available_dirs.items() if v]
+            raise FileNotFoundError(
+                f"No 'experiment_z_stack' or 'experiment' folder found in {root_dir}. "
+                f"Available folders: {available}."
+            )
+    else:
+        # convert_only_projections==True
+        # -> look for 'experiment' folder (projections are stored there)
+        if not available_dirs["standard"]:
+            available = [k for k, v in available_dirs.items() if v]
+            raise FileNotFoundError(
+                f"No 'experiment' folder found in {root_dir} for projections. "
+                f"Available folders: {available}. "
+                "Hint: Disable the 'convert_only_projections' option."
+            )
+        experiment_dir = available_dirs["standard"][0]
+
     # TODO: handle condition table
     condition_table = acquisition_model.get_condition_table()
     if condition_table:
         raise NotImplementedError("Condition tables are not yet supported.")
 
     # Load channel metadata from .jdce file
-    jdce_files = sorted(Path(acquisition_dir).glob("*.jdce"))
+    jdce_files = sorted(Path(experiment_dir).glob("*.jdce"))
     if len(jdce_files) == 0:
-        raise FileNotFoundError(f"No .jdce file found in directory: {acquisition_dir}")
+        raise FileNotFoundError(f"No .jdce file found in directory: {experiment_dir}")
     elif len(jdce_files) > 1:
         raise ValueError(
-            f"Multiple .jdce files found in directory: {acquisition_dir}."
+            f"Multiple .jdce files found in directory: {experiment_dir}."
             "Please ensure there is only one .jdce file."
         )
     else:
@@ -197,20 +306,35 @@ def parse_md_metadata(
     channel_metadata = parse_jdce_metadata(jdce_file)
 
     # Load image list from .csv file
-    csv_files = sorted(Path(acquisition_dir).glob("*.csv"))
+    csv_files = sorted(Path(experiment_dir).glob("*.csv"))
     if len(csv_files) == 0:
-        raise FileNotFoundError(f"No .csv file found in directory: {acquisition_dir}")
+        raise FileNotFoundError(f"No .csv file found in directory: {experiment_dir}")
     elif len(csv_files) > 1:
         raise ValueError(
-            f"Multiple .csv files found in directory: {acquisition_dir}."
+            f"Multiple .csv files found in directory: {experiment_dir}."
             "Please ensure there is only one .csv file."
         )
     else:
         csv_file = csv_files[0]
     df_csv = load_csv_metadata(csv_file)
 
+    # Determine if data is a z-stack by checking for multiple Z indices
+    is_z_stack = df_csv["ZIndex"].nunique() > 1
+
+    # Check if data is compatible with projection and montage conversion options
+    if (
+        acquisition_model.advanced.convert_only_projections
+        and acquisition_model.advanced.convert_montages
+        and is_z_stack
+    ):
+        raise ValueError(
+            "Both convert_only_projections and convert_montages are True, but the "
+            "montage-data is a z-stack. "
+            "Hint: Set either convert_only_projections or convert_montages to False."
+        )
+
     # Build tiles table
-    tiles_table = construct_tiles_table(df_csv, acquisition_dir)
+    tiles_table = construct_tiles_table(df_csv, str(experiment_dir))
 
     # Build AcquisitionDetails
     channels = []
@@ -246,7 +370,7 @@ def parse_md_metadata(
     tiles = hcs_images_from_dataframe(
         tiles_table=tiles_table,
         acquisition_details=acq,
-        plate_name=acquisition_model.normalized_plate_name,  # TODO: read plate name properly
+        plate_name=acquisition_model.normalized_plate_name,
         acquisition_id=acquisition_model.acquisition_id,
     )
 
@@ -254,7 +378,6 @@ def parse_md_metadata(
     tiled_images = tiles_aggregation_pipeline(
         tiles=tiles,
         converter_options=converter_options,
-        # resource=acquisition_dir,
     )
 
     return tiled_images
