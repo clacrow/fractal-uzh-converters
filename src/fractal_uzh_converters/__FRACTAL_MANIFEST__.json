@@ -491,21 +491,21 @@
             "description": "Acquisition details for the Olympus ScanR microscope data.",
             "properties": {
               "path": {
+                "description": "Path to the acquisition directory.\nFor scanr, this should be the base directory of the acquisition or the \"{acquisition_dir}/data\" directory containing the metadata.ome.xml file and the \"data\" directory with the tiff files.",
                 "title": "Path",
-                "type": "string",
-                "description": "Path to the acquisition directory. For scanr, this should be the base directory of the acquisition or the \"{acquisition_dir}/data\" directory containing the metadata.ome.xml file and the \"data\" directory with the tiff files."
+                "type": "string"
               },
               "plate_name": {
+                "description": "Optional custom name for the plate.\nIf not provided, the name will be the acquisition directory name.",
                 "title": "Plate Name",
-                "type": "string",
-                "description": "Optional custom name for the plate. If not provided, the name will be the acquisition directory name."
+                "type": "string"
               },
               "acquisition_id": {
                 "default": 0,
+                "description": "Acquisition ID, used to identify the acquisition in case of multiple acquisitions.",
                 "minimum": 0,
                 "title": "Acquisition Id",
-                "type": "integer",
-                "description": "Acquisition ID, used to identify the acquisition in case of multiple acquisitions."
+                "type": "integer"
               },
               "advanced": {
                 "$ref": "#/$defs/AcquisitionOptions",
@@ -522,11 +522,12 @@
                   },
                   "filters": []
                 },
-                "title": "Advanced",
-                "description": "Advanced acquisition options."
+                "description": "Advanced acquisition options.",
+                "title": "Advanced"
               },
               "layout": {
                 "default": "96-well",
+                "description": "Plate layout type.",
                 "enum": [
                   "24-well",
                   "48-well",
@@ -534,8 +535,7 @@
                   "384-well"
                 ],
                 "title": "Layout",
-                "type": "string",
-                "description": "Plate layout type."
+                "type": "string"
               }
             },
             "required": [
@@ -1173,21 +1173,21 @@
             "description": "Acquisition details for the CQ3K microscope data.",
             "properties": {
               "path": {
+                "description": "Path to the acquisition directory.\nShould contain MeasurementData.mlf and MeasurementDetail.mrf files.",
                 "title": "Path",
-                "type": "string",
-                "description": "Path to the acquisition directory. Should contain MeasurementData.mlf and MeasurementDetail.mrf files."
+                "type": "string"
               },
               "plate_name": {
+                "description": "Optional custom name for the plate.\nIf not provided, the name will be the acquisition directory name.",
                 "title": "Plate Name",
-                "type": "string",
-                "description": "Optional custom name for the plate. If not provided, the name will be the acquisition directory name."
+                "type": "string"
               },
               "acquisition_id": {
                 "default": 0,
+                "description": "Acquisition ID, used to identify the acquisition in case of multiple acquisitions.",
                 "minimum": 0,
                 "title": "Acquisition Id",
-                "type": "integer",
-                "description": "Acquisition ID, used to identify the acquisition in case of multiple acquisitions."
+                "type": "integer"
               },
               "advanced": {
                 "$ref": "#/$defs/AcquisitionOptions",
@@ -1204,8 +1204,8 @@
                   },
                   "filters": []
                 },
-                "title": "Advanced",
-                "description": "Advanced acquisition options."
+                "description": "Advanced acquisition options.",
+                "title": "Advanced"
               }
             },
             "required": [
@@ -2459,21 +2459,21 @@
             "description": "Acquisition details for the Operetta microscope data.",
             "properties": {
               "path": {
+                "description": "Path to the acquisition directory.\nFor Operetta, this should be the base directory of the acquisition or the \"{acquisition_dir}/Images\" directory containing the tiff files and metadata.ome.xml file.",
                 "title": "Path",
-                "type": "string",
-                "description": "Path to the acquisition directory. For Operetta, this should be the base directory of the acquisition or the \"{acquisition_dir}/Images\" directory containing the tiff files and metadata.ome.xml file."
+                "type": "string"
               },
               "plate_name": {
+                "description": "Optional custom name for the plate.\nIf not provided, the name will be the acquisition directory name.",
                 "title": "Plate Name",
-                "type": "string",
-                "description": "Optional custom name for the plate. If not provided, the name will be the acquisition directory name."
+                "type": "string"
               },
               "acquisition_id": {
                 "default": 0,
+                "description": "Acquisition ID, used to identify the acquisition in case of multiple acquisitions.",
                 "minimum": 0,
                 "title": "Acquisition Id",
-                "type": "integer",
-                "description": "Acquisition ID, used to identify the acquisition in case of multiple acquisitions."
+                "type": "integer"
               },
               "advanced": {
                 "$ref": "#/$defs/AcquisitionOptions",
@@ -2490,8 +2490,8 @@
                   },
                   "filters": []
                 },
-                "title": "Advanced",
-                "description": "Advanced acquisition options."
+                "description": "Advanced acquisition options.",
+                "title": "Advanced"
               }
             },
             "required": [
