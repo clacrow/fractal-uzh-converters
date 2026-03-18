@@ -4,28 +4,7 @@ from fractal_task_tools.task_models import ConverterCompoundTask
 
 AUTHORS = "Fractal Core Team"
 DOCS_LINK = "https://fractal-analytics-platform.github.io/fractal-uzh-converters/stable"
-INPUT_MODELS = [
-    (
-        "fractal_uzh_converters",
-        "common/utils.py",
-        "BaseAcquisitionModel",
-    ),
-    (
-        "fractal_uzh_converters",
-        "operetta/utils.py",
-        "OperettaAcquisitionModel",
-    ),
-    (
-        "fractal_uzh_converters",
-        "olympus_scanr/utils.py",
-        "ScanRAcquisitionModel",
-    ),
-    (
-        "fractal_uzh_converters",
-        "cq3k/utils.py",
-        "CQ3KAcquisitionModel",
-    ),
-]
+
 
 TASK_LIST = [
     ConverterCompoundTask(
