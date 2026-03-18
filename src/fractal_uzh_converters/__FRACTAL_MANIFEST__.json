@@ -491,12 +491,12 @@
             "description": "Acquisition details for the Olympus ScanR microscope data.",
             "properties": {
               "path": {
-                "description": "Path to the acquisition directory.\nFor scanr, this should be the base directory of the acquisition or the \"{acquisition_dir}/data\" directory containing the metadata.ome.xml file and the \"data\" directory with the tiff files.",
+                "description": "Path to the acquisition directory. For scanr, this should be the base directory of the acquisition or the \"{acquisition_dir}/data\" directory containing the metadata.ome.xml file and the \"data\" directory with the tiff files.",
                 "title": "Path",
                 "type": "string"
               },
               "plate_name": {
-                "description": "Optional custom name for the plate.\nIf not provided, the name will be the acquisition directory name.",
+                "description": "Optional custom name for the plate. If not provided, the name will be the acquisition directory name.",
                 "title": "Plate Name",
                 "type": "string"
               },
@@ -1173,12 +1173,12 @@
             "description": "Acquisition details for the CQ3K microscope data.",
             "properties": {
               "path": {
-                "description": "Path to the acquisition directory.\nShould contain MeasurementData.mlf and MeasurementDetail.mrf files.",
+                "description": "Path to the acquisition directory. Should contain MeasurementData.mlf and MeasurementDetail.mrf files.",
                 "title": "Path",
                 "type": "string"
               },
               "plate_name": {
-                "description": "Optional custom name for the plate.\nIf not provided, the name will be the acquisition directory name.",
+                "description": "Optional custom name for the plate. If not provided, the name will be the acquisition directory name.",
                 "title": "Plate Name",
                 "type": "string"
               },
@@ -2459,12 +2459,12 @@
             "description": "Acquisition details for the Operetta microscope data.",
             "properties": {
               "path": {
-                "description": "Path to the acquisition directory.\nFor Operetta, this should be the base directory of the acquisition or the \"{acquisition_dir}/Images\" directory containing the tiff files and metadata.ome.xml file.",
+                "description": "Path to the acquisition directory. For Operetta, this should be the base directory of the acquisition or the \"{acquisition_dir}/Images\" directory containing the tiff files and metadata.ome.xml file.",
                 "title": "Path",
                 "type": "string"
               },
               "plate_name": {
-                "description": "Optional custom name for the plate.\nIf not provided, the name will be the acquisition directory name.",
+                "description": "Optional custom name for the plate. If not provided, the name will be the acquisition directory name.",
                 "title": "Plate Name",
                 "type": "string"
               },

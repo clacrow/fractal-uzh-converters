@@ -58,8 +58,7 @@ class ScanRAcquisitionModel(BaseAcquisitionModel):
     """
     path: str
     """
-    Path to the acquisition directory.
-    For scanr, this should be the base directory of the acquisition or the "{acquisition_dir}/data" directory containing the metadata.ome.xml file and the "data" directory with the tiff files.
+    Path to the acquisition directory. For scanr, this should be the base directory of the acquisition or the "{acquisition_dir}/data" directory containing the metadata.ome.xml file and the "data" directory with the tiff files.
     """
     layout: AVAILABLE_PLATE_LAYOUTS = "96-well"
     """Plate layout type."""
