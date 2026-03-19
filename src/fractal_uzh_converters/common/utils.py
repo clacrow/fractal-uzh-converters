@@ -18,22 +18,24 @@ STANDARD_ROWS_NAMES = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 
 class BaseAcquisitionModel(BaseModel):
-    """Base model for acquisitions.
-
-    Attributes:
-        path: Path to the acquisition directory.
-            Should contain MeasurementData.mlf and MeasurementDetail.mrf files.
-        plate_name: Optional custom name for the plate. If not provided, the name will
-            be the acquisition directory name.
-        acquisition_id: Acquisition ID,
-            used to identify the acquisition in case of multiple acquisitions.
-        advanced: Advanced acquisition options.
-    """
+    """Base model for acquisitions."""
 
     path: str
+    """
+    Path to the acquisition directory. Should contain MeasurementData.mlf and MeasurementDetail.mrf files.
+    """
     plate_name: str | None = None
+    """
+    Optional custom name for the plate. If not provided, the name will be the acquisition directory name.
+    """
     acquisition_id: int = Field(default=0, ge=0)
+    """
+    Acquisition ID, used to identify the acquisition in case of multiple acquisitions.
+    """
     advanced: AcquisitionOptions = Field(default_factory=AcquisitionOptions)
+    """
+    Advanced acquisition options.
+    """
 
     @property
     def normalized_plate_name(self) -> str:

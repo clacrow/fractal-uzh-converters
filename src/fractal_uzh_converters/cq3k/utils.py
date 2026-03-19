@@ -37,17 +37,7 @@ logger = logging.getLogger(__name__)
 
 
 class CQ3KAcquisitionModel(BaseAcquisitionModel):
-    """Acquisition details for the CQ3K microscope data.
-
-    Attributes:
-        path: Path to the acquisition directory.
-            Should contain MeasurementData.mlf and MeasurementDetail.mrf files.
-        plate_name: Optional custom name for the plate. If not provided, the name will
-            be the acquisition directory name.
-        acquisition_id: Acquisition ID,
-            used to identify the acquisition in case of multiple acquisitions.
-        advanced: Advanced acquisition options.
-    """
+    """Acquisition details for the CQ3K microscope data."""
 
     pass
 
