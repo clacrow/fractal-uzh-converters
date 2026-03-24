@@ -42,39 +42,25 @@ logger = logging.getLogger(__name__)
 
 
 class MDAcquisitionOptions(AcquisitionOptions):
-    """Acquisition options for conversion.
-
-    Attributes:
-        channels: List of channel information.
-        pixel_info: Pixel size information.
-        condition_table_path: Optional path to a condition table CSV file.
-        axes: Axes to use for the image data, e.g. "czyx".
-        data_type: Data type of the image data.
-        stage_corrections: Stage orientation corrections.
-        filters: List of filters to apply.
-        convert_only_projections: If True, only convert projection images, if available.
-        convert_montages: If True, convert montaged / stitched images, if available.
-    """
+    """Acquisition options for conversion."""
 
     convert_only_projections: bool = Field(default=False)
+    """
+    If True, only convert projection images, if available.
+    """
     convert_montages: bool = Field(default=False)
+    """
+    If True, convert montaged / stitched images, if available.
+    """
 
 
 class MDImageXpressHCSaiAcquisitionModel(BaseAcquisitionModel):
-    """Acquisition details for the MD ImageXpress HCS.ai microscope data.
-
-    Attributes:
-        path: Path to the *.mxprotocol file or the folder containing it.
-        plate_name: Optional custom name for the plate. If not provided, the name will
-            be the acquisition directory name.
-        acquisition_id: Acquisition ID,
-            used to identify the acquisition in case of multiple acquisitions.
-        convert_only_projections: If True, only convert projection images, if available.
-        convert_montages: If True, convert montaged / stitched images, if available.
-        advanced: Advanced acquisition options.
-    """
+    """Acquisition details for the MD ImageXpress HCS.ai microscope data."""
 
     advanced: MDAcquisitionOptions = Field(default_factory=MDAcquisitionOptions)
+    """
+    Advanced acquisition options.
+    """
 
     @field_validator("path", mode="before")
     @classmethod
