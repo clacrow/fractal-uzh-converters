@@ -140,18 +140,18 @@ def _image_list_updates_checks(
         image_path = zarr_url.relative_to(zarr_dir).as_posix()
         assert image_path in aggregated_types
         assert upd["types"] == aggregated_types[image_path]
-        assert upd["attributes"] == aggregated_attrs[image_path], (
-            f"{upd['attributes']} != {aggregated_attrs[image_path]}"
-        )
+        assert (
+            upd["attributes"] == aggregated_attrs[image_path]
+        ), f"{upd['attributes']} != {aggregated_attrs[image_path]}"
 
 
 def _check_roi_tables(
     ome_zarr_image: OmeZarrContainer,
     image_assertions: ImageAssertionModel,
 ):
-    assert set(ome_zarr_image.list_tables()) == set(image_assertions.tables.keys()), (
-        set(ome_zarr_image.list_tables())
-    )
+    assert set(ome_zarr_image.list_tables()) == set(
+        image_assertions.tables.keys()
+    ), set(ome_zarr_image.list_tables())
     image = ome_zarr_image.get_image()
     for table_name, table_assert in image_assertions.tables.items():
         if table_assert is None:

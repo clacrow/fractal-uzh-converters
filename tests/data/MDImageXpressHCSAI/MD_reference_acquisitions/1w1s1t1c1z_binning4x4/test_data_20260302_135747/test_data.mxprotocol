@@ -1,0 +1,1313 @@
+{
+    "acquisitionEngineProtocol": {
+        "commandData": {
+            "acquisitionEngineProtocol": {
+                "commandDefinitions": [
+                    {
+                        "snapSeriesCommand": {
+                            "data": {
+                                "cameras": [
+                                    {
+                                        "cameraName": "Camera 1"
+                                    }
+                                ],
+                                "numberOfSteps": 1
+                            },
+                            "itemId": "snapSeries1"
+                        }
+                    },
+                    {
+                        "autofocusCommand": {
+                            "data": {
+                                "autofocusSiteFrequency": "everySite",
+                                "bestPlaneAutofocus": {
+                                    "bestPlaneRunFrequency": "none",
+                                    "illuminationSetting": {
+                                        "exposureTimeMs": 10.2,
+                                        "illuminationName": "DAPI",
+                                        "powerPercentage": 100
+                                    },
+                                    "rangeSelection": "none"
+                                },
+                                "surfaceDetection": {
+                                    "collectGraphData": false,
+                                    "searchMechanism": "plateBottomAndWellBottom",
+                                    "zOffsetUm": 0.0
+                                }
+                            },
+                            "itemId": "autofocus1"
+                        }
+                    },
+                    {
+                        "channelSeriesCommand": {
+                            "data": {
+                                "cameraBinningCount": 4,
+                                "cameraGain": 0.0,
+                                "channelsList": [
+                                    {
+                                        "channelName": "DAPI",
+                                        "clientData": {
+                                            "displayColorHex": "#0000ff",
+                                            "id": 1,
+                                            "intensityScaling": {
+                                                "max": 37312,
+                                                "min": 1349
+                                            }
+                                        },
+                                        "exposureTimeMs": 10.2,
+                                        "illuminationName": "DAPI",
+                                        "powerPercentage": 100,
+                                        "shadingCorrectionOptions": {
+                                            "correctionType": "Reference Image"
+                                        },
+                                        "zOffsetUm": 0.0
+                                    }
+                                ],
+                                "currentChannel": {
+                                    "itemId": "currentChannel1"
+                                },
+                                "roi": {
+                                    "heightInPixels": 2304,
+                                    "upperLeftXInPixels": 0,
+                                    "upperLeftYInPixels": 0,
+                                    "widthInPixels": 2304
+                                },
+                                "shadingCorrectionReferenceImageLocation": "C:\\ProgramData\\Molecular Devices\\MetaXpress Acquire\\Shading Correction\\"
+                            },
+                            "itemId": "channelSeries1",
+                            "stepCommands": {
+                                "commands": [
+                                    {
+                                        "itemIdReference": "autofocus1"
+                                    },
+                                    {
+                                        "itemIdReference": "snapSeries1"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "wellSeriesCommand": {
+                            "data": {
+                                "wellList": {
+                                    "itemIdReference": ".wellSeriesListId"
+                                }
+                            },
+                            "itemId": "wellSeries1",
+                            "stepCommands": {
+                                "commands": [
+                                    {
+                                        "itemIdReference": "siteSeries1"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "siteSeriesCommand": {
+                            "data": {
+                                "siteList": {
+                                    "itemIdReference": ".siteSeriesListId"
+                                }
+                            },
+                            "itemId": "siteSeries1",
+                            "stepCommands": {
+                                "commands": [
+                                    {
+                                        "itemIdReference": "channelSeries1"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                ],
+                "data": {
+                    "devicePositions": {
+                        "lightPathModeInfo": {
+                            "lightPathMode": "confocal1",
+                            "lightPathName": "60 um Pinhole"
+                        },
+                        "magnificationSetting": {
+                            "magnificationChangerName": "1X",
+                            "objectiveName": "20X Plan Apo Lambda D"
+                        }
+                    },
+                    "labwareDefinition": {
+                        "displayName": "Ibidi µ-Plate 96 Well Square 89626",
+                        "labwareType": "plate",
+                        "majorVersion": 0,
+                        "measuredDateYYYYMMDD": "",
+                        "measuredSystemId": "",
+                        "minorVersion": 1,
+                        "plateProperties": {
+                            "plateGeometry": {
+                                "material": "plastic",
+                                "physicalBottomThicknessUm": 194.0,
+                                "plateBottomContinuity": "continuous",
+                                "plateSizeXUm": 127800.0,
+                                "plateSizeYUm": 85500.0,
+                                "plateSizeZUm": 0.0,
+                                "skirtHeightUm": 789.0
+                            },
+                            "plateZVariability": {
+                                "adjacentWellMaxZVariationUm": 36.0,
+                                "plateBottomThicknessMaxVariationUm": 9.0,
+                                "plateMaxZVariationUm": 55.0,
+                                "singleWellMaxZVariationUm": 33.0
+                            },
+                            "wellGeometry": {
+                                "wellBottomConcavity": "flat",
+                                "wellShape": "square",
+                                "wellSizeXUm": 7400.0,
+                                "wellSizeYUm": 7400.0,
+                                "wellSizeZUm": 12900.0
+                            },
+                            "wellLayout": {
+                                "numberOfWellsX": 12,
+                                "numberOfWellsY": 8,
+                                "wellA1CenterOffsetXUm": 14400.0,
+                                "wellA1CenterOffsetYUm": 11300.0,
+                                "wellSpacingXUm": 9000.0,
+                                "wellSpacingYUm": 9000.0
+                            }
+                        },
+                        "readOnly": false,
+                        "supportsImaging": true
+                    },
+                    "siteList": {
+                        "itemId": "siteSeriesListId",
+                        "sitePositions": [
+                            {
+                                "siteColumn": 0,
+                                "siteRow": 2,
+                                "xOffsetFromWellCenterUm": -372.67,
+                                "yOffsetFromWellCenterUm": 745.34
+                            }
+                        ]
+                    },
+                    "wellList": {
+                        "itemId": "wellSeriesListId",
+                        "wellPositions": [
+                            {
+                                "column": 4,
+                                "row": 2
+                            }
+                        ]
+                    }
+                },
+                "protocolDefinition": {
+                    "acquisitionName": "1w1s1t1c1z_binning4x4",
+                    "allowAppendTimepoint": false,
+                    "barcode": "",
+                    "commandSequence": {
+                        "commands": [
+                            {
+                                "itemIdReference": "wellSeries1"
+                            }
+                        ]
+                    },
+                    "fileSaveLocation": "D:\\FS\\",
+                    "isInteractiveProtocol": false,
+                    "mxProtocolFilePath": "D:\\mxatemp\\metaxpress\\WebServiceTemp\\test_data.mxprotocol",
+                    "postProcessingOptions": {
+                        "montageDataset": "projection",
+                        "montageType": "none"
+                    },
+                    "sendShadingCorrectedImagesToUi": true,
+                    "stopProtocolWhenAutofocusFails": false
+                },
+                "protocolName": "test_data",
+                "protocolVersion": "2.0"
+            }
+        },
+        "commandId": 419,
+        "commandName": "RunProtocol"
+    },
+    "uiModel": {
+        "acquisitionName": "1w1s1t1c1z_binning4x4",
+        "allowAppendTimepoint": false,
+        "analysis": {
+            "enabled": false
+        },
+        "analysisMode": "runInBackground",
+        "autofocus": {
+            "autofocusSettingsPerObjectiveList": [
+                {
+                    "advancedSettings": {
+                        "findSurface": "plateBottomAndWellBottom",
+                        "focusOnSample": {
+                            "advancedRangeSelection": "narrow",
+                            "endUm": 6.1,
+                            "focusOnSampleMode": "off",
+                            "startUm": 3.1
+                        },
+                        "recoveryJogCount": 2
+                    },
+                    "basicSettings": {
+                        "findSurface": "plateBottomAndWellBottom",
+                        "focusOnSample": {
+                            "basicRangeSelection": "none",
+                            "endUm": 6.1,
+                            "exposureTimeMs": 25.0,
+                            "startUm": 3.1,
+                            "stepSizeUm": 0.5
+                        }
+                    },
+                    "objectiveName": "20X Plan Apo Lambda D",
+                    "useAdvancedAutofocus": false
+                },
+                {
+                    "advancedSettings": {
+                        "findSurface": "plateBottomOnly",
+                        "focusOnSample": {
+                            "advancedRangeSelection": "narrow",
+                            "focusOnSampleMode": "off"
+                        },
+                        "recoveryJogCount": 2
+                    },
+                    "basicSettings": {
+                        "findSurface": "plateBottomOnly",
+                        "focusOnSample": {
+                            "basicRangeSelection": "none"
+                        }
+                    },
+                    "objectiveName": "2X Plan Apo Lambda D",
+                    "useAdvancedAutofocus": false
+                },
+                {
+                    "advancedSettings": {
+                        "findSurface": "plateBottomOnly",
+                        "focusOnSample": {
+                            "advancedRangeSelection": "narrow",
+                            "focusOnSampleMode": "off"
+                        },
+                        "recoveryJogCount": 2
+                    },
+                    "basicSettings": {
+                        "findSurface": "plateBottomOnly",
+                        "focusOnSample": {
+                            "basicRangeSelection": "none"
+                        }
+                    },
+                    "objectiveName": "4X Plan Apo Lambda D",
+                    "useAdvancedAutofocus": false
+                },
+                {
+                    "advancedSettings": {
+                        "findSurface": "plateBottomAndWellBottom",
+                        "focusOnSample": {
+                            "advancedRangeSelection": "narrow",
+                            "focusOnSampleMode": "off"
+                        },
+                        "recoveryJogCount": 2
+                    },
+                    "basicSettings": {
+                        "findSurface": "plateBottomAndWellBottom",
+                        "focusOnSample": {
+                            "basicRangeSelection": "wide",
+                            "endUm": 10.0,
+                            "exposureTimeMs": 25.0,
+                            "startUm": -5.0,
+                            "stepSizeUm": 1.7
+                        }
+                    },
+                    "objectiveName": "10X Plan Apo Lambda D",
+                    "useAdvancedAutofocus": false
+                }
+            ],
+            "autofocusSiteFrequency": "everySite",
+            "autofocusTimeFrequency": "firstTimePoint",
+            "channel": {
+                "channelName": "DAPI",
+                "confocalPowerPercentage": 100,
+                "digitalConfocal": false,
+                "displayColorHex": "#0000ff",
+                "exposureTimeMs": 10.2,
+                "id": 1,
+                "illuminationName": "DAPI",
+                "intensityExclusionPercent": 0.01,
+                "intensityScaling": {
+                    "max": 37312,
+                    "min": 1349
+                },
+                "isEnabled": true,
+                "kValue": 1.0,
+                "maxExposureTimeMs": 500,
+                "powerPercentage": 100,
+                "shadingCorrection": "referenceImage",
+                "targetPixelIntensity": 49151,
+                "timeFrequency": "all",
+                "timeFrequencyNthRate": 2,
+                "wavelength": 440.0,
+                "widefieldPowerPercentage": 50,
+                "zOffsetUm": 0.0,
+                "zProjectionMechanism": "max",
+                "zSeriesCollectionType": "zSeries"
+            }
+        },
+        "autoscaleAll": true,
+        "barcode": "",
+        "cameraBinningCount": 4,
+        "cameraName": "Camera 1",
+        "creator": "f.sturzenegger",
+        "description": "",
+        "fileSaveLocation": "D:\\FS\\",
+        "journals": {
+            "enabled": false,
+            "sequencePointJournals": {
+                "afterSnapSeries": {
+                    "enabled": false,
+                    "journalPath": ""
+                },
+                "beforeFocus": {
+                    "enabled": false,
+                    "journalPath": ""
+                },
+                "beforeSnapSeries": {
+                    "enabled": false,
+                    "journalPath": ""
+                },
+                "endPlate": {
+                    "enabled": false,
+                    "journalPath": ""
+                },
+                "endSite": {
+                    "enabled": false,
+                    "journalPath": ""
+                },
+                "endTimePoint": {
+                    "enabled": false,
+                    "journalPath": ""
+                },
+                "endWell": {
+                    "enabled": false,
+                    "journalPath": ""
+                },
+                "endZ": {
+                    "enabled": false,
+                    "journalPath": ""
+                },
+                "startPlate": {
+                    "enabled": false,
+                    "journalPath": ""
+                },
+                "startSite": {
+                    "enabled": false,
+                    "journalPath": ""
+                },
+                "startTimePoint": {
+                    "enabled": false,
+                    "journalPath": ""
+                },
+                "startWell": {
+                    "enabled": false,
+                    "journalPath": ""
+                },
+                "startZ": {
+                    "enabled": false,
+                    "journalPath": ""
+                }
+            },
+            "taskListJournals": []
+        },
+        "labwareDefinition": {
+            "displayName": "Ibidi µ-Plate 96 Well Square 89626",
+            "instrumentSerialNumber": "HCSP0129",
+            "labwareType": "plate",
+            "majorVersion": 0,
+            "measuredDateYYYYMMDD": "",
+            "measuredSystemId": "",
+            "minorVersion": 1,
+            "plateProperties": {
+                "plateGeometry": {
+                    "material": "plastic",
+                    "physicalBottomThicknessUm": 194.0,
+                    "plateBottomContinuity": "continuous",
+                    "plateSizeXUm": 127800.0,
+                    "plateSizeYUm": 85500.0,
+                    "plateSizeZUm": 0.0,
+                    "skirtHeightUm": 789.0
+                },
+                "plateZVariability": {
+                    "adjacentWellMaxZVariationUm": 36.0,
+                    "plateBottomThicknessMaxVariationUm": 9.0,
+                    "plateMaxZVariationUm": 55.0,
+                    "singleWellMaxZVariationUm": 33.0
+                },
+                "wellGeometry": {
+                    "wellBottomConcavity": "flat",
+                    "wellShape": "square",
+                    "wellSizeXUm": 7400.0,
+                    "wellSizeYUm": 7400.0,
+                    "wellSizeZUm": 12900.0
+                },
+                "wellLayout": {
+                    "numberOfWellsX": 12,
+                    "numberOfWellsY": 8,
+                    "wellA1CenterOffsetXUm": 14400.0,
+                    "wellA1CenterOffsetYUm": 11300.0,
+                    "wellSpacingXUm": 9000.0,
+                    "wellSpacingYUm": 9000.0
+                }
+            },
+            "readOnly": false,
+            "supportsImaging": true
+        },
+        "labwareLibrary": "system",
+        "lightPathModeInfo": {
+            "mode": "confocal1",
+            "name": "60 um Pinhole"
+        },
+        "magnificationChanger": {
+            "magnification": 1.0,
+            "name": "1X"
+        },
+        "montageType": "none",
+        "objective": {
+            "depthOfField": 1.0937499999999998,
+            "magnification": 20.0,
+            "name": "20X Plan Apo Lambda D",
+            "numericalAperture": 0.8
+        },
+        "overviewAcquisitionEnabled": false,
+        "overviewSettings": {
+            "autofocus": {
+                "autofocusSettingsPerObjectiveList": [
+                    {
+                        "advancedSettings": {
+                            "findSurface": "plateBottomOnly",
+                            "focusOnSample": {
+                                "advancedRangeSelection": "narrow",
+                                "focusOnSampleMode": "off"
+                            },
+                            "recoveryJogCount": 2
+                        },
+                        "basicSettings": {
+                            "findSurface": "plateBottomOnly",
+                            "focusOnSample": {
+                                "basicRangeSelection": "none"
+                            }
+                        },
+                        "objectiveName": "2X Plan Apo Lambda D",
+                        "useAdvancedAutofocus": false
+                    }
+                ],
+                "autofocusSiteFrequency": "firstSite",
+                "autofocusTimeFrequency": "firstTimePoint",
+                "channel": {
+                    "channelName": "DAPI",
+                    "confocalPowerPercentage": 100,
+                    "digitalConfocal": false,
+                    "displayColorHex": "#0000ff",
+                    "exposureTimeMs": 10.2,
+                    "id": 1,
+                    "illuminationName": "DAPI",
+                    "intensityExclusionPercent": 0.01,
+                    "intensityScaling": {
+                        "max": 37312,
+                        "min": 1349
+                    },
+                    "isEnabled": true,
+                    "kValue": 1.0,
+                    "maxExposureTimeMs": 500,
+                    "powerPercentage": 100,
+                    "shadingCorrection": "referenceImage",
+                    "targetPixelIntensity": 49151,
+                    "timeFrequency": "all",
+                    "timeFrequencyNthRate": 2,
+                    "wavelength": 440.0,
+                    "widefieldPowerPercentage": 50,
+                    "zOffsetUm": 0.0,
+                    "zProjectionMechanism": "max",
+                    "zSeriesCollectionType": "zSeries"
+                }
+            },
+            "cameraBinningCount": 1,
+            "channelsList": [
+                {
+                    "channelName": "DAPI",
+                    "digitalConfocal": false,
+                    "displayColorHex": "#0000ff",
+                    "exposureTimeMs": 10.0,
+                    "id": 1,
+                    "illuminationName": "DAPI",
+                    "intensityExclusionPercent": 0.01,
+                    "intensityScaling": {
+                        "max": 65535,
+                        "min": 0
+                    },
+                    "isEnabled": true,
+                    "kValue": 1.0,
+                    "maxExposureTimeMs": 500,
+                    "powerPercentage": 50,
+                    "shadingCorrection": "referenceImage",
+                    "targetPixelIntensity": 49151,
+                    "timeFrequency": "all",
+                    "timeFrequencyNthRate": 2,
+                    "wavelength": 440.0,
+                    "zOffsetUm": 0.0,
+                    "zProjectionMechanism": "max",
+                    "zSeriesCollectionType": "zSeries"
+                }
+            ],
+            "lightPathModeInfo": {
+                "mode": "widefield",
+                "name": "Widefield"
+            },
+            "magnificationChanger": {
+                "magnification": 1.0,
+                "name": "1X"
+            },
+            "objective": {
+                "depthOfField": 69.99999999999999,
+                "magnification": 2.0,
+                "name": "2X Plan Apo Lambda D",
+                "numericalAperture": 0.1
+            }
+        },
+        "protocolName": "test_data",
+        "quickId": {
+            "enabled": false,
+            "parameters": {
+                "folderPath": "",
+                "maxObjectsPerWell": 10,
+                "maxSitesPerObjectX": 1,
+                "maxSitesPerObjectY": 1,
+                "multipleSitesPerObject": false,
+                "siteOverlapPercent": 10
+            }
+        },
+        "roi": {
+            "heightInPixels": 2304,
+            "upperLeftXInPixels": 0,
+            "upperLeftYInPixels": 0,
+            "widthInPixels": 2304
+        },
+        "settingsList": [
+            {
+                "channelName": "DAPI",
+                "confocalPowerPercentage": 100,
+                "digitalConfocal": false,
+                "displayColorHex": "#0000ff",
+                "exposureTimeMs": 10.2,
+                "id": 1,
+                "illuminationName": "DAPI",
+                "intensityExclusionPercent": 0.01,
+                "intensityScaling": {
+                    "max": 37312,
+                    "min": 1349
+                },
+                "isEnabled": true,
+                "kValue": 1.0,
+                "maxExposureTimeMs": 500,
+                "powerPercentage": 100,
+                "shadingCorrection": "referenceImage",
+                "targetPixelIntensity": 49151,
+                "timeFrequency": "all",
+                "timeFrequencyNthRate": 2,
+                "wavelength": 440.0,
+                "widefieldPowerPercentage": 50,
+                "zOffsetUm": 0.0,
+                "zProjectionMechanism": "max",
+                "zSeriesCollectionType": "zSeries"
+            },
+            {
+                "channelName": "FITC",
+                "digitalConfocal": false,
+                "displayColorHex": "#35ff00",
+                "exposureTimeMs": 4.9,
+                "id": 2,
+                "illuminationName": "FITC",
+                "intensityExclusionPercent": 0.01,
+                "intensityScaling": {
+                    "max": 32349,
+                    "min": 84
+                },
+                "isEnabled": false,
+                "kValue": 1.0,
+                "maxExposureTimeMs": 500,
+                "powerPercentage": 100,
+                "shadingCorrection": "referenceImage",
+                "targetPixelIntensity": 49151,
+                "timeFrequency": "all",
+                "timeFrequencyNthRate": 2,
+                "wavelength": 520.0,
+                "zOffsetUm": 0.0,
+                "zProjectionMechanism": "max",
+                "zSeriesCollectionType": "zSeries"
+            }
+        ],
+        "shadingCorrectionReferenceImageLocation": "C:\\ProgramData\\Molecular Devices\\MetaXpress Acquire\\Shading Correction\\",
+        "timeSeries": {
+            "durationMs": 600000,
+            "durationUnit": "min",
+            "enabled": false,
+            "intervalMs": 60000,
+            "intervalUnit": "min",
+            "loopOrder": "plate",
+            "numberOfTimePoints": 11
+        },
+        "useRegions": false,
+        "versionIndependentProperties": {
+            "majorVersion": 2,
+            "minorVersion": 0
+        },
+        "wellsSitesData": {
+            "columnSpacing": 0.0,
+            "columns": 2,
+            "fovHeight": 100,
+            "fovWidth": 100,
+            "rowSpacing": 0.0,
+            "rows": 3,
+            "sitePositionsMap": {
+                "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63": [
+                    {
+                        "selectionState": "unselected",
+                        "wellSiteColumn": 0,
+                        "wellSiteRow": 0,
+                        "xFromCenterUm": -372.67,
+                        "yFromCenterUm": -745.34
+                    },
+                    {
+                        "selectionState": "unselected",
+                        "wellSiteColumn": 1,
+                        "wellSiteRow": 0,
+                        "xFromCenterUm": 372.67,
+                        "yFromCenterUm": -745.34
+                    },
+                    {
+                        "selectionState": "unselected",
+                        "wellSiteColumn": 0,
+                        "wellSiteRow": 1,
+                        "xFromCenterUm": -372.67,
+                        "yFromCenterUm": 0
+                    },
+                    {
+                        "selectionState": "unselected",
+                        "wellSiteColumn": 1,
+                        "wellSiteRow": 1,
+                        "xFromCenterUm": 372.67,
+                        "yFromCenterUm": 0
+                    },
+                    {
+                        "selectionState": "selected",
+                        "wellSiteColumn": 0,
+                        "wellSiteRow": 2,
+                        "xFromCenterUm": -372.67,
+                        "yFromCenterUm": 745.34
+                    },
+                    {
+                        "selectionState": "unselected",
+                        "wellSiteColumn": 1,
+                        "wellSiteRow": 2,
+                        "xFromCenterUm": 372.67,
+                        "yFromCenterUm": 745.34
+                    }
+                ]
+            },
+            "siteSpacing": "tile",
+            "wellsSitesMatrix": [
+                [
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    }
+                ],
+                [
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    }
+                ],
+                [
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "selected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    }
+                ],
+                [
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    }
+                ],
+                [
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    }
+                ],
+                [
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    }
+                ],
+                [
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    }
+                ],
+                [
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    },
+                    {
+                        "overviewAreaList": [],
+                        "regionList": [],
+                        "siteListHashCode": "3325c2cfcafd9a308cf49e94d5cc1e8b13177b88264e744b0f9f08692fa5ac63",
+                        "wellState": "unselected"
+                    }
+                ]
+            ]
+        },
+        "zSeries": {
+            "centerAroundFocus": false,
+            "enabled": false,
+            "numberOfSteps": 15,
+            "startZUm": 4.0,
+            "stepSizeUm": 0.5
+        }
+    }
+}

@@ -156,14 +156,14 @@ def get_attributes_from_condition_table(
     for key, value in filtered_dict.items():
         if key in ["row", "column", "acquisition"]:
             continue
-        if all(isinstance(v, (str, type(None))) for v in value):
+        if all(isinstance(v, str | type(None)) for v in value):
             formatted_value = [v if v is None else v.strip() for v in value]
             # Replace common placeholder values with None
             formatted_value = [
                 None if v in ["", "Na", "NA", "N/A"] else v for v in formatted_value
             ]
             attributes[key] = formatted_value
-        elif all(isinstance(v, (int, float, bool, type(None))) for v in value):
+        elif all(isinstance(v, int | float | bool | type(None)) for v in value):
             attributes[key] = value
         else:
             types_found = {type(v).__name__ for v in value}

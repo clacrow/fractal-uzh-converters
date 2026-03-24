@@ -1,0 +1,2 @@
+FovUuid,Well,Row,Column,Field,Wavelength,Timepoint,ZIndex,ImageStartXPx,ImageStartYPx,ImageSizeXPx,ImageSizeYPx,ImageSubFolderPath,ImageFileName,TimeStampSec,ExposureTimeMs,ExcitationEmissionFilter,MinIntensity,MaxIntensity,MeanIntensity,PositionXUm,PositionYUm,PositionZUm,FieldOffsetPointX,FieldOffsetPointY,TemperatureC,CO2,Annotations,Checksum,O2Level
+952fe967-9cba-46f3-900d-bcd915e681cc,C - 5,3,5,0,0,0,0,0,0,576,576,timepoint0,test_data_t0_C05_s0_w0_z0.tif,1772456272.45,10,DAPI,1250,54260,5102.588255328897,50027.34,30045.34,18444.72,-372.67,745.34,23.0,0.0,,,20.0

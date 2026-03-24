@@ -1,0 +1,112 @@
+{
+    "Version": "1.1",
+    "ImageStack": {
+        "PlateId": "1w1s1t1c1z_binning4x4 2026-03-02, 13:57:52",
+        "Uuid": "a7b149ec-a653-4074-ad7a-cf4302e7dcfd",
+        "Application": {
+            "Name": "MetaXpress Acquire",
+            "SoftwareLabel": "2025.2.0.5237"
+        },
+        "Creation": {
+            "Date": "2026-03-02",
+            "Time": "13:57:52",
+            "TimeZoneOffset": "0"
+        },
+        "ImageFormat": "TIFF",
+        "LargeImage": false,
+        "AutoLeadAcquisitionProtocol": {
+            "Camera": {
+                "Size": {
+                    "Width": 576,
+                    "Height": 576
+                },
+                "Binning": "4 X 4"
+            },
+            "ObjectiveCalibration": {
+                "Unit": "µm",
+                "ObjectiveName": "20X Plan Apo Lambda D",
+                "PixelWidth": 1.294,
+                "PixelHeight": 1.294
+            },
+            "Plate": {
+                "Name": "Ibidi µ-Plate 96 Well Square 89626",
+                "Rows": 8,
+                "Columns": 12,
+                "TopLeftWellCenterOffset": {
+                    "Unit": "µm",
+                    "Horizontal": 14.4,
+                    "Vertical": 11.3
+                },
+                "WellParameters": {
+                    "Shape": "square",
+                    "Width": 7.4,
+                    "Height": 7.4,
+                    "Size": 54.760000000000005,
+                    "Unit": "µm"
+                },
+                "WellSpacing": {
+                    "Unit": "µm",
+                    "Horizontal": 9.0,
+                    "Vertical": 9.0
+                }
+            },
+            "Wavelengths": [
+                {
+                    "Index": 0,
+                    "ImagingMode": "2-D",
+                    "ZSlice": 1,
+                    "ZStep": 0.0,
+                    "EmissionFilter": {
+                        "Name": "DAPI",
+                        "Wavelength": 440,
+                        "Unit": "nm"
+                    },
+                    "ExcitationFilter": {
+                        "Name": "DAPI",
+                        "Wavelength": 440,
+                        "Unit": "nm"
+                    }
+                }
+            ],
+            "PlateMap": {
+                "ZDimensionParameters": {
+                    "Enabled": false,
+                    "Step": 0.0,
+                    "NumberOfSlices": 1,
+                    "Variable": false
+                },
+                "TimeSchedule": {
+                    "Enabled": false,
+                    "NumberOfTimepoints": 1,
+                    "Times": [
+                        {
+                            "Ms": 0
+                        }
+                    ],
+                    "Variable": false
+                }
+            },
+            "ProjectInformation": {
+                "Project": {
+                    "Name": "test_data"
+                },
+                "User": {
+                    "Name": "f.sturzenegger"
+                }
+            },
+            "CollectionComplete": true
+        },
+        "Operator": {
+            "Login": "f.sturzenegger"
+        },
+        "SpecimenHolder": {
+            "Type": "plate",
+            "Label": "Ibidi µ-Plate 96 Well Square 89626",
+            "Barcode": "",
+            "Description": "ProtocolName: test_data"
+        },
+        "ImageMetadataFiles": [
+            "image_metadata_1.csv"
+        ]
+    }
+}

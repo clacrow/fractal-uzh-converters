@@ -1,0 +1,16 @@
+Total number of times user workflows were called to run, 1
+Total number of times short searches failed to find the surface, 0
+Total number of times well bottom searches failed to find the surface, 0
+Total number of times plate bottom searches failed to find the surface, 0
+Total number of retries due to wrong surface, 0
+Total number of times less number of peaks found than the expected, 0
+Total number of jogs, 0
+Total number of times iterative searches were called, 0
+Total number of bolus refills, 0
+Total number of image autofocus recoveries, 0
+Total number of focuses not found (using a nearby focus position), 6
+Minimum focus score, 0
+Maximum focus score, 0
+Minimum time(ms) required to perform a LAF operation at a site, 595
+Maximum time(ms) required to perform a LAF operation at a site, 595
+Average time(ms) required to perform a LAF operation at a site, 595
