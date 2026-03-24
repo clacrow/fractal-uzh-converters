@@ -112,6 +112,9 @@ addopts = [
     "--cov-report=xml",
 ]
 
+[tool.coverage.run]
+source = ["fractal_uzh_converters"]
+
 [tool.pixi.workspace]
 channels = ["conda-forge"]
 platforms = ["osx-arm64", "linux-64"]
