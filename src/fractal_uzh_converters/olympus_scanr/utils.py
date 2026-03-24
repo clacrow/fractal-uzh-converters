@@ -312,7 +312,8 @@ def parse_scanr_metadata(
     acquisition_dir = acquisition_model.path
     metadata_path = join_url_paths(acquisition_dir, "data", "metadata.ome.xml")
     try:
-        meta = from_xml(metadata_path)
+        with open(metadata_path) as f:
+            meta = from_xml(f.read())
     except Exception as e:
         raise ValueError(
             f"Could not parse OME-XML metadata file: {metadata_path}"
