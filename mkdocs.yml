@@ -59,5 +59,6 @@ nav:
     - PerkinElmer Operetta: converters/operetta.md
     - Olympus ScanR: converters/scanr.md
     - Yokogawa CQ3K: converters/cq3k.md
+    - Molecular Devices ImageXpress: converters/md_imagexpress.md
   - Condition Tables: condition_tables.md
   - Changelog: changelog.md

@@ -147,3 +147,4 @@ This mode can be used to incrementally add acquisitions to a plate without repro
 - [PerkinElmer Operetta / Opera Phenix](operetta.md)
 - [Olympus ScanR](scanr.md)
 - [Yokogawa CQ3K / CellVoyager](cq3k.md)
+- [Molecular Devices ImageXpress HCS.ai](md_imagexpress.md)
