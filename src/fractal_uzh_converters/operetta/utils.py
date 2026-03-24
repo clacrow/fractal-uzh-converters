@@ -42,7 +42,9 @@ class OperettaAcquisitionModel(BaseAcquisitionModel):
 
     path: str
     """
-    Path to the acquisition directory. For Operetta, this should be the base directory of the acquisition or the "{acquisition_dir}/Images" directory containing the tiff files and metadata.ome.xml file.
+    Path to the acquisition directory. For Operetta, this should be the base directory
+    of the acquisition or the "{acquisition_dir}/Images" directory containing the tiff
+    files and metadata.ome.xml file.
     """
 
     @field_validator("path", mode="before")

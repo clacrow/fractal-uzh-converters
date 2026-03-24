@@ -22,11 +22,13 @@ class BaseAcquisitionModel(BaseModel):
 
     path: str
     """
-    Path to the acquisition directory. Should contain MeasurementData.mlf and MeasurementDetail.mrf files.
+    Path to the acquisition directory. Should contain MeasurementData.mlf and
+    MeasurementDetail.mrf files.
     """
     plate_name: str | None = None
     """
-    Optional custom name for the plate. If not provided, the name will be the acquisition directory name.
+    Optional custom name for the plate. If not provided, the name will be the
+    acquisition directory name.
     """
     acquisition_id: int = Field(default=0, ge=0)
     """

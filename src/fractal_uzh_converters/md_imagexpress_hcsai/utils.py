@@ -2,23 +2,31 @@
 
 import json
 import logging
+import math
 from pathlib import Path
 
 import pandas as pd
-import polars
 from ome_zarr_converters_tools import (
     AcquisitionDetails,
     AcquisitionOptions,
+    AttributeType,
     ChannelInfo,
     ConverterOptions,
+    DefaultImageLoader,
+    ImageInPlate,
+    Tile,
     TiledImage,
     default_axes_builder,
     join_url_paths,
     tiles_aggregation_pipeline,
 )
-from ome_zarr_converters_tools.core import hcs_images_from_dataframe
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 
+from fractal_uzh_converters.common import (
+    STANDARD_ROWS_NAMES,
+    BaseAcquisitionModel,
+    get_attributes_from_condition_table,
+)
 from fractal_uzh_converters.md_imagexpress_hcsai.color_utils import (
     wavelength_to_default_color,
 )
@@ -52,7 +60,7 @@ class MDAcquisitionOptions(AcquisitionOptions):
     convert_montages: bool = Field(default=False)
 
 
-class MDImageXpressHCSaiAcquisitionModel(BaseModel):
+class MDImageXpressHCSaiAcquisitionModel(BaseAcquisitionModel):
     """Acquisition details for the MD ImageXpress HCS.ai microscope data.
 
     Attributes:
@@ -66,30 +74,7 @@ class MDImageXpressHCSaiAcquisitionModel(BaseModel):
         advanced: Advanced acquisition options.
     """
 
-    path: str
-    plate_name: str | None = None
-    acquisition_id: int = Field(default=0, ge=0)
     advanced: MDAcquisitionOptions = Field(default_factory=MDAcquisitionOptions)
-
-    @property
-    def normalized_plate_name(self) -> str:
-        """Get the normalized plate name."""
-        if self.plate_name is not None:
-            return self.plate_name
-        name = self.path.rstrip("/").split("/")[-1]
-        return name
-
-    def get_condition_table(self) -> polars.DataFrame | None:
-        """Get the path to the condition table if it exists."""
-        if self.advanced.condition_table_path is not None:
-            try:
-                return polars.read_csv(self.advanced.condition_table_path)
-            except Exception as e:
-                raise ValueError(
-                    "Failed to read condition table at "
-                    f"{self.advanced.condition_table_path}: {e}"
-                ) from e
-        return None
 
     @field_validator("path", mode="before")
     @classmethod
@@ -109,109 +94,418 @@ class MDImageXpressHCSaiAcquisitionModel(BaseModel):
 
 ######################################################################
 #
+# Pydantic models for parsing MD ImageXpress metadata
+#
+######################################################################
+
+
+class MDFilterInfo(BaseModel):
+    """Emission or excitation filter information from JDCE."""
+
+    model_config = ConfigDict(extra="ignore", populate_by_name=True)
+
+    name: str = Field(..., alias="Name")
+    wavelength: float = Field(..., alias="Wavelength")
+    unit: str = Field(default="nm", alias="Unit")
+
+
+class MDWavelength(BaseModel):
+    """Wavelength/channel configuration from JDCE."""
+
+    model_config = ConfigDict(extra="ignore", populate_by_name=True)
+
+    index: int = Field(..., alias="Index")
+    imaging_mode: str = Field(..., alias="ImagingMode")
+    z_slice: int = Field(..., alias="ZSlice")
+    z_step: float = Field(..., alias="ZStep")
+    emission_filter: MDFilterInfo = Field(..., alias="EmissionFilter")
+    excitation_filter: MDFilterInfo = Field(..., alias="ExcitationFilter")
+
+
+class MDCameraSize(BaseModel):
+    """Camera sensor size in pixels from JDCE."""
+
+    model_config = ConfigDict(extra="ignore", populate_by_name=True)
+
+    width: int = Field(..., alias="Width")
+    height: int = Field(..., alias="Height")
+
+
+class MDCamera(BaseModel):
+    """Camera configuration from JDCE."""
+
+    model_config = ConfigDict(extra="ignore", populate_by_name=True)
+
+    size: MDCameraSize = Field(..., alias="Size")
+    binning: str = Field(..., alias="Binning")
+
+
+class MDObjectiveCalibration(BaseModel):
+    """Objective calibration data from JDCE."""
+
+    model_config = ConfigDict(extra="ignore", populate_by_name=True)
+
+    unit: str = Field(..., alias="Unit")
+    objective_name: str = Field(..., alias="ObjectiveName")
+    pixel_width: float = Field(..., alias="PixelWidth")
+    pixel_height: float = Field(..., alias="PixelHeight")
+
+
+class MDZDimensionParameters(BaseModel):
+    """Z dimension parameters from JDCE PlateMap."""
+
+    model_config = ConfigDict(extra="ignore", populate_by_name=True)
+
+    enabled: bool = Field(..., alias="Enabled")
+    step: float = Field(..., alias="Step")
+    number_of_slices: int = Field(..., alias="NumberOfSlices")
+    variable: bool = Field(..., alias="Variable")
+
+
+class MDTimePoint(BaseModel):
+    """Single time point entry from JDCE."""
+
+    model_config = ConfigDict(extra="ignore", populate_by_name=True)
+
+    ms: int = Field(..., alias="Ms")
+
+
+class MDTimeSchedule(BaseModel):
+    """Time schedule from JDCE PlateMap."""
+
+    model_config = ConfigDict(extra="ignore", populate_by_name=True)
+
+    enabled: bool = Field(..., alias="Enabled")
+    number_of_timepoints: int = Field(..., alias="NumberOfTimepoints")
+    times: list[MDTimePoint] = Field(..., alias="Times")
+    variable: bool = Field(..., alias="Variable")
+
+
+class MDPlateMap(BaseModel):
+    """PlateMap section from JDCE."""
+
+    model_config = ConfigDict(extra="ignore", populate_by_name=True)
+
+    z_dimension_parameters: MDZDimensionParameters = Field(
+        ..., alias="ZDimensionParameters"
+    )
+    time_schedule: MDTimeSchedule = Field(..., alias="TimeSchedule")
+
+
+class MDProtocol(BaseModel):
+    """AutoLeadAcquisitionProtocol section from JDCE."""
+
+    model_config = ConfigDict(extra="ignore", populate_by_name=True)
+
+    camera: MDCamera = Field(..., alias="Camera")
+    objective_calibration: MDObjectiveCalibration = Field(
+        ..., alias="ObjectiveCalibration"
+    )
+    wavelengths: list[MDWavelength] = Field(..., alias="Wavelengths")
+    plate_map: MDPlateMap = Field(..., alias="PlateMap")
+
+
+class MDImageStack(BaseModel):
+    """ImageStack section from JDCE."""
+
+    model_config = ConfigDict(extra="ignore", populate_by_name=True)
+
+    plate_id: str = Field(..., alias="PlateId")
+    uuid: str = Field(..., alias="Uuid")
+    image_format: str = Field(..., alias="ImageFormat")
+    large_image: bool = Field(..., alias="LargeImage")
+    auto_lead_acquisition_protocol: MDProtocol = Field(
+        ..., alias="AutoLeadAcquisitionProtocol"
+    )
+
+
+class MDExperimentMeta(BaseModel):
+    """Top-level experiment metadata from JDCE file.
+
+    Analogous to CQ3K's MeasurementDetail. Captures the acquisition-level
+    metadata from the JDCE JSON file.
+    """
+
+    model_config = ConfigDict(extra="ignore", populate_by_name=True)
+
+    version: str = Field(..., alias="Version")
+    image_stack: MDImageStack = Field(..., alias="ImageStack")
+
+    @property
+    def protocol(self) -> MDProtocol:
+        """Shortcut to the acquisition protocol."""
+        return self.image_stack.auto_lead_acquisition_protocol
+
+    @property
+    def pixel_size_x(self) -> float:
+        """Pixel width in micrometers."""
+        return self.protocol.objective_calibration.pixel_width
+
+    @property
+    def pixel_size_y(self) -> float:
+        """Pixel height in micrometers."""
+        return self.protocol.objective_calibration.pixel_height
+
+    @property
+    def z_step_um(self) -> float:
+        """Z step in micrometers. Returns 1.0 if step is 0."""
+        step = self.protocol.plate_map.z_dimension_parameters.step
+        return step if step != 0.0 else 1.0
+
+    @property
+    def is_time_series(self) -> bool:
+        """Whether this is a time series acquisition."""
+        return len(self.protocol.plate_map.time_schedule.times) > 1
+
+    @property
+    def image_width_px(self) -> int:
+        """Image width in pixels."""
+        return self.protocol.camera.size.width
+
+    @property
+    def image_height_px(self) -> int:
+        """Image height in pixels."""
+        return self.protocol.camera.size.height
+
+    @property
+    def channels(self) -> list[MDWavelength]:
+        """List of wavelength/channel configurations."""
+        return self.protocol.wavelengths
+
+
+class MDImageRecord(BaseModel):
+    """Per-image metadata record from MD ImageXpress CSV.
+
+    Each row in the CSV file represents a single acquired image tile.
+    Analogous to OperettaImageMeta and CQ3K's ImageMeasurementRecord.
+    """
+
+    model_config = ConfigDict(extra="ignore", populate_by_name=True)
+
+    # === Identifiers (essential) ===
+    row: int = Field(..., alias="Row")
+    column: int = Field(..., alias="Column")
+    field: int = Field(..., alias="Field")
+    wavelength: int = Field(..., alias="Wavelength")
+    timepoint: int = Field(..., alias="Timepoint")
+    z_index: int = Field(..., alias="ZIndex")
+
+    # === Image dimensions (essential) ===
+    image_size_x_px: int = Field(..., alias="ImageSizeXPx")
+    image_size_y_px: int = Field(..., alias="ImageSizeYPx")
+
+    # === File location (essential) ===
+    image_sub_folder_path: str = Field(..., alias="ImageSubFolderPath")
+    image_file_name: str = Field(..., alias="ImageFileName")
+
+    # === Spatial positioning (essential) ===
+    field_offset_point_x: float = Field(..., alias="FieldOffsetPointX")
+    field_offset_point_y: float = Field(..., alias="FieldOffsetPointY")
+
+    # === Optional identifiers ===
+    fov_uuid: str | None = Field(default=None, alias="FovUuid")
+    well: str | None = Field(default=None, alias="Well")
+
+    # === Optional pixel offsets ===
+    image_start_x_px: int | None = Field(default=None, alias="ImageStartXPx")
+    image_start_y_px: int | None = Field(default=None, alias="ImageStartYPx")
+
+    # === Optional timing ===
+    timestamp_sec: float | None = Field(default=None, alias="TimeStampSec")
+    exposure_time_ms: float | None = Field(default=None, alias="ExposureTimeMs")
+
+    # === Optional detection ===
+    excitation_emission_filter: str | None = Field(
+        default=None, alias="ExcitationEmissionFilter"
+    )
+    min_intensity: float | None = Field(default=None, alias="MinIntensity")
+    max_intensity: float | None = Field(default=None, alias="MaxIntensity")
+    mean_intensity: float | None = Field(default=None, alias="MeanIntensity")
+
+    # === Optional absolute positions ===
+    position_x_um: float | None = Field(default=None, alias="PositionXUm")
+    position_y_um: float | None = Field(default=None, alias="PositionYUm")
+    position_z_um: float | None = Field(default=None, alias="PositionZUm")
+
+    # === Optional environmental ===
+    temperature_c: float | None = Field(default=None, alias="TemperatureC")
+    co2: float | None = Field(default=None, alias="CO2")
+    o2_level: float | None = Field(default=None, alias="O2Level")
+
+    # === Optional metadata ===
+    annotations: str | None = Field(default=None, alias="Annotations")
+    checksum: str | None = Field(default=None, alias="Checksum")
+
+    @field_validator(
+        "fov_uuid",
+        "well",
+        "excitation_emission_filter",
+        "annotations",
+        "checksum",
+        mode="before",
+    )
+    @classmethod
+    def nan_to_none_str(cls, v: object) -> str | None:
+        """Convert NaN/empty values to None for string fields."""
+        if v is None:
+            return None
+        if isinstance(v, float) and math.isnan(v):
+            return None
+        if isinstance(v, str) and v.strip() == "":
+            return None
+        return str(v)
+
+    @field_validator(
+        "timestamp_sec",
+        "exposure_time_ms",
+        "min_intensity",
+        "max_intensity",
+        "mean_intensity",
+        "position_x_um",
+        "position_y_um",
+        "position_z_um",
+        "temperature_c",
+        "co2",
+        "o2_level",
+        mode="before",
+    )
+    @classmethod
+    def nan_to_none_float(cls, v: object) -> float | None:
+        """Convert NaN values to None for float fields."""
+        if v is None:
+            return None
+        if isinstance(v, float):
+            return None if math.isnan(v) else v
+        return float(str(v))
+
+    @property
+    def row_letter(self) -> str:
+        """Convert 1-based row index to letter (1 -> 'A', 2 -> 'B', etc.)."""
+        return STANDARD_ROWS_NAMES[self.row - 1]
+
+    @property
+    def well_id(self) -> str:
+        """Get well ID in format 'A01'."""
+        return f"{self.row_letter}{self.column:02d}"
+
+    @property
+    def fov_name(self) -> str:
+        """Get FOV name in format 'FOV0', 'FOV1', etc."""
+        return f"FOV{self.field}"
+
+    @property
+    def relative_image_path(self) -> str:
+        """Get relative path to the image file."""
+        return f"{self.image_sub_folder_path}/{self.image_file_name}"
+
+
+######################################################################
+#
 # Load MD metadata
 #
 ######################################################################
 
 
-def parse_jdce_metadata(file_path):
-    """Parse JDCE metadata file and extract key imaging parameters."""
+def parse_jdce_metadata(file_path: str) -> MDExperimentMeta:
+    """Parse JDCE metadata file into a structured model."""
     with open(file_path) as f:
         data = json.load(f)
+    return MDExperimentMeta.model_validate(data)
 
-    protocol = data["ImageStack"]["AutoLeadAcquisitionProtocol"]
 
-    # Extract pixel sizes
-    calib = protocol["ObjectiveCalibration"]
-    pixel_width_um = calib["PixelWidth"]
-    pixel_height_um = calib["PixelHeight"]
+def load_csv_metadata(file_path: str) -> list[MDImageRecord]:
+    """Load CSV metadata file into structured records."""
+    df = pd.read_csv(file_path)
+    return [MDImageRecord.model_validate(row.to_dict()) for _, row in df.iterrows()]
 
-    # Extract z-step information
-    z_step_um = protocol["PlateMap"]["ZDimensionParameters"]["Step"]
-    if z_step_um == 0.0:
-        z_step_um = 1.0
 
-    # Extract image size in pixels
-    camera = protocol["Camera"]
-    width_px = camera["Size"]["Width"]
-    height_px = camera["Size"]["Height"]
+######################################################################
+#
+# Helper functions for building tiles (following Operetta pattern)
+#
+######################################################################
 
-    # Calculate image size in µm
-    width_um = width_px * pixel_width_um
-    height_um = height_px * pixel_height_um
 
-    # Extract channel information
+def _build_acquisition_details(
+    experiment_meta: MDExperimentMeta,
+    acquisition_model: MDImageXpressHCSaiAcquisitionModel,
+) -> AcquisitionDetails:
+    """Build AcquisitionDetails from experiment metadata."""
     channels = []
-    for wl in protocol["Wavelengths"]:
+    for wl in experiment_meta.channels:
+        if wl.index != len(channels):
+            raise ValueError(
+                f"Channel index mismatch: expected {len(channels)}, got {wl.index}"
+            )
         channels.append(
-            {
-                "index": wl["Index"],
-                "name": wl["EmissionFilter"]["Name"],
-                "emission_wavelength": wl["EmissionFilter"]["Wavelength"],
-            }
+            ChannelInfo(
+                channel_label=wl.emission_filter.name,
+                wavelength_id=str(int(wl.emission_filter.wavelength)),
+                colors=wavelength_to_default_color(wl.emission_filter.wavelength),
+            )
         )
-
-    timepoints = protocol["PlateMap"]["TimeSchedule"]["Times"]
-    if len(timepoints) > 1:
-        is_time_series = True
-    else:
-        is_time_series = False
-
-    return {
-        "pixel_size": {
-            "width_um": pixel_width_um,
-            "height_um": pixel_height_um,
-            "unit": "µm",
-        },
-        "z_step_um": z_step_um,
-        "tile_size": {
-            "width_px": width_px,
-            "height_px": height_px,
-            "width_um": width_um,
-            "height_um": height_um,
-        },
-        "channels": channels,
-        "objective": calib["ObjectiveName"],
-        "binning": camera["Binning"],
-        "is_time_series": is_time_series,
-    }
-
-
-def load_csv_metadata(fn):
-    """Load CSV metadata file."""
-    df = pd.read_csv(fn)
-    return df
-
-
-def construct_tiles_table(df_csv, acquisition_dir):
-    """Construct tiles table from file-dataframe and channel metadata."""
-    # construct tiles_table
-    tiles_table = pd.DataFrame()
-    # Build absolute file paths
-    relative_paths = df_csv["ImageSubFolderPath"] + "/" + df_csv["ImageFileName"]
-    tiles_table["file_path"] = relative_paths.apply(
-        lambda rel_path: join_url_paths(acquisition_dir, rel_path)
+    acq = AcquisitionDetails(
+        channels=channels,
+        pixelsize=experiment_meta.pixel_size_x,
+        z_spacing=experiment_meta.z_step_um,
+        t_spacing=1.0,
+        axes=default_axes_builder(is_time_series=experiment_meta.is_time_series),
+        start_x_coo="world",
+        start_y_coo="world",
+        start_z_coo="pixel",
+        start_t_coo="pixel",
+        length_x_coo="pixel",
+        length_y_coo="pixel",
+        length_z_coo="pixel",
+        length_t_coo="pixel",
+    )
+    return acquisition_model.advanced.update_acquisition_details(
+        acquisition_details=acq
     )
 
-    tiles_table["fov_name"] = "FOV" + df_csv["Field"].astype(str)
-    # using the field offsets instead of the stage positions, as they are more robust
-    # and consistent across wells
-    # tiles_table["start_x"] = df_csv["PositionXUm"]
-    # tiles_table["start_y"] = df_csv["PositionYUm"]
-    tiles_table["start_x"] = df_csv["FieldOffsetPointX"]
-    tiles_table["start_y"] = df_csv["FieldOffsetPointY"]
-    tiles_table["start_z"] = df_csv["ZIndex"]
-    tiles_table["start_c"] = df_csv["Wavelength"]
-    tiles_table["start_t"] = df_csv["Timepoint"]
-    tiles_table["length_x"] = df_csv["ImageSizeXPx"]
-    tiles_table["length_y"] = df_csv["ImageSizeYPx"]
-    tiles_table["length_z"] = 1
-    tiles_table["length_c"] = 1
-    tiles_table["length_t"] = 1
-    tiles_table["row"] = df_csv["Row"]
-    tiles_table["column"] = df_csv["Column"]
 
-    return tiles_table
+def _build_tiles(
+    images: list[MDImageRecord],
+    experiment_dir: str,
+    experiment_meta: MDExperimentMeta,
+    acquisition_model: MDImageXpressHCSaiAcquisitionModel,
+    row_letter: str,
+    column: int,
+    fov_idx: int,
+    attributes: dict[str, AttributeType],
+) -> list[Tile]:
+    """Build individual Tile objects for each image record."""
+    acquisition_details = _build_acquisition_details(experiment_meta, acquisition_model)
+    image_in_plate = ImageInPlate(
+        plate_name=acquisition_model.normalized_plate_name,
+        row=row_letter,
+        column=column,
+        acquisition=acquisition_model.acquisition_id,
+    )
+    fov_name = f"FOV_{fov_idx}"
+    tiles = []
+    for img in images:
+        tiff_path = join_url_paths(experiment_dir, img.relative_image_path)
+        tiles.append(
+            Tile(
+                fov_name=fov_name,
+                start_x=img.field_offset_point_x,
+                length_x=img.image_size_x_px,
+                start_y=img.field_offset_point_y,
+                length_y=img.image_size_y_px,
+                start_z=img.z_index,
+                length_z=1,
+                start_c=img.wavelength,
+                length_c=1,
+                start_t=img.timepoint,
+                length_t=1,
+                collection=image_in_plate,
+                image_loader=DefaultImageLoader(file_path=tiff_path),
+                acquisition_details=acquisition_details,
+                attributes=attributes,
+            )
+        )
+    return tiles
 
 
 ######################################################################
@@ -253,7 +547,6 @@ def parse_md_metadata(
 
     # Select the appropriate directory based on conversion options
     if acquisition_model.advanced.convert_montages:
-        # convert_montages==True -> look for 'experiment_montage' folder
         if not available_dirs["montage"]:
             available = [k for k, v in available_dirs.items() if v]
             raise FileNotFoundError(
@@ -263,8 +556,6 @@ def parse_md_metadata(
             )
         experiment_dir = available_dirs["montage"][0]
     elif not acquisition_model.advanced.convert_only_projections:
-        # convert_montages==False & convert_only_projections==False
-        # -> prefer 'experiment_z_stack', fall back to 'experiment'
         if available_dirs["z_stack"]:
             experiment_dir = available_dirs["z_stack"][0]
         elif available_dirs["standard"]:
@@ -276,8 +567,6 @@ def parse_md_metadata(
                 f"Available folders: {available}."
             )
     else:
-        # convert_only_projections==True
-        # -> look for 'experiment' folder (projections are stored there)
         if not available_dirs["standard"]:
             available = [k for k, v in available_dirs.items() if v]
             raise FileNotFoundError(
@@ -287,12 +576,9 @@ def parse_md_metadata(
             )
         experiment_dir = available_dirs["standard"][0]
 
-    # TODO: handle condition table
     condition_table = acquisition_model.get_condition_table()
-    if condition_table:
-        raise NotImplementedError("Condition tables are not yet supported.")
 
-    # Load channel metadata from .jdce file
+    # Load experiment metadata from .jdce file
     jdce_files = sorted(Path(experiment_dir).glob("*.jdce"))
     if len(jdce_files) == 0:
         raise FileNotFoundError(f"No .jdce file found in directory: {experiment_dir}")
@@ -301,11 +587,9 @@ def parse_md_metadata(
             f"Multiple .jdce files found in directory: {experiment_dir}."
             "Please ensure there is only one .jdce file."
         )
-    else:
-        jdce_file = jdce_files[0]
-    channel_metadata = parse_jdce_metadata(jdce_file)
+    experiment_meta = parse_jdce_metadata(str(jdce_files[0]))
 
-    # Load image list from .csv file
+    # Load image records from .csv file
     csv_files = sorted(Path(experiment_dir).glob("*.csv"))
     if len(csv_files) == 0:
         raise FileNotFoundError(f"No .csv file found in directory: {experiment_dir}")
@@ -314,12 +598,10 @@ def parse_md_metadata(
             f"Multiple .csv files found in directory: {experiment_dir}."
             "Please ensure there is only one .csv file."
         )
-    else:
-        csv_file = csv_files[0]
-    df_csv = load_csv_metadata(csv_file)
+    records = load_csv_metadata(str(csv_files[0]))
 
     # Determine if data is a z-stack by checking for multiple Z indices
-    is_z_stack = df_csv["ZIndex"].nunique() > 1
+    is_z_stack = len({r.z_index for r in records}) > 1
 
     # Check if data is compatible with projection and montage conversion options
     if (
@@ -333,51 +615,40 @@ def parse_md_metadata(
             "Hint: Set either convert_only_projections or convert_montages to False."
         )
 
-    # Build tiles table
-    tiles_table = construct_tiles_table(df_csv, str(experiment_dir))
+    # Group records by well + FOV
+    groups: dict[tuple[int, int, int], list[MDImageRecord]] = {}
+    for rec in records:
+        key = (rec.row, rec.column, rec.field)
+        groups.setdefault(key, []).append(rec)
 
-    # Build AcquisitionDetails
-    channels = []
-    for i, c in enumerate(channel_metadata["channels"]):
-        if c["index"] != i:  # sanity check to ensure correct order
-            raise ValueError(f"Channel index mismatch: expected {i}, got {c['index']}")
-        channels.append(
-            ChannelInfo(
-                channel_label=c["name"],
-                wavelength_id=str(c["emission_wavelength"]),
-                colors=wavelength_to_default_color(c["emission_wavelength"]),
-            )
+    # Build tiles for each group
+    all_tiles: list[Tile] = []
+    for (row, column, fov_idx), images in groups.items():
+        row_letter = STANDARD_ROWS_NAMES[row - 1]
+        attributes = get_attributes_from_condition_table(
+            condition_table=condition_table,
+            row=row_letter,
+            column=column,
+            acquisition=acquisition_model.acquisition_id,
         )
-    acq = AcquisitionDetails(
-        channels=channels,
-        pixelsize=channel_metadata["pixel_size"]["width_um"],
-        z_spacing=channel_metadata["z_step_um"],  # micrometers
-        t_spacing=1.0,  # seconds TODO: extract actual t_spacing
-        axes=default_axes_builder(is_time_series=channel_metadata["is_time_series"]),
-        # Coordinate systems: start positions are in world coordinates,
-        # lengths are in pixel coordinates
-        start_x_coo="world",
-        start_y_coo="world",
-        start_z_coo="pixel",
-        start_t_coo="pixel",
-        length_x_coo="pixel",
-        length_y_coo="pixel",
-        length_z_coo="pixel",
-        length_t_coo="pixel",
-    )
+        tiles = _build_tiles(
+            images=images,
+            experiment_dir=str(experiment_dir),
+            experiment_meta=experiment_meta,
+            acquisition_model=acquisition_model,
+            row_letter=row_letter,
+            column=column,
+            fov_idx=fov_idx,
+            attributes=attributes,
+        )
+        all_tiles.extend(tiles)
 
-    # Build tiles
-    tiles = hcs_images_from_dataframe(
-        tiles_table=tiles_table,
-        acquisition_details=acq,
-        plate_name=acquisition_model.normalized_plate_name,
-        acquisition_id=acquisition_model.acquisition_id,
-    )
+    logger.info(f"Built {len(all_tiles)} tiles from {root_dir}")
 
-    # Build TiledImages
     tiled_images = tiles_aggregation_pipeline(
-        tiles=tiles,
+        tiles=all_tiles,
         converter_options=converter_options,
+        filters=acquisition_model.advanced.filters,
     )
 
     return tiled_images

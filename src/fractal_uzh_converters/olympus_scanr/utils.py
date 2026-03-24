@@ -51,15 +51,15 @@ logger = logging.getLogger(__name__)
 
 
 class ScanRAcquisitionModel(BaseAcquisitionModel):
-    """Acquisition details for the Olympus ScanR microscope data.
+    """Acquisition details for the Olympus ScanR microscope data."""
 
-    Attributes:
-        path: 
-    """
     path: str
     """
-    Path to the acquisition directory. For scanr, this should be the base directory of the acquisition or the "{acquisition_dir}/data" directory containing the metadata.ome.xml file and the "data" directory with the tiff files.
+    Path to the acquisition directory. For scanr, this should be the base directory
+    of the acquisition or the "{acquisition_dir}/data" directory containing the
+    metadata.ome.xml file and the "data" directory with the tiff files.
     """
+
     layout: AVAILABLE_PLATE_LAYOUTS = "96-well"
     """Plate layout type."""
 
@@ -116,7 +116,7 @@ def _get_channel_names(image) -> list[str] | None:
     try:
         parsed_channels = [channel.name for channel in image.pixels.channels]
         if all(name is not None for name in parsed_channels):
-            return parsed_channels  # type: ignore[return-value]
+            return parsed_channels
         else:
             return None
     except Exception as e:
