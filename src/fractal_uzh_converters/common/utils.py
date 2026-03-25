@@ -150,7 +150,7 @@ def get_attributes_from_condition_table(
     if filtered.is_empty():
         logger.warning(
             f"No matching entry found in condition table "
-            f"for {row}{column} (acquisition {acquisition})"
+            f"for row:{row} / column:{column} / acquisition:{acquisition}"
         )
         return {}
     filtered_dict = filtered.to_dict(as_series=False)
