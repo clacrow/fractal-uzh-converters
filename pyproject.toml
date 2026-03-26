@@ -12,6 +12,24 @@ source = "vcs"
 [tool.hatch.build.targets.wheel]
 packages = ["src/fractal_uzh_converters"]
 
+# Clean up the source distribution to avoid big tag.gz files
+[tool.hatch.build.targets.sdist]
+exclude = [
+    # Exclude tests from the source distribution
+    "tests",
+    # Exclude typically large files and directories that are not needed
+    # This might not exists or be named differently in your project
+    # TBD if we want to include these or not
+    "docs",
+    "data",
+    "examples",
+    "notebooks",
+    ".github",
+    # Remove all jupyter notebook and checkpoints
+    "**/*.ipynb_checkpoints",
+    "**/*.ipynb",
+    # NB all things in .gitignore are excluded by default of hatchling
+]
 
 # Project metadata (see https://peps.python.org/pep-0621)
 [project]
@@ -24,9 +42,9 @@ authors = [{ name = "Lorenzo Cerrone", email = "lorenzo.cerrone@uzh.ch" }]
 requires-python = ">=3.11,<3.15"
 
 dependencies = [
-    "ome-zarr-converters-tools>=0.7.1,<0.8.0",
+    "ome-zarr-converters-tools>=0.7.3,<0.8.0",
     "fractal-task-tools>=0.4.0,<0.5.0",
-    "ngio>=0.5.3,<0.6.0",
+    "ngio>=0.5.8,<0.6.0",
     "zarrs",
     "tqdm",
     "tifffile",
@@ -95,16 +113,15 @@ docstring-code-line-length = 89
 skip-magic-trailing-comma = false # default is false
 
 [tool.pytest.ini_options]
-minversion = "7.0"
+minversion = "8.0"
 testpaths = ["tests"]
-# The filterwarnings option 
-# caused some unexpected behavior in the tests
-# so it was commented out
-#filterwarnings = [
-#    "error",
-#    #"ignore::FutureWarning",
-#    #"ignore::DeprecationWarning",
-#]
+filterwarnings = [
+    "error",
+    # "ignore::zarr.errors.ZarrUserWarning",                   # required for anndata
+    # "ignore::anndata._warnings.ImplicitModificationWarning", # anndata internal index coercion
+    "ignore::UserWarning:anndata._io.zarr", # anndata zarr v2→v3 migration notice
+]
+
 addopts = [
     "-vv",
     "--color=yes",
@@ -112,6 +129,9 @@ addopts = [
     "--cov-report=term-missing",
     "--cov-report=xml",
 ]
+
+[tool.coverage.run]
+source = ["fractal_uzh_converters"]
 
 [tool.pixi.workspace]
 channels = ["conda-forge"]

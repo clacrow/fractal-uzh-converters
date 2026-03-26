@@ -22,11 +22,13 @@ class BaseAcquisitionModel(BaseModel):
 
     path: str
     """
-    Path to the acquisition directory. Should contain MeasurementData.mlf and MeasurementDetail.mrf files.
+    Path to the acquisition directory. Should contain MeasurementData.mlf and
+    MeasurementDetail.mrf files.
     """
     plate_name: str | None = None
     """
-    Optional custom name for the plate. If not provided, the name will be the acquisition directory name.
+    Optional custom name for the plate. If not provided, the name will be the
+    acquisition directory name.
     """
     acquisition_id: int = Field(default=0, ge=0)
     """
@@ -148,7 +150,7 @@ def get_attributes_from_condition_table(
     if filtered.is_empty():
         logger.warning(
             f"No matching entry found in condition table "
-            f"for {row}{column} (acquisition {acquisition})"
+            f"for row:{row} / column:{column} / acquisition:{acquisition}"
         )
         return {}
     filtered_dict = filtered.to_dict(as_series=False)

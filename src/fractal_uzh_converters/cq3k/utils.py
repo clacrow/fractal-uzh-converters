@@ -169,7 +169,7 @@ def _parse(path: str) -> dict[str, Any]:
             return xmltodict.parse(
                 f.read(),
                 process_namespaces=True,
-                namespaces={"http://www.yokogawa.co.jp/BTS/BTSSchema/1.0": None},  # type: ignore
+                namespaces={"http://www.yokogawa.co.jp/BTS/BTSSchema/1.0": None},
                 attr_prefix="",
                 cdata_key="Value",
             )
