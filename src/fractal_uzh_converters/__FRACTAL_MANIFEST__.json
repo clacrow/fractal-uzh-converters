@@ -1173,12 +1173,12 @@
             "description": "Acquisition details for the CellVoyager microscope data.",
             "properties": {
               "path": {
-                "description": "Path to the acquisition directory. Should contain MeasurementData.mlf and MeasurementDetail.mrf files.",
+                "description": "Path to the acquisition directory. Should contain MeasurementData.mlf and\nMeasurementDetail.mrf files.",
                 "title": "Path",
                 "type": "string"
               },
               "plate_name": {
-                "description": "Optional custom name for the plate. If not provided, the name will be the acquisition directory name.",
+                "description": "Optional custom name for the plate. If not provided, the name will be the\nacquisition directory name.",
                 "title": "Plate Name",
                 "type": "string"
               },
@@ -4506,6 +4506,7 @@
                   "convert_only_projections": false,
                   "convert_montages": false
                 },
+                "description": "Advanced acquisition options.",
                 "title": "Advanced"
               }
             },
