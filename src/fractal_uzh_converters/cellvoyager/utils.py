@@ -39,7 +39,7 @@ logger = logging.getLogger(__name__)
 class CellVoyagerAcquisitionModel(BaseAcquisitionModel):
     """Acquisition details for the CellVoyager microscope data."""
 
-    image_extension: Literal["png", "tif"] = "png"
+    image_extension: Literal[".tif", ".png"] = ".tif"
     """
     File extension of the actual image files.
     The metadata (.mlf) always references '.tif', but the actual files
@@ -217,7 +217,7 @@ def _is_time_series(images: list[ImageMeasurementRecord]) -> bool:
 def _replace_extension(filename: str, new_extension: str) -> str:
     """Replace the .tif extension in the metadata with the actual extension."""
     if filename.endswith(".tif"):
-        return filename[: -len(".tif")] + f".{new_extension}"
+        return filename[: -len(".tif")] + new_extension
     return filename
 
 

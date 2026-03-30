@@ -22,7 +22,7 @@ SNAPSHOT_DIR = Path(__file__).parent / "data" / "CellVoyager" / "snapshots"
                         "/CellVoyager_reference_acquisitions"
                         "/1w1p1c1z1t",
                         "acquisition_id": 0,
-                        "image_extension": "png",
+                        "image_extension": ".png",
                     }
                 ]
             },
