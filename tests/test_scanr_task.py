@@ -6,9 +6,9 @@ from fractal_uzh_converters.olympus_scanr.convert_scanr_init_task import (
     convert_scanr_init_task,
 )
 
-from .utils import run_converter_test
+from .utils import DATA_DIR, run_converter_test
 
-SNAPSHOT_DIR = Path(__file__).parent / "data" / "OlympusScanR" / "snapshots"
+SNAPSHOT_DIR = DATA_DIR / "OlympusScanR" / "snapshots"
 
 
 @pytest.mark.parametrize(
@@ -18,7 +18,7 @@ SNAPSHOT_DIR = Path(__file__).parent / "data" / "OlympusScanR" / "snapshots"
             {
                 "acquisitions": [
                     {
-                        "path": "tests/data/OlympusScanR"
+                        "path": f"{DATA_DIR}/OlympusScanR"
                         "/OlympusScanR_reference_acquisitions"
                         "/1w1p1c1z1t",
                         "acquisition_id": 0,

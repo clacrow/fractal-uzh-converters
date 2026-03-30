@@ -71,7 +71,7 @@ environments:
       - pypi: https://files.pythonhosted.org/packages/6d/30/16a57fc4d9fb0ba06c600408bd6634f2f1753c54a7a351c99c5e09b51ee2/numcodecs-0.16.5-cp314-cp314-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl
       - pypi: https://files.pythonhosted.org/packages/a9/7e/4f120ecc54ba26ddf3dc348eeb9eb063f421de65c05fc961941798feea18/numpy-2.4.3-cp314-cp314-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl
       - pypi: https://files.pythonhosted.org/packages/fc/6a/1000cad1700ab0af4d1b1d0a9c23c34badddb4f547c008bde2a6c61968f1/ome_types-0.6.3-py3-none-any.whl
-      - pypi: https://files.pythonhosted.org/packages/b3/56/9a6b11d46d03e612cfd676e58c89f08e4a1856216b6accfcf5afc3865b66/ome_zarr_converters_tools-0.7.4-py3-none-any.whl
+      - pypi: https://files.pythonhosted.org/packages/90/0e/e5dd62b76e8743a34f7c7c15fa6d1c8daf62b5ce9b75b4a7bc2c9274903d/ome_zarr_converters_tools-0.7.5-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/5b/fc/7650df09dce0edfbaa1f2898c5eb0e0523ae5964dadb83855beb52166505/ome_zarr_models-1.6-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/b7/b9/c538f279a4e237a006a2c98387d081e9eb060d203d8ed34467cc0f0b9b53/packaging-26.0-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/15/b2/0e62f78c0c5ba7e3d2c5945a82456f4fac76c480940f805e0b97fcbc2f65/pandas-2.3.3-cp314-cp314-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl
@@ -171,7 +171,7 @@ environments:
       - pypi: https://files.pythonhosted.org/packages/a1/37/260fa42e7b2b08e6e00ad632f8dd620961a60a459426c26cea390f8c68d0/numcodecs-0.16.5-cp314-cp314-macosx_11_0_arm64.whl
       - pypi: https://files.pythonhosted.org/packages/9b/62/760f2b55866b496bb1fa7da2a6db076bef908110e568b02fcfc1422e2a3a/numpy-2.4.3-cp314-cp314-macosx_11_0_arm64.whl
       - pypi: https://files.pythonhosted.org/packages/fc/6a/1000cad1700ab0af4d1b1d0a9c23c34badddb4f547c008bde2a6c61968f1/ome_types-0.6.3-py3-none-any.whl
-      - pypi: https://files.pythonhosted.org/packages/b3/56/9a6b11d46d03e612cfd676e58c89f08e4a1856216b6accfcf5afc3865b66/ome_zarr_converters_tools-0.7.4-py3-none-any.whl
+      - pypi: https://files.pythonhosted.org/packages/90/0e/e5dd62b76e8743a34f7c7c15fa6d1c8daf62b5ce9b75b4a7bc2c9274903d/ome_zarr_converters_tools-0.7.5-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/5b/fc/7650df09dce0edfbaa1f2898c5eb0e0523ae5964dadb83855beb52166505/ome_zarr_models-1.6-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/b7/b9/c538f279a4e237a006a2c98387d081e9eb060d203d8ed34467cc0f0b9b53/packaging-26.0-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/21/00/266d6b357ad5e6d3ad55093a7e8efc7dd245f5a842b584db9f30b0f0a287/pandas-2.3.3-cp314-cp314-macosx_11_0_arm64.whl
@@ -357,7 +357,7 @@ environments:
       - pypi: https://files.pythonhosted.org/packages/6d/30/16a57fc4d9fb0ba06c600408bd6634f2f1753c54a7a351c99c5e09b51ee2/numcodecs-0.16.5-cp314-cp314-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl
       - pypi: https://files.pythonhosted.org/packages/a9/7e/4f120ecc54ba26ddf3dc348eeb9eb063f421de65c05fc961941798feea18/numpy-2.4.3-cp314-cp314-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl
       - pypi: https://files.pythonhosted.org/packages/fc/6a/1000cad1700ab0af4d1b1d0a9c23c34badddb4f547c008bde2a6c61968f1/ome_types-0.6.3-py3-none-any.whl
-      - pypi: https://files.pythonhosted.org/packages/b3/56/9a6b11d46d03e612cfd676e58c89f08e4a1856216b6accfcf5afc3865b66/ome_zarr_converters_tools-0.7.4-py3-none-any.whl
+      - pypi: https://files.pythonhosted.org/packages/90/0e/e5dd62b76e8743a34f7c7c15fa6d1c8daf62b5ce9b75b4a7bc2c9274903d/ome_zarr_converters_tools-0.7.5-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/5b/fc/7650df09dce0edfbaa1f2898c5eb0e0523ae5964dadb83855beb52166505/ome_zarr_models-1.6-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/b7/b9/c538f279a4e237a006a2c98387d081e9eb060d203d8ed34467cc0f0b9b53/packaging-26.0-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/15/b2/0e62f78c0c5ba7e3d2c5945a82456f4fac76c480940f805e0b97fcbc2f65/pandas-2.3.3-cp314-cp314-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl
@@ -575,7 +575,7 @@ environments:
       - pypi: https://files.pythonhosted.org/packages/a1/37/260fa42e7b2b08e6e00ad632f8dd620961a60a459426c26cea390f8c68d0/numcodecs-0.16.5-cp314-cp314-macosx_11_0_arm64.whl
       - pypi: https://files.pythonhosted.org/packages/9b/62/760f2b55866b496bb1fa7da2a6db076bef908110e568b02fcfc1422e2a3a/numpy-2.4.3-cp314-cp314-macosx_11_0_arm64.whl
       - pypi: https://files.pythonhosted.org/packages/fc/6a/1000cad1700ab0af4d1b1d0a9c23c34badddb4f547c008bde2a6c61968f1/ome_types-0.6.3-py3-none-any.whl
-      - pypi: https://files.pythonhosted.org/packages/b3/56/9a6b11d46d03e612cfd676e58c89f08e4a1856216b6accfcf5afc3865b66/ome_zarr_converters_tools-0.7.4-py3-none-any.whl
+      - pypi: https://files.pythonhosted.org/packages/90/0e/e5dd62b76e8743a34f7c7c15fa6d1c8daf62b5ce9b75b4a7bc2c9274903d/ome_zarr_converters_tools-0.7.5-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/5b/fc/7650df09dce0edfbaa1f2898c5eb0e0523ae5964dadb83855beb52166505/ome_zarr_models-1.6-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/b7/b9/c538f279a4e237a006a2c98387d081e9eb060d203d8ed34467cc0f0b9b53/packaging-26.0-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/21/00/266d6b357ad5e6d3ad55093a7e8efc7dd245f5a842b584db9f30b0f0a287/pandas-2.3.3-cp314-cp314-macosx_11_0_arm64.whl
@@ -746,7 +746,7 @@ environments:
       - pypi: https://files.pythonhosted.org/packages/6d/30/16a57fc4d9fb0ba06c600408bd6634f2f1753c54a7a351c99c5e09b51ee2/numcodecs-0.16.5-cp314-cp314-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl
       - pypi: https://files.pythonhosted.org/packages/a9/7e/4f120ecc54ba26ddf3dc348eeb9eb063f421de65c05fc961941798feea18/numpy-2.4.3-cp314-cp314-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl
       - pypi: https://files.pythonhosted.org/packages/fc/6a/1000cad1700ab0af4d1b1d0a9c23c34badddb4f547c008bde2a6c61968f1/ome_types-0.6.3-py3-none-any.whl
-      - pypi: https://files.pythonhosted.org/packages/b3/56/9a6b11d46d03e612cfd676e58c89f08e4a1856216b6accfcf5afc3865b66/ome_zarr_converters_tools-0.7.4-py3-none-any.whl
+      - pypi: https://files.pythonhosted.org/packages/90/0e/e5dd62b76e8743a34f7c7c15fa6d1c8daf62b5ce9b75b4a7bc2c9274903d/ome_zarr_converters_tools-0.7.5-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/5b/fc/7650df09dce0edfbaa1f2898c5eb0e0523ae5964dadb83855beb52166505/ome_zarr_models-1.6-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/b7/b9/c538f279a4e237a006a2c98387d081e9eb060d203d8ed34467cc0f0b9b53/packaging-26.0-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/90/96/04b8e52da071d28f5e21a805b19cb9390aa17a47462ac87f5e2696b9566d/paginate-0.5.7-py2.py3-none-any.whl
@@ -865,7 +865,7 @@ environments:
       - pypi: https://files.pythonhosted.org/packages/a1/37/260fa42e7b2b08e6e00ad632f8dd620961a60a459426c26cea390f8c68d0/numcodecs-0.16.5-cp314-cp314-macosx_11_0_arm64.whl
       - pypi: https://files.pythonhosted.org/packages/9b/62/760f2b55866b496bb1fa7da2a6db076bef908110e568b02fcfc1422e2a3a/numpy-2.4.3-cp314-cp314-macosx_11_0_arm64.whl
       - pypi: https://files.pythonhosted.org/packages/fc/6a/1000cad1700ab0af4d1b1d0a9c23c34badddb4f547c008bde2a6c61968f1/ome_types-0.6.3-py3-none-any.whl
-      - pypi: https://files.pythonhosted.org/packages/b3/56/9a6b11d46d03e612cfd676e58c89f08e4a1856216b6accfcf5afc3865b66/ome_zarr_converters_tools-0.7.4-py3-none-any.whl
+      - pypi: https://files.pythonhosted.org/packages/90/0e/e5dd62b76e8743a34f7c7c15fa6d1c8daf62b5ce9b75b4a7bc2c9274903d/ome_zarr_converters_tools-0.7.5-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/5b/fc/7650df09dce0edfbaa1f2898c5eb0e0523ae5964dadb83855beb52166505/ome_zarr_models-1.6-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/b7/b9/c538f279a4e237a006a2c98387d081e9eb060d203d8ed34467cc0f0b9b53/packaging-26.0-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/90/96/04b8e52da071d28f5e21a805b19cb9390aa17a47462ac87f5e2696b9566d/paginate-0.5.7-py2.py3-none-any.whl
@@ -994,7 +994,7 @@ environments:
       - pypi: https://files.pythonhosted.org/packages/6d/30/16a57fc4d9fb0ba06c600408bd6634f2f1753c54a7a351c99c5e09b51ee2/numcodecs-0.16.5-cp314-cp314-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl
       - pypi: https://files.pythonhosted.org/packages/a9/7e/4f120ecc54ba26ddf3dc348eeb9eb063f421de65c05fc961941798feea18/numpy-2.4.3-cp314-cp314-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl
       - pypi: https://files.pythonhosted.org/packages/fc/6a/1000cad1700ab0af4d1b1d0a9c23c34badddb4f547c008bde2a6c61968f1/ome_types-0.6.3-py3-none-any.whl
-      - pypi: https://files.pythonhosted.org/packages/b3/56/9a6b11d46d03e612cfd676e58c89f08e4a1856216b6accfcf5afc3865b66/ome_zarr_converters_tools-0.7.4-py3-none-any.whl
+      - pypi: https://files.pythonhosted.org/packages/90/0e/e5dd62b76e8743a34f7c7c15fa6d1c8daf62b5ce9b75b4a7bc2c9274903d/ome_zarr_converters_tools-0.7.5-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/5b/fc/7650df09dce0edfbaa1f2898c5eb0e0523ae5964dadb83855beb52166505/ome_zarr_models-1.6-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/b7/b9/c538f279a4e237a006a2c98387d081e9eb060d203d8ed34467cc0f0b9b53/packaging-26.0-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/15/b2/0e62f78c0c5ba7e3d2c5945a82456f4fac76c480940f805e0b97fcbc2f65/pandas-2.3.3-cp314-cp314-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl
@@ -1107,7 +1107,7 @@ environments:
       - pypi: https://files.pythonhosted.org/packages/a1/37/260fa42e7b2b08e6e00ad632f8dd620961a60a459426c26cea390f8c68d0/numcodecs-0.16.5-cp314-cp314-macosx_11_0_arm64.whl
       - pypi: https://files.pythonhosted.org/packages/9b/62/760f2b55866b496bb1fa7da2a6db076bef908110e568b02fcfc1422e2a3a/numpy-2.4.3-cp314-cp314-macosx_11_0_arm64.whl
       - pypi: https://files.pythonhosted.org/packages/fc/6a/1000cad1700ab0af4d1b1d0a9c23c34badddb4f547c008bde2a6c61968f1/ome_types-0.6.3-py3-none-any.whl
-      - pypi: https://files.pythonhosted.org/packages/b3/56/9a6b11d46d03e612cfd676e58c89f08e4a1856216b6accfcf5afc3865b66/ome_zarr_converters_tools-0.7.4-py3-none-any.whl
+      - pypi: https://files.pythonhosted.org/packages/90/0e/e5dd62b76e8743a34f7c7c15fa6d1c8daf62b5ce9b75b4a7bc2c9274903d/ome_zarr_converters_tools-0.7.5-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/5b/fc/7650df09dce0edfbaa1f2898c5eb0e0523ae5964dadb83855beb52166505/ome_zarr_models-1.6-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/b7/b9/c538f279a4e237a006a2c98387d081e9eb060d203d8ed34467cc0f0b9b53/packaging-26.0-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/21/00/266d6b357ad5e6d3ad55093a7e8efc7dd245f5a842b584db9f30b0f0a287/pandas-2.3.3-cp314-cp314-macosx_11_0_arm64.whl
@@ -1924,15 +1924,15 @@ packages:
   requires_python: '>=3.11,<3.15'
 - pypi: ./
   name: fractal-uzh-converters
-  version: 0.5.0a2.dev1+g20ce1c49c.d20260330
-  sha256: f762aa04f544a9419fee459d786e7adacf431ddc0e4654c2679c00384833570b
+  version: 0.5.0a2.dev3+gb913226e3
+  sha256: b6f795f1d3013704cd99bd40c438146914985de438006aadbcd9583c434212cd
   requires_dist:
   - fractal-task-tools>=0.4.0,<0.5.0
   - imagecodecs
   - lxml
   - ngio>=0.5.8,<0.6.0
   - ome-types
-  - ome-zarr-converters-tools>=0.7.4,<0.8.0
+  - ome-zarr-converters-tools>=0.7.5,<0.8.0
   - tifffile
   - tqdm
   - xmltodict
@@ -3691,10 +3691,10 @@ packages:
   - pint>=0.15 ; extra == 'pint'
   - pint>=0.25 ; python_full_version >= '3.13' and extra == 'pint'
   requires_python: '>=3.9'
-- pypi: https://files.pythonhosted.org/packages/b3/56/9a6b11d46d03e612cfd676e58c89f08e4a1856216b6accfcf5afc3865b66/ome_zarr_converters_tools-0.7.4-py3-none-any.whl
+- pypi: https://files.pythonhosted.org/packages/90/0e/e5dd62b76e8743a34f7c7c15fa6d1c8daf62b5ce9b75b4a7bc2c9274903d/ome_zarr_converters_tools-0.7.5-py3-none-any.whl
   name: ome-zarr-converters-tools
-  version: 0.7.4
-  sha256: 725d05835f6f5d4dda622f38de5822351439d92c3b6bc90b3c419a8922d4ab5c
+  version: 0.7.5
+  sha256: 1395bf28f587f72e2667d948ae13757bb6c45823226cd427b3469adc3df23e99
   requires_dist:
   - fsspec
   - ngio>=0.5.8,<0.6.0

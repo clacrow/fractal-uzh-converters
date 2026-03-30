@@ -6,9 +6,9 @@ from fractal_uzh_converters.operetta.convert_operetta_init_task import (
     convert_operetta_init_task,
 )
 
-from .utils import run_converter_test
+from .utils import DATA_DIR, run_converter_test
 
-SNAPSHOT_DIR = Path(__file__).parent / "data" / "Operetta" / "snapshots"
+SNAPSHOT_DIR = DATA_DIR / "Operetta" / "snapshots"
 
 
 @pytest.mark.parametrize(
@@ -18,9 +18,8 @@ SNAPSHOT_DIR = Path(__file__).parent / "data" / "Operetta" / "snapshots"
             {
                 "acquisitions": [
                     {
-                        "path": "tests/data/Operetta"
-                        "/Operetta_reference_acquisitions"
-                        "/1w1p1c1z1t",
+                        "path": f"{DATA_DIR}/Operetta/Operetta_reference_acquisitions/"
+                        "1w1p1c1z1t",
                         "acquisition_id": 0,
                     }
                 ]
@@ -31,14 +30,12 @@ SNAPSHOT_DIR = Path(__file__).parent / "data" / "Operetta" / "snapshots"
             {
                 "acquisitions": [
                     {
-                        "path": "tests/data/Operetta"
-                        "/Operetta_reference_acquisitions"
-                        "/1w1p1c1z1t",
+                        "path": f"{DATA_DIR}/Operetta/Operetta_reference_acquisitions/"
+                        "1w1p1c1z1t",
                         "acquisition_id": 0,
                         "advanced": {
                             "condition_table_path": (
-                                "tests/data/Operetta/"
-                                "Operetta_reference_acquisitions/"
+                                f"{DATA_DIR}/Operetta/Operetta_reference_acquisitions/"
                                 "1w1p1c1z1t/condition_table.csv"
                             )
                         },

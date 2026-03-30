@@ -6,9 +6,9 @@ from fractal_uzh_converters.cq3k.convert_cq3k_init_task import (
     convert_cq3k_init_task,
 )
 
-from .utils import run_converter_test
+from .utils import DATA_DIR, run_converter_test
 
-SNAPSHOT_DIR = Path(__file__).parent / "data" / "CQ3K" / "snapshots"
+SNAPSHOT_DIR = DATA_DIR / "CQ3K" / "snapshots"
 
 
 @pytest.mark.parametrize(
@@ -18,7 +18,7 @@ SNAPSHOT_DIR = Path(__file__).parent / "data" / "CQ3K" / "snapshots"
             {
                 "acquisitions": [
                     {
-                        "path": "tests/data/CQ3K"
+                        "path": f"{DATA_DIR}/CQ3K"
                         "/CQ3K_reference_acquisitions"
                         "/2w1p1c1z1t_mip",
                         "acquisition_id": 0,

@@ -6,9 +6,9 @@ from fractal_uzh_converters.cellvoyager.convert_cellvoyager_init_task import (
     convert_cellvoyager_init_task,
 )
 
-from .utils import run_converter_test
+from .utils import DATA_DIR, run_converter_test
 
-SNAPSHOT_DIR = Path(__file__).parent / "data" / "CellVoyager" / "snapshots"
+SNAPSHOT_DIR = DATA_DIR / "CellVoyager" / "snapshots"
 
 
 @pytest.mark.parametrize(
@@ -18,7 +18,7 @@ SNAPSHOT_DIR = Path(__file__).parent / "data" / "CellVoyager" / "snapshots"
             {
                 "acquisitions": [
                     {
-                        "path": "tests/data/CellVoyager"
+                        "path": f"{DATA_DIR}/CellVoyager"
                         "/CellVoyager_reference_acquisitions"
                         "/1w1p1c1z1t",
                         "acquisition_id": 0,

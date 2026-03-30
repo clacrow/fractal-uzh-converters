@@ -9,6 +9,8 @@ from pydantic import BaseModel, Field, model_validator
 
 from fractal_uzh_converters.common import image_in_plate_compute_task
 
+DATA_DIR = Path(__file__).parent / "data"
+
 
 class FingerprintModel(BaseModel):
     mean: float
@@ -140,18 +142,18 @@ def _image_list_updates_checks(
         image_path = zarr_url.relative_to(zarr_dir).as_posix()
         assert image_path in aggregated_types
         assert upd["types"] == aggregated_types[image_path]
-        assert (
-            upd["attributes"] == aggregated_attrs[image_path]
-        ), f"{upd['attributes']} != {aggregated_attrs[image_path]}"
+        assert upd["attributes"] == aggregated_attrs[image_path], (
+            f"{upd['attributes']} != {aggregated_attrs[image_path]}"
+        )
 
 
 def _check_roi_tables(
     ome_zarr_image: OmeZarrContainer,
     image_assertions: ImageAssertionModel,
 ):
-    assert set(ome_zarr_image.list_tables()) == set(
-        image_assertions.tables.keys()
-    ), set(ome_zarr_image.list_tables())
+    assert set(ome_zarr_image.list_tables()) == set(image_assertions.tables.keys()), (
+        set(ome_zarr_image.list_tables())
+    )
     image = ome_zarr_image.get_image()
     for table_name, table_assert in image_assertions.tables.items():
         if table_assert is None:
@@ -166,7 +168,7 @@ def _check_roi_tables(
             roi_pixel = roi.to_pixel(pixel_size=image.pixel_size)
             slices_repr = str(roi_pixel.slices)
             assert slices_repr == str(roi_assert.slice_repr), slices_repr
-            roi_array = image.get_roi(roi)
+            roi_array = image.get_roi_as_numpy(roi)
             fingerprint = FingerprintModel.from_array(roi_array)
             assert fingerprint == roi_assert.finger_print, fingerprint
             if roi_assert.xy_origin is not None:
@@ -253,7 +255,7 @@ def _generate_snapshot(
                     rois_dict = {}
                     for roi in roi_table.rois():
                         roi_pixel = roi.to_pixel(pixel_size=image.pixel_size)
-                        roi_array = image.get_roi(roi)
+                        roi_array = image.get_roi_as_numpy(roi)
                         fp = FingerprintModel.from_array(roi_array)
                         y_origin = getattr(roi, "y_micrometer_original", None)
                         x_origin = getattr(roi, "x_micrometer_original", None)

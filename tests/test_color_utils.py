@@ -40,7 +40,5 @@ from fractal_uzh_converters.md_imagexpress_hcsai.color_utils import (
         (800, DefaultColors.magenta),
     ],
 )
-def test_wavelength_to_default_color(
-    wavelength: float, expected_color: DefaultColors
-):
+def test_wavelength_to_default_color(wavelength: float, expected_color: DefaultColors):
     assert wavelength_to_default_color(wavelength) == expected_color

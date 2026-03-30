@@ -6,9 +6,9 @@ from fractal_uzh_converters.md_imagexpress_hcsai.convert_md_init_task import (
     convert_md_init_task,
 )
 
-from .utils import run_converter_test
+from .utils import DATA_DIR, run_converter_test
 
-SNAPSHOT_DIR = Path(__file__).parent / "data" / "MDImageXpressHCSAI" / "snapshots"
+SNAPSHOT_DIR = DATA_DIR / "MDImageXpressHCSAI" / "snapshots"
 
 
 @pytest.mark.parametrize(
@@ -18,7 +18,7 @@ SNAPSHOT_DIR = Path(__file__).parent / "data" / "MDImageXpressHCSAI" / "snapshot
             {
                 "acquisitions": [
                     {
-                        "path": "tests/data/MDImageXpressHCSAI"
+                        "path": f"{DATA_DIR}/MDImageXpressHCSAI"
                         "/MD_reference_acquisitions"
                         "/1w1s1t1c1z_binning4x4"
                         "/test_data_20260302_135747",
