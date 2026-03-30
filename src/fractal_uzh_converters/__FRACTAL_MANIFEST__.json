@@ -72,7 +72,7 @@
                     "mapping": {
                       "Path Regex Exclude Filter": "#/$defs/RegexExcludeFilter",
                       "Path Regex Include Filter": "#/$defs/RegexIncludeFilter",
-                      "Well Filter": "#/$defs/WellFilter",
+                      "Well Exclude Filter": "#/$defs/WellExcludeFilter",
                       "Well Include Filter": "#/$defs/WellIncludeFilter"
                     },
                     "propertyName": "name"
@@ -85,7 +85,7 @@
                       "$ref": "#/$defs/RegexIncludeFilter"
                     },
                     {
-                      "$ref": "#/$defs/WellFilter"
+                      "$ref": "#/$defs/WellExcludeFilter"
                     },
                     {
                       "$ref": "#/$defs/WellIncludeFilter"
@@ -599,12 +599,12 @@
             "type": "string",
             "description": "Missing description for TilingMode."
           },
-          "WellFilter": {
-            "description": "Well filter model.",
+          "WellExcludeFilter": {
+            "description": "Well exclude filter model.",
             "properties": {
               "name": {
-                "const": "Well Filter",
-                "default": "Well Filter",
+                "const": "Well Exclude Filter",
+                "default": "Well Exclude Filter",
                 "description": "Name of the filter.",
                 "title": "Name",
                 "type": "string"
@@ -621,7 +621,7 @@
             "required": [
               "wells_to_remove"
             ],
-            "title": "WellFilter",
+            "title": "WellExcludeFilter",
             "type": "object"
           },
           "WellIncludeFilter": {
@@ -1138,7 +1138,7 @@
                     "mapping": {
                       "Path Regex Exclude Filter": "#/$defs/RegexExcludeFilter",
                       "Path Regex Include Filter": "#/$defs/RegexIncludeFilter",
-                      "Well Filter": "#/$defs/WellFilter",
+                      "Well Exclude Filter": "#/$defs/WellExcludeFilter",
                       "Well Include Filter": "#/$defs/WellIncludeFilter"
                     },
                     "propertyName": "name"
@@ -1151,7 +1151,7 @@
                       "$ref": "#/$defs/RegexIncludeFilter"
                     },
                     {
-                      "$ref": "#/$defs/WellFilter"
+                      "$ref": "#/$defs/WellExcludeFilter"
                     },
                     {
                       "$ref": "#/$defs/WellIncludeFilter"
@@ -1663,12 +1663,12 @@
             "type": "string",
             "description": "Missing description for TilingMode."
           },
-          "WellFilter": {
-            "description": "Well filter model.",
+          "WellExcludeFilter": {
+            "description": "Well exclude filter model.",
             "properties": {
               "name": {
-                "const": "Well Filter",
-                "default": "Well Filter",
+                "const": "Well Exclude Filter",
+                "default": "Well Exclude Filter",
                 "description": "Name of the filter.",
                 "title": "Name",
                 "type": "string"
@@ -1685,7 +1685,7 @@
             "required": [
               "wells_to_remove"
             ],
-            "title": "WellFilter",
+            "title": "WellExcludeFilter",
             "type": "object"
           },
           "WellIncludeFilter": {
@@ -2202,7 +2202,7 @@
                     "mapping": {
                       "Path Regex Exclude Filter": "#/$defs/RegexExcludeFilter",
                       "Path Regex Include Filter": "#/$defs/RegexIncludeFilter",
-                      "Well Filter": "#/$defs/WellFilter",
+                      "Well Exclude Filter": "#/$defs/WellExcludeFilter",
                       "Well Include Filter": "#/$defs/WellIncludeFilter"
                     },
                     "propertyName": "name"
@@ -2215,7 +2215,7 @@
                       "$ref": "#/$defs/RegexIncludeFilter"
                     },
                     {
-                      "$ref": "#/$defs/WellFilter"
+                      "$ref": "#/$defs/WellExcludeFilter"
                     },
                     {
                       "$ref": "#/$defs/WellIncludeFilter"
@@ -2717,12 +2717,12 @@
             "type": "string",
             "description": "Missing description for TilingMode."
           },
-          "WellFilter": {
-            "description": "Well filter model.",
+          "WellExcludeFilter": {
+            "description": "Well exclude filter model.",
             "properties": {
               "name": {
-                "const": "Well Filter",
-                "default": "Well Filter",
+                "const": "Well Exclude Filter",
+                "default": "Well Exclude Filter",
                 "description": "Name of the filter.",
                 "title": "Name",
                 "type": "string"
@@ -2739,7 +2739,7 @@
             "required": [
               "wells_to_remove"
             ],
-            "title": "WellFilter",
+            "title": "WellExcludeFilter",
             "type": "object"
           },
           "WellIncludeFilter": {
@@ -3255,7 +3255,7 @@
                     "mapping": {
                       "Path Regex Exclude Filter": "#/$defs/RegexExcludeFilter",
                       "Path Regex Include Filter": "#/$defs/RegexIncludeFilter",
-                      "Well Filter": "#/$defs/WellFilter",
+                      "Well Exclude Filter": "#/$defs/WellExcludeFilter",
                       "Well Include Filter": "#/$defs/WellIncludeFilter"
                     },
                     "propertyName": "name"
@@ -3268,7 +3268,7 @@
                       "$ref": "#/$defs/RegexIncludeFilter"
                     },
                     {
-                      "$ref": "#/$defs/WellFilter"
+                      "$ref": "#/$defs/WellExcludeFilter"
                     },
                     {
                       "$ref": "#/$defs/WellIncludeFilter"
@@ -3770,12 +3770,12 @@
             "type": "string",
             "description": "Missing description for TilingMode."
           },
-          "WellFilter": {
-            "description": "Well filter model.",
+          "WellExcludeFilter": {
+            "description": "Well exclude filter model.",
             "properties": {
               "name": {
-                "const": "Well Filter",
-                "default": "Well Filter",
+                "const": "Well Exclude Filter",
+                "default": "Well Exclude Filter",
                 "description": "Name of the filter.",
                 "title": "Name",
                 "type": "string"
@@ -3792,7 +3792,7 @@
             "required": [
               "wells_to_remove"
             ],
-            "title": "WellFilter",
+            "title": "WellExcludeFilter",
             "type": "object"
           },
           "WellIncludeFilter": {
@@ -4524,7 +4524,7 @@
                     "mapping": {
                       "Path Regex Exclude Filter": "#/$defs/RegexExcludeFilter",
                       "Path Regex Include Filter": "#/$defs/RegexIncludeFilter",
-                      "Well Filter": "#/$defs/WellFilter",
+                      "Well Exclude Filter": "#/$defs/WellExcludeFilter",
                       "Well Include Filter": "#/$defs/WellIncludeFilter"
                     },
                     "propertyName": "name"
@@ -4537,7 +4537,7 @@
                       "$ref": "#/$defs/RegexIncludeFilter"
                     },
                     {
-                      "$ref": "#/$defs/WellFilter"
+                      "$ref": "#/$defs/WellExcludeFilter"
                     },
                     {
                       "$ref": "#/$defs/WellIncludeFilter"
@@ -4837,12 +4837,12 @@
             "type": "string",
             "description": "Missing description for TilingMode."
           },
-          "WellFilter": {
-            "description": "Well filter model.",
+          "WellExcludeFilter": {
+            "description": "Well exclude filter model.",
             "properties": {
               "name": {
-                "const": "Well Filter",
-                "default": "Well Filter",
+                "const": "Well Exclude Filter",
+                "default": "Well Exclude Filter",
                 "description": "Name of the filter.",
                 "title": "Name",
                 "type": "string"
@@ -4859,7 +4859,7 @@
             "required": [
               "wells_to_remove"
             ],
-            "title": "WellFilter",
+            "title": "WellExcludeFilter",
             "type": "object"
           },
           "WellIncludeFilter": {
