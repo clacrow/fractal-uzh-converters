@@ -56,7 +56,7 @@
                 "title": "Data Type"
               },
               "stage_corrections": {
-                "$ref": "#/$defs/StageCorrections",
+                "$ref": "#/$defs/StageOrientation",
                 "default": {
                   "flip_x": false,
                   "flip_y": false,
@@ -72,7 +72,8 @@
                     "mapping": {
                       "Path Regex Exclude Filter": "#/$defs/RegexExcludeFilter",
                       "Path Regex Include Filter": "#/$defs/RegexIncludeFilter",
-                      "Well Filter": "#/$defs/WellFilter"
+                      "Well Filter": "#/$defs/WellFilter",
+                      "Well Include Filter": "#/$defs/WellIncludeFilter"
                     },
                     "propertyName": "name"
                   },
@@ -85,6 +86,9 @@
                     },
                     {
                       "$ref": "#/$defs/WellFilter"
+                    },
+                    {
+                      "$ref": "#/$defs/WellIncludeFilter"
                     }
                   ]
                 },
@@ -93,32 +97,6 @@
               }
             },
             "title": "AcquisitionOptions",
-            "type": "object"
-          },
-          "AlignmentCorrections": {
-            "additionalProperties": false,
-            "description": "Alignment correction for stage positions.",
-            "properties": {
-              "align_xy": {
-                "default": false,
-                "description": "Whether to align the positions in the XY plane by FOV.\nThis addresses minor imprecision that often occurs during image acquisition.",
-                "title": "Align XY",
-                "type": "boolean"
-              },
-              "align_z": {
-                "default": false,
-                "description": "Whether to align the positions in the Z axis by FOV.\nThis addresses minor imprecision that often occurs during image acquisition.",
-                "title": "Align Z",
-                "type": "boolean"
-              },
-              "align_t": {
-                "default": false,
-                "description": "Whether to align the positions in the T axis by FOV.\nThis addresses minor imprecision that often occurs during image acquisition.",
-                "title": "Align T",
-                "type": "boolean"
-              }
-            },
-            "title": "AlignmentCorrections",
             "type": "object"
           },
           "BackendType": {
@@ -182,7 +160,7 @@
                 "type": "number"
               },
               "alignment_correction": {
-                "$ref": "#/$defs/AlignmentCorrections",
+                "$ref": "#/$defs/StagePositionCorrections",
                 "default": {
                   "align_xy": false,
                   "align_z": false,
@@ -544,7 +522,7 @@
             "title": "ScanRAcquisitionModel",
             "type": "object"
           },
-          "StageCorrections": {
+          "StageOrientation": {
             "additionalProperties": false,
             "description": "Stage orientation corrections.",
             "properties": {
@@ -567,7 +545,33 @@
                 "type": "boolean"
               }
             },
-            "title": "StageCorrections",
+            "title": "StageOrientation",
+            "type": "object"
+          },
+          "StagePositionCorrections": {
+            "additionalProperties": false,
+            "description": "Alignment correction for stage positions.",
+            "properties": {
+              "align_xy": {
+                "default": false,
+                "description": "Whether to align the positions in the XY plane by FOV.\nThis addresses minor imprecision that often occurs during image acquisition.",
+                "title": "Align XY",
+                "type": "boolean"
+              },
+              "align_z": {
+                "default": false,
+                "description": "Whether to align the positions in the Z axis by FOV.\nThis addresses minor imprecision that often occurs during image acquisition.",
+                "title": "Align Z",
+                "type": "boolean"
+              },
+              "align_t": {
+                "default": false,
+                "description": "Whether to align the positions in the T axis by FOV.\nThis addresses minor imprecision that often occurs during image acquisition.",
+                "title": "Align T",
+                "type": "boolean"
+              }
+            },
+            "title": "StagePositionCorrections",
             "type": "object"
           },
           "TempJsonOptions": {
@@ -606,7 +610,7 @@
                 "type": "string"
               },
               "wells_to_remove": {
-                "description": "List of well identifiers to remove. E.g., [\"A1\", \"B2\"]",
+                "description": "List of well identifiers to remove. E.g., [\"A01\", \"B02\"]",
                 "items": {
                   "type": "string"
                 },
@@ -618,6 +622,31 @@
               "wells_to_remove"
             ],
             "title": "WellFilter",
+            "type": "object"
+          },
+          "WellIncludeFilter": {
+            "description": "Well include filter model.",
+            "properties": {
+              "name": {
+                "const": "Well Include Filter",
+                "default": "Well Include Filter",
+                "description": "Name of the filter.",
+                "title": "Name",
+                "type": "string"
+              },
+              "wells_to_include": {
+                "description": "List of well identifiers to keep. E.g., [\"A01\", \"B02\"]",
+                "items": {
+                  "type": "string"
+                },
+                "title": "Wells To Include",
+                "type": "array"
+              }
+            },
+            "required": [
+              "wells_to_include"
+            ],
+            "title": "WellIncludeFilter",
             "type": "object"
           },
           "WriterMode": {
@@ -694,32 +723,6 @@
       },
       "args_schema_parallel": {
         "$defs": {
-          "AlignmentCorrections": {
-            "additionalProperties": false,
-            "description": "Alignment correction for stage positions.",
-            "properties": {
-              "align_xy": {
-                "default": false,
-                "description": "Whether to align the positions in the XY plane by FOV.\nThis addresses minor imprecision that often occurs during image acquisition.",
-                "title": "Align XY",
-                "type": "boolean"
-              },
-              "align_z": {
-                "default": false,
-                "description": "Whether to align the positions in the Z axis by FOV.\nThis addresses minor imprecision that often occurs during image acquisition.",
-                "title": "Align Z",
-                "type": "boolean"
-              },
-              "align_t": {
-                "default": false,
-                "description": "Whether to align the positions in the T axis by FOV.\nThis addresses minor imprecision that often occurs during image acquisition.",
-                "title": "Align T",
-                "type": "boolean"
-              }
-            },
-            "title": "AlignmentCorrections",
-            "type": "object"
-          },
           "BackendType": {
             "enum": [
               "anndata",
@@ -779,7 +782,7 @@
                 "type": "number"
               },
               "alignment_correction": {
-                "$ref": "#/$defs/AlignmentCorrections",
+                "$ref": "#/$defs/StagePositionCorrections",
                 "default": {
                   "align_xy": false,
                   "align_z": false,
@@ -977,6 +980,32 @@
             "title": "Scalings",
             "type": "string",
             "description": "Missing description for Scalings."
+          },
+          "StagePositionCorrections": {
+            "additionalProperties": false,
+            "description": "Alignment correction for stage positions.",
+            "properties": {
+              "align_xy": {
+                "default": false,
+                "description": "Whether to align the positions in the XY plane by FOV.\nThis addresses minor imprecision that often occurs during image acquisition.",
+                "title": "Align XY",
+                "type": "boolean"
+              },
+              "align_z": {
+                "default": false,
+                "description": "Whether to align the positions in the Z axis by FOV.\nThis addresses minor imprecision that often occurs during image acquisition.",
+                "title": "Align Z",
+                "type": "boolean"
+              },
+              "align_t": {
+                "default": false,
+                "description": "Whether to align the positions in the T axis by FOV.\nThis addresses minor imprecision that often occurs during image acquisition.",
+                "title": "Align T",
+                "type": "boolean"
+              }
+            },
+            "title": "StagePositionCorrections",
+            "type": "object"
           },
           "TempJsonOptions": {
             "description": "Options for temporary JSON storage during conversion.",
@@ -1093,7 +1122,7 @@
                 "title": "Data Type"
               },
               "stage_corrections": {
-                "$ref": "#/$defs/StageCorrections",
+                "$ref": "#/$defs/StageOrientation",
                 "default": {
                   "flip_x": false,
                   "flip_y": false,
@@ -1109,7 +1138,8 @@
                     "mapping": {
                       "Path Regex Exclude Filter": "#/$defs/RegexExcludeFilter",
                       "Path Regex Include Filter": "#/$defs/RegexIncludeFilter",
-                      "Well Filter": "#/$defs/WellFilter"
+                      "Well Filter": "#/$defs/WellFilter",
+                      "Well Include Filter": "#/$defs/WellIncludeFilter"
                     },
                     "propertyName": "name"
                   },
@@ -1122,6 +1152,9 @@
                     },
                     {
                       "$ref": "#/$defs/WellFilter"
+                    },
+                    {
+                      "$ref": "#/$defs/WellIncludeFilter"
                     }
                   ]
                 },
@@ -1130,32 +1163,6 @@
               }
             },
             "title": "AcquisitionOptions",
-            "type": "object"
-          },
-          "AlignmentCorrections": {
-            "additionalProperties": false,
-            "description": "Alignment correction for stage positions.",
-            "properties": {
-              "align_xy": {
-                "default": false,
-                "description": "Whether to align the positions in the XY plane by FOV.\nThis addresses minor imprecision that often occurs during image acquisition.",
-                "title": "Align XY",
-                "type": "boolean"
-              },
-              "align_z": {
-                "default": false,
-                "description": "Whether to align the positions in the Z axis by FOV.\nThis addresses minor imprecision that often occurs during image acquisition.",
-                "title": "Align Z",
-                "type": "boolean"
-              },
-              "align_t": {
-                "default": false,
-                "description": "Whether to align the positions in the T axis by FOV.\nThis addresses minor imprecision that often occurs during image acquisition.",
-                "title": "Align T",
-                "type": "boolean"
-              }
-            },
-            "title": "AlignmentCorrections",
             "type": "object"
           },
           "BackendType": {
@@ -1208,11 +1215,11 @@
                 "title": "Advanced"
               },
               "image_extension": {
-                "default": "png",
+                "default": ".tif",
                 "description": "File extension of the actual image files.\nThe metadata (.mlf) always references '.tif', but the actual files\nmay be '.png' or '.tif'. Select the extension matching your data.",
                 "enum": [
-                  "png",
-                  "tif"
+                  ".tif",
+                  ".png"
                 ],
                 "title": "Image Extension",
                 "type": "string"
@@ -1274,7 +1281,7 @@
                 "type": "number"
               },
               "alignment_correction": {
-                "$ref": "#/$defs/AlignmentCorrections",
+                "$ref": "#/$defs/StagePositionCorrections",
                 "default": {
                   "align_xy": false,
                   "align_z": false,
@@ -1579,7 +1586,7 @@
             "type": "string",
             "description": "Missing description for Scalings."
           },
-          "StageCorrections": {
+          "StageOrientation": {
             "additionalProperties": false,
             "description": "Stage orientation corrections.",
             "properties": {
@@ -1602,7 +1609,33 @@
                 "type": "boolean"
               }
             },
-            "title": "StageCorrections",
+            "title": "StageOrientation",
+            "type": "object"
+          },
+          "StagePositionCorrections": {
+            "additionalProperties": false,
+            "description": "Alignment correction for stage positions.",
+            "properties": {
+              "align_xy": {
+                "default": false,
+                "description": "Whether to align the positions in the XY plane by FOV.\nThis addresses minor imprecision that often occurs during image acquisition.",
+                "title": "Align XY",
+                "type": "boolean"
+              },
+              "align_z": {
+                "default": false,
+                "description": "Whether to align the positions in the Z axis by FOV.\nThis addresses minor imprecision that often occurs during image acquisition.",
+                "title": "Align Z",
+                "type": "boolean"
+              },
+              "align_t": {
+                "default": false,
+                "description": "Whether to align the positions in the T axis by FOV.\nThis addresses minor imprecision that often occurs during image acquisition.",
+                "title": "Align T",
+                "type": "boolean"
+              }
+            },
+            "title": "StagePositionCorrections",
             "type": "object"
           },
           "TempJsonOptions": {
@@ -1641,7 +1674,7 @@
                 "type": "string"
               },
               "wells_to_remove": {
-                "description": "List of well identifiers to remove. E.g., [\"A1\", \"B2\"]",
+                "description": "List of well identifiers to remove. E.g., [\"A01\", \"B02\"]",
                 "items": {
                   "type": "string"
                 },
@@ -1653,6 +1686,31 @@
               "wells_to_remove"
             ],
             "title": "WellFilter",
+            "type": "object"
+          },
+          "WellIncludeFilter": {
+            "description": "Well include filter model.",
+            "properties": {
+              "name": {
+                "const": "Well Include Filter",
+                "default": "Well Include Filter",
+                "description": "Name of the filter.",
+                "title": "Name",
+                "type": "string"
+              },
+              "wells_to_include": {
+                "description": "List of well identifiers to keep. E.g., [\"A01\", \"B02\"]",
+                "items": {
+                  "type": "string"
+                },
+                "title": "Wells To Include",
+                "type": "array"
+              }
+            },
+            "required": [
+              "wells_to_include"
+            ],
+            "title": "WellIncludeFilter",
             "type": "object"
           },
           "WriterMode": {
@@ -1729,32 +1787,6 @@
       },
       "args_schema_parallel": {
         "$defs": {
-          "AlignmentCorrections": {
-            "additionalProperties": false,
-            "description": "Alignment correction for stage positions.",
-            "properties": {
-              "align_xy": {
-                "default": false,
-                "description": "Whether to align the positions in the XY plane by FOV.\nThis addresses minor imprecision that often occurs during image acquisition.",
-                "title": "Align XY",
-                "type": "boolean"
-              },
-              "align_z": {
-                "default": false,
-                "description": "Whether to align the positions in the Z axis by FOV.\nThis addresses minor imprecision that often occurs during image acquisition.",
-                "title": "Align Z",
-                "type": "boolean"
-              },
-              "align_t": {
-                "default": false,
-                "description": "Whether to align the positions in the T axis by FOV.\nThis addresses minor imprecision that often occurs during image acquisition.",
-                "title": "Align T",
-                "type": "boolean"
-              }
-            },
-            "title": "AlignmentCorrections",
-            "type": "object"
-          },
           "BackendType": {
             "enum": [
               "anndata",
@@ -1814,7 +1846,7 @@
                 "type": "number"
               },
               "alignment_correction": {
-                "$ref": "#/$defs/AlignmentCorrections",
+                "$ref": "#/$defs/StagePositionCorrections",
                 "default": {
                   "align_xy": false,
                   "align_z": false,
@@ -2012,6 +2044,32 @@
             "title": "Scalings",
             "type": "string",
             "description": "Missing description for Scalings."
+          },
+          "StagePositionCorrections": {
+            "additionalProperties": false,
+            "description": "Alignment correction for stage positions.",
+            "properties": {
+              "align_xy": {
+                "default": false,
+                "description": "Whether to align the positions in the XY plane by FOV.\nThis addresses minor imprecision that often occurs during image acquisition.",
+                "title": "Align XY",
+                "type": "boolean"
+              },
+              "align_z": {
+                "default": false,
+                "description": "Whether to align the positions in the Z axis by FOV.\nThis addresses minor imprecision that often occurs during image acquisition.",
+                "title": "Align Z",
+                "type": "boolean"
+              },
+              "align_t": {
+                "default": false,
+                "description": "Whether to align the positions in the T axis by FOV.\nThis addresses minor imprecision that often occurs during image acquisition.",
+                "title": "Align T",
+                "type": "boolean"
+              }
+            },
+            "title": "StagePositionCorrections",
+            "type": "object"
           },
           "TempJsonOptions": {
             "description": "Options for temporary JSON storage during conversion.",
@@ -2128,7 +2186,7 @@
                 "title": "Data Type"
               },
               "stage_corrections": {
-                "$ref": "#/$defs/StageCorrections",
+                "$ref": "#/$defs/StageOrientation",
                 "default": {
                   "flip_x": false,
                   "flip_y": false,
@@ -2144,7 +2202,8 @@
                     "mapping": {
                       "Path Regex Exclude Filter": "#/$defs/RegexExcludeFilter",
                       "Path Regex Include Filter": "#/$defs/RegexIncludeFilter",
-                      "Well Filter": "#/$defs/WellFilter"
+                      "Well Filter": "#/$defs/WellFilter",
+                      "Well Include Filter": "#/$defs/WellIncludeFilter"
                     },
                     "propertyName": "name"
                   },
@@ -2157,6 +2216,9 @@
                     },
                     {
                       "$ref": "#/$defs/WellFilter"
+                    },
+                    {
+                      "$ref": "#/$defs/WellIncludeFilter"
                     }
                   ]
                 },
@@ -2165,32 +2227,6 @@
               }
             },
             "title": "AcquisitionOptions",
-            "type": "object"
-          },
-          "AlignmentCorrections": {
-            "additionalProperties": false,
-            "description": "Alignment correction for stage positions.",
-            "properties": {
-              "align_xy": {
-                "default": false,
-                "description": "Whether to align the positions in the XY plane by FOV.\nThis addresses minor imprecision that often occurs during image acquisition.",
-                "title": "Align XY",
-                "type": "boolean"
-              },
-              "align_z": {
-                "default": false,
-                "description": "Whether to align the positions in the Z axis by FOV.\nThis addresses minor imprecision that often occurs during image acquisition.",
-                "title": "Align Z",
-                "type": "boolean"
-              },
-              "align_t": {
-                "default": false,
-                "description": "Whether to align the positions in the T axis by FOV.\nThis addresses minor imprecision that often occurs during image acquisition.",
-                "title": "Align T",
-                "type": "boolean"
-              }
-            },
-            "title": "AlignmentCorrections",
             "type": "object"
           },
           "BackendType": {
@@ -2299,7 +2335,7 @@
                 "type": "number"
               },
               "alignment_correction": {
-                "$ref": "#/$defs/AlignmentCorrections",
+                "$ref": "#/$defs/StagePositionCorrections",
                 "default": {
                   "align_xy": false,
                   "align_z": false,
@@ -2604,7 +2640,7 @@
             "type": "string",
             "description": "Missing description for Scalings."
           },
-          "StageCorrections": {
+          "StageOrientation": {
             "additionalProperties": false,
             "description": "Stage orientation corrections.",
             "properties": {
@@ -2627,7 +2663,33 @@
                 "type": "boolean"
               }
             },
-            "title": "StageCorrections",
+            "title": "StageOrientation",
+            "type": "object"
+          },
+          "StagePositionCorrections": {
+            "additionalProperties": false,
+            "description": "Alignment correction for stage positions.",
+            "properties": {
+              "align_xy": {
+                "default": false,
+                "description": "Whether to align the positions in the XY plane by FOV.\nThis addresses minor imprecision that often occurs during image acquisition.",
+                "title": "Align XY",
+                "type": "boolean"
+              },
+              "align_z": {
+                "default": false,
+                "description": "Whether to align the positions in the Z axis by FOV.\nThis addresses minor imprecision that often occurs during image acquisition.",
+                "title": "Align Z",
+                "type": "boolean"
+              },
+              "align_t": {
+                "default": false,
+                "description": "Whether to align the positions in the T axis by FOV.\nThis addresses minor imprecision that often occurs during image acquisition.",
+                "title": "Align T",
+                "type": "boolean"
+              }
+            },
+            "title": "StagePositionCorrections",
             "type": "object"
           },
           "TempJsonOptions": {
@@ -2666,7 +2728,7 @@
                 "type": "string"
               },
               "wells_to_remove": {
-                "description": "List of well identifiers to remove. E.g., [\"A1\", \"B2\"]",
+                "description": "List of well identifiers to remove. E.g., [\"A01\", \"B02\"]",
                 "items": {
                   "type": "string"
                 },
@@ -2678,6 +2740,31 @@
               "wells_to_remove"
             ],
             "title": "WellFilter",
+            "type": "object"
+          },
+          "WellIncludeFilter": {
+            "description": "Well include filter model.",
+            "properties": {
+              "name": {
+                "const": "Well Include Filter",
+                "default": "Well Include Filter",
+                "description": "Name of the filter.",
+                "title": "Name",
+                "type": "string"
+              },
+              "wells_to_include": {
+                "description": "List of well identifiers to keep. E.g., [\"A01\", \"B02\"]",
+                "items": {
+                  "type": "string"
+                },
+                "title": "Wells To Include",
+                "type": "array"
+              }
+            },
+            "required": [
+              "wells_to_include"
+            ],
+            "title": "WellIncludeFilter",
             "type": "object"
           },
           "WriterMode": {
@@ -2754,32 +2841,6 @@
       },
       "args_schema_parallel": {
         "$defs": {
-          "AlignmentCorrections": {
-            "additionalProperties": false,
-            "description": "Alignment correction for stage positions.",
-            "properties": {
-              "align_xy": {
-                "default": false,
-                "description": "Whether to align the positions in the XY plane by FOV.\nThis addresses minor imprecision that often occurs during image acquisition.",
-                "title": "Align XY",
-                "type": "boolean"
-              },
-              "align_z": {
-                "default": false,
-                "description": "Whether to align the positions in the Z axis by FOV.\nThis addresses minor imprecision that often occurs during image acquisition.",
-                "title": "Align Z",
-                "type": "boolean"
-              },
-              "align_t": {
-                "default": false,
-                "description": "Whether to align the positions in the T axis by FOV.\nThis addresses minor imprecision that often occurs during image acquisition.",
-                "title": "Align T",
-                "type": "boolean"
-              }
-            },
-            "title": "AlignmentCorrections",
-            "type": "object"
-          },
           "BackendType": {
             "enum": [
               "anndata",
@@ -2839,7 +2900,7 @@
                 "type": "number"
               },
               "alignment_correction": {
-                "$ref": "#/$defs/AlignmentCorrections",
+                "$ref": "#/$defs/StagePositionCorrections",
                 "default": {
                   "align_xy": false,
                   "align_z": false,
@@ -3038,6 +3099,32 @@
             "type": "string",
             "description": "Missing description for Scalings."
           },
+          "StagePositionCorrections": {
+            "additionalProperties": false,
+            "description": "Alignment correction for stage positions.",
+            "properties": {
+              "align_xy": {
+                "default": false,
+                "description": "Whether to align the positions in the XY plane by FOV.\nThis addresses minor imprecision that often occurs during image acquisition.",
+                "title": "Align XY",
+                "type": "boolean"
+              },
+              "align_z": {
+                "default": false,
+                "description": "Whether to align the positions in the Z axis by FOV.\nThis addresses minor imprecision that often occurs during image acquisition.",
+                "title": "Align Z",
+                "type": "boolean"
+              },
+              "align_t": {
+                "default": false,
+                "description": "Whether to align the positions in the T axis by FOV.\nThis addresses minor imprecision that often occurs during image acquisition.",
+                "title": "Align T",
+                "type": "boolean"
+              }
+            },
+            "title": "StagePositionCorrections",
+            "type": "object"
+          },
           "TempJsonOptions": {
             "description": "Options for temporary JSON storage during conversion.",
             "properties": {
@@ -3152,7 +3239,7 @@
                 "title": "Data Type"
               },
               "stage_corrections": {
-                "$ref": "#/$defs/StageCorrections",
+                "$ref": "#/$defs/StageOrientation",
                 "default": {
                   "flip_x": false,
                   "flip_y": false,
@@ -3168,7 +3255,8 @@
                     "mapping": {
                       "Path Regex Exclude Filter": "#/$defs/RegexExcludeFilter",
                       "Path Regex Include Filter": "#/$defs/RegexIncludeFilter",
-                      "Well Filter": "#/$defs/WellFilter"
+                      "Well Filter": "#/$defs/WellFilter",
+                      "Well Include Filter": "#/$defs/WellIncludeFilter"
                     },
                     "propertyName": "name"
                   },
@@ -3181,6 +3269,9 @@
                     },
                     {
                       "$ref": "#/$defs/WellFilter"
+                    },
+                    {
+                      "$ref": "#/$defs/WellIncludeFilter"
                     }
                   ]
                 },
@@ -3189,32 +3280,6 @@
               }
             },
             "title": "AcquisitionOptions",
-            "type": "object"
-          },
-          "AlignmentCorrections": {
-            "additionalProperties": false,
-            "description": "Alignment correction for stage positions.",
-            "properties": {
-              "align_xy": {
-                "default": false,
-                "description": "Whether to align the positions in the XY plane by FOV.\nThis addresses minor imprecision that often occurs during image acquisition.",
-                "title": "Align XY",
-                "type": "boolean"
-              },
-              "align_z": {
-                "default": false,
-                "description": "Whether to align the positions in the Z axis by FOV.\nThis addresses minor imprecision that often occurs during image acquisition.",
-                "title": "Align Z",
-                "type": "boolean"
-              },
-              "align_t": {
-                "default": false,
-                "description": "Whether to align the positions in the T axis by FOV.\nThis addresses minor imprecision that often occurs during image acquisition.",
-                "title": "Align T",
-                "type": "boolean"
-              }
-            },
-            "title": "AlignmentCorrections",
             "type": "object"
           },
           "BackendType": {
@@ -3278,7 +3343,7 @@
                 "type": "number"
               },
               "alignment_correction": {
-                "$ref": "#/$defs/AlignmentCorrections",
+                "$ref": "#/$defs/StagePositionCorrections",
                 "default": {
                   "align_xy": false,
                   "align_z": false,
@@ -3628,7 +3693,7 @@
             "type": "string",
             "description": "Missing description for Scalings."
           },
-          "StageCorrections": {
+          "StageOrientation": {
             "additionalProperties": false,
             "description": "Stage orientation corrections.",
             "properties": {
@@ -3651,7 +3716,33 @@
                 "type": "boolean"
               }
             },
-            "title": "StageCorrections",
+            "title": "StageOrientation",
+            "type": "object"
+          },
+          "StagePositionCorrections": {
+            "additionalProperties": false,
+            "description": "Alignment correction for stage positions.",
+            "properties": {
+              "align_xy": {
+                "default": false,
+                "description": "Whether to align the positions in the XY plane by FOV.\nThis addresses minor imprecision that often occurs during image acquisition.",
+                "title": "Align XY",
+                "type": "boolean"
+              },
+              "align_z": {
+                "default": false,
+                "description": "Whether to align the positions in the Z axis by FOV.\nThis addresses minor imprecision that often occurs during image acquisition.",
+                "title": "Align Z",
+                "type": "boolean"
+              },
+              "align_t": {
+                "default": false,
+                "description": "Whether to align the positions in the T axis by FOV.\nThis addresses minor imprecision that often occurs during image acquisition.",
+                "title": "Align T",
+                "type": "boolean"
+              }
+            },
+            "title": "StagePositionCorrections",
             "type": "object"
           },
           "TempJsonOptions": {
@@ -3690,7 +3781,7 @@
                 "type": "string"
               },
               "wells_to_remove": {
-                "description": "List of well identifiers to remove. E.g., [\"A1\", \"B2\"]",
+                "description": "List of well identifiers to remove. E.g., [\"A01\", \"B02\"]",
                 "items": {
                   "type": "string"
                 },
@@ -3702,6 +3793,31 @@
               "wells_to_remove"
             ],
             "title": "WellFilter",
+            "type": "object"
+          },
+          "WellIncludeFilter": {
+            "description": "Well include filter model.",
+            "properties": {
+              "name": {
+                "const": "Well Include Filter",
+                "default": "Well Include Filter",
+                "description": "Name of the filter.",
+                "title": "Name",
+                "type": "string"
+              },
+              "wells_to_include": {
+                "description": "List of well identifiers to keep. E.g., [\"A01\", \"B02\"]",
+                "items": {
+                  "type": "string"
+                },
+                "title": "Wells To Include",
+                "type": "array"
+              }
+            },
+            "required": [
+              "wells_to_include"
+            ],
+            "title": "WellIncludeFilter",
             "type": "object"
           },
           "WriterMode": {
@@ -3778,32 +3894,6 @@
       },
       "args_schema_parallel": {
         "$defs": {
-          "AlignmentCorrections": {
-            "additionalProperties": false,
-            "description": "Alignment correction for stage positions.",
-            "properties": {
-              "align_xy": {
-                "default": false,
-                "description": "Whether to align the positions in the XY plane by FOV.\nThis addresses minor imprecision that often occurs during image acquisition.",
-                "title": "Align XY",
-                "type": "boolean"
-              },
-              "align_z": {
-                "default": false,
-                "description": "Whether to align the positions in the Z axis by FOV.\nThis addresses minor imprecision that often occurs during image acquisition.",
-                "title": "Align Z",
-                "type": "boolean"
-              },
-              "align_t": {
-                "default": false,
-                "description": "Whether to align the positions in the T axis by FOV.\nThis addresses minor imprecision that often occurs during image acquisition.",
-                "title": "Align T",
-                "type": "boolean"
-              }
-            },
-            "title": "AlignmentCorrections",
-            "type": "object"
-          },
           "BackendType": {
             "enum": [
               "anndata",
@@ -3863,7 +3953,7 @@
                 "type": "number"
               },
               "alignment_correction": {
-                "$ref": "#/$defs/AlignmentCorrections",
+                "$ref": "#/$defs/StagePositionCorrections",
                 "default": {
                   "align_xy": false,
                   "align_z": false,
@@ -4062,6 +4152,32 @@
             "type": "string",
             "description": "Missing description for Scalings."
           },
+          "StagePositionCorrections": {
+            "additionalProperties": false,
+            "description": "Alignment correction for stage positions.",
+            "properties": {
+              "align_xy": {
+                "default": false,
+                "description": "Whether to align the positions in the XY plane by FOV.\nThis addresses minor imprecision that often occurs during image acquisition.",
+                "title": "Align XY",
+                "type": "boolean"
+              },
+              "align_z": {
+                "default": false,
+                "description": "Whether to align the positions in the Z axis by FOV.\nThis addresses minor imprecision that often occurs during image acquisition.",
+                "title": "Align Z",
+                "type": "boolean"
+              },
+              "align_t": {
+                "default": false,
+                "description": "Whether to align the positions in the T axis by FOV.\nThis addresses minor imprecision that often occurs during image acquisition.",
+                "title": "Align T",
+                "type": "boolean"
+              }
+            },
+            "title": "StagePositionCorrections",
+            "type": "object"
+          },
           "TempJsonOptions": {
             "description": "Options for temporary JSON storage during conversion.",
             "properties": {
@@ -4144,32 +4260,6 @@
       },
       "args_schema_non_parallel": {
         "$defs": {
-          "AlignmentCorrections": {
-            "additionalProperties": false,
-            "description": "Alignment correction for stage positions.",
-            "properties": {
-              "align_xy": {
-                "default": false,
-                "description": "Whether to align the positions in the XY plane by FOV.\nThis addresses minor imprecision that often occurs during image acquisition.",
-                "title": "Align XY",
-                "type": "boolean"
-              },
-              "align_z": {
-                "default": false,
-                "description": "Whether to align the positions in the Z axis by FOV.\nThis addresses minor imprecision that often occurs during image acquisition.",
-                "title": "Align Z",
-                "type": "boolean"
-              },
-              "align_t": {
-                "default": false,
-                "description": "Whether to align the positions in the T axis by FOV.\nThis addresses minor imprecision that often occurs during image acquisition.",
-                "title": "Align T",
-                "type": "boolean"
-              }
-            },
-            "title": "AlignmentCorrections",
-            "type": "object"
-          },
           "BackendType": {
             "enum": [
               "anndata",
@@ -4231,7 +4321,7 @@
                 "type": "number"
               },
               "alignment_correction": {
-                "$ref": "#/$defs/AlignmentCorrections",
+                "$ref": "#/$defs/StagePositionCorrections",
                 "default": {
                   "align_xy": false,
                   "align_z": false,
@@ -4418,7 +4508,7 @@
                 "title": "Data Type"
               },
               "stage_corrections": {
-                "$ref": "#/$defs/StageCorrections",
+                "$ref": "#/$defs/StageOrientation",
                 "default": {
                   "flip_x": false,
                   "flip_y": false,
@@ -4434,7 +4524,8 @@
                     "mapping": {
                       "Path Regex Exclude Filter": "#/$defs/RegexExcludeFilter",
                       "Path Regex Include Filter": "#/$defs/RegexIncludeFilter",
-                      "Well Filter": "#/$defs/WellFilter"
+                      "Well Filter": "#/$defs/WellFilter",
+                      "Well Include Filter": "#/$defs/WellIncludeFilter"
                     },
                     "propertyName": "name"
                   },
@@ -4447,6 +4538,9 @@
                     },
                     {
                       "$ref": "#/$defs/WellFilter"
+                    },
+                    {
+                      "$ref": "#/$defs/WellIncludeFilter"
                     }
                   ]
                 },
@@ -4666,7 +4760,7 @@
             "type": "string",
             "description": "Missing description for Scalings."
           },
-          "StageCorrections": {
+          "StageOrientation": {
             "additionalProperties": false,
             "description": "Stage orientation corrections.",
             "properties": {
@@ -4689,7 +4783,33 @@
                 "type": "boolean"
               }
             },
-            "title": "StageCorrections",
+            "title": "StageOrientation",
+            "type": "object"
+          },
+          "StagePositionCorrections": {
+            "additionalProperties": false,
+            "description": "Alignment correction for stage positions.",
+            "properties": {
+              "align_xy": {
+                "default": false,
+                "description": "Whether to align the positions in the XY plane by FOV.\nThis addresses minor imprecision that often occurs during image acquisition.",
+                "title": "Align XY",
+                "type": "boolean"
+              },
+              "align_z": {
+                "default": false,
+                "description": "Whether to align the positions in the Z axis by FOV.\nThis addresses minor imprecision that often occurs during image acquisition.",
+                "title": "Align Z",
+                "type": "boolean"
+              },
+              "align_t": {
+                "default": false,
+                "description": "Whether to align the positions in the T axis by FOV.\nThis addresses minor imprecision that often occurs during image acquisition.",
+                "title": "Align T",
+                "type": "boolean"
+              }
+            },
+            "title": "StagePositionCorrections",
             "type": "object"
           },
           "TempJsonOptions": {
@@ -4728,7 +4848,7 @@
                 "type": "string"
               },
               "wells_to_remove": {
-                "description": "List of well identifiers to remove. E.g., [\"A1\", \"B2\"]",
+                "description": "List of well identifiers to remove. E.g., [\"A01\", \"B02\"]",
                 "items": {
                   "type": "string"
                 },
@@ -4740,6 +4860,31 @@
               "wells_to_remove"
             ],
             "title": "WellFilter",
+            "type": "object"
+          },
+          "WellIncludeFilter": {
+            "description": "Well include filter model.",
+            "properties": {
+              "name": {
+                "const": "Well Include Filter",
+                "default": "Well Include Filter",
+                "description": "Name of the filter.",
+                "title": "Name",
+                "type": "string"
+              },
+              "wells_to_include": {
+                "description": "List of well identifiers to keep. E.g., [\"A01\", \"B02\"]",
+                "items": {
+                  "type": "string"
+                },
+                "title": "Wells To Include",
+                "type": "array"
+              }
+            },
+            "required": [
+              "wells_to_include"
+            ],
+            "title": "WellIncludeFilter",
             "type": "object"
           },
           "WriterMode": {
@@ -4816,32 +4961,6 @@
       },
       "args_schema_parallel": {
         "$defs": {
-          "AlignmentCorrections": {
-            "additionalProperties": false,
-            "description": "Alignment correction for stage positions.",
-            "properties": {
-              "align_xy": {
-                "default": false,
-                "description": "Whether to align the positions in the XY plane by FOV.\nThis addresses minor imprecision that often occurs during image acquisition.",
-                "title": "Align XY",
-                "type": "boolean"
-              },
-              "align_z": {
-                "default": false,
-                "description": "Whether to align the positions in the Z axis by FOV.\nThis addresses minor imprecision that often occurs during image acquisition.",
-                "title": "Align Z",
-                "type": "boolean"
-              },
-              "align_t": {
-                "default": false,
-                "description": "Whether to align the positions in the T axis by FOV.\nThis addresses minor imprecision that often occurs during image acquisition.",
-                "title": "Align T",
-                "type": "boolean"
-              }
-            },
-            "title": "AlignmentCorrections",
-            "type": "object"
-          },
           "BackendType": {
             "enum": [
               "anndata",
@@ -4901,7 +5020,7 @@
                 "type": "number"
               },
               "alignment_correction": {
-                "$ref": "#/$defs/AlignmentCorrections",
+                "$ref": "#/$defs/StagePositionCorrections",
                 "default": {
                   "align_xy": false,
                   "align_z": false,
@@ -5099,6 +5218,32 @@
             "title": "Scalings",
             "type": "string",
             "description": "Missing description for Scalings."
+          },
+          "StagePositionCorrections": {
+            "additionalProperties": false,
+            "description": "Alignment correction for stage positions.",
+            "properties": {
+              "align_xy": {
+                "default": false,
+                "description": "Whether to align the positions in the XY plane by FOV.\nThis addresses minor imprecision that often occurs during image acquisition.",
+                "title": "Align XY",
+                "type": "boolean"
+              },
+              "align_z": {
+                "default": false,
+                "description": "Whether to align the positions in the Z axis by FOV.\nThis addresses minor imprecision that often occurs during image acquisition.",
+                "title": "Align Z",
+                "type": "boolean"
+              },
+              "align_t": {
+                "default": false,
+                "description": "Whether to align the positions in the T axis by FOV.\nThis addresses minor imprecision that often occurs during image acquisition.",
+                "title": "Align T",
+                "type": "boolean"
+              }
+            },
+            "title": "StagePositionCorrections",
+            "type": "object"
           },
           "TempJsonOptions": {
             "description": "Options for temporary JSON storage during conversion.",
