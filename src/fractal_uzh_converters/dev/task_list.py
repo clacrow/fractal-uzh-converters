@@ -61,6 +61,7 @@ TASK_LIST = [
         category="Conversion",
         modality="HCS",
         tags=[
+            "PerkinElmer",
             "Operetta",
             "Plate converter",
         ],
@@ -75,7 +76,8 @@ TASK_LIST = [
         category="Conversion",
         modality="HCS",
         tags=[
-            "MD ImageXpress HCS.ai",
+            "Molecular Devices",
+            "ImageXpress HCS.ai",
             "Plate converter",
         ],
         docs_info="file:docs_info/md_imagexpress_hcsai_task.md",

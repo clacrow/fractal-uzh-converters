@@ -3190,6 +3190,7 @@
       "category": "Conversion",
       "modality": "HCS",
       "tags": [
+        "PerkinElmer",
         "Operetta",
         "Plate converter"
       ],
@@ -4243,7 +4244,8 @@
       "category": "Conversion",
       "modality": "HCS",
       "tags": [
-        "MD ImageXpress HCS.ai",
+        "Molecular Devices",
+        "ImageXpress HCS.ai",
         "Plate converter"
       ],
       "docs_info": "### Purpose\n\n- Convert images acquired with an MD ImageXpress HCS.ai microscope to an OME-Zarr Plate.\n\n### Outputs\n\n- An OME-Zarr Plate.\n\n### Limitations\n\n- This task has been tested on a limited set of acquisitions. It may not work on all MD ImageXpress acquisitions.\n\n### Expected inputs\n\nThe following directory structure is expected:\n\n```text\n{protocol_name}_{date-time}\n\u251c\u2500\u2500 {protocol_name}.mxprotocol\n\u251c\u2500\u2500 autofocus/\n\u2514\u2500\u2500 experiment{_mode}/\n    \u251c\u2500\u2500 {acquisition_name}.jdce\n    \u251c\u2500\u2500 image_metadata_1.csv\n    \u251c\u2500\u2500 timepoint0/\n    \u2514\u2500\u2500 timepoint1/\n        \u251c\u2500\u2500 {protocol_name}_t1_C05_s0_w0_z0.tif\n        \u251c\u2500\u2500 {protocol_name}_t1_C05_s0_w0_z1.tif\n        \u2514\u2500\u2500 ...\n```\n\n`Path` should point to the `{protocol_name}_{date-time}` folder or the `{protocol_name}.mxprotocol` file.\n",
