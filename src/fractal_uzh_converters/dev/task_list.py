@@ -23,6 +23,21 @@ TASK_LIST = [
         docs_info="file:docs_info/scanr_task.md",
     ),
     ConverterCompoundTask(
+        name="Convert Yokogawa CellVoyager Plate to OME-Zarr",
+        executable_init="cellvoyager/convert_cellvoyager_init_task.py",
+        executable="common/image_in_plate_compute_task.py",
+        meta_init={"cpus_per_task": 1, "mem": 4000},
+        meta={"cpus_per_task": 1, "mem": 4000},
+        category="Conversion",
+        modality="HCS",
+        tags=[
+            "Yokogawa",
+            "CellVoyager",
+            "Plate converter",
+        ],
+        docs_info="file:docs_info/cellvoyager_task.md",
+    ),
+    ConverterCompoundTask(
         name="Convert Yokogawa CQ3K Plate to OME-Zarr",
         executable_init="cq3k/convert_cq3k_init_task.py",
         executable="common/image_in_plate_compute_task.py",
@@ -46,6 +61,7 @@ TASK_LIST = [
         category="Conversion",
         modality="HCS",
         tags=[
+            "PerkinElmer",
             "Operetta",
             "Plate converter",
         ],
@@ -60,7 +76,8 @@ TASK_LIST = [
         category="Conversion",
         modality="HCS",
         tags=[
-            "MD ImageXpress HCS.ai",
+            "Molecular Devices",
+            "ImageXpress HCS.ai",
             "Plate converter",
         ],
         docs_info="file:docs_info/md_imagexpress_hcsai_task.md",
