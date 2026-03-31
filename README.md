@@ -6,10 +6,10 @@ A collection of [Fractal](https://fractal-analytics-platform.github.io/) tasks t
 
 | Microscope | Manufacturer | Task Name |
 |---|---|---|
-| Opera Phenix / Operetta | PerkinElmer | `Convert Operetta to OME-Zarr` |
-| ScanR | Olympus | `Convert ScanR to OME-Zarr` |
-| CQ3K | Yokogawa | `Convert CQ3K to OME-Zarr` |
-| CellVoyager | Yokogawa | `Convert CellVoyager to OME-Zarr` |
+| Opera Phenix / Operetta | PerkinElmer | `Convert Operetta Plate to OME-Zarr` |
+| ScanR | Olympus | `Convert Olympus ScanR Plate to OME-Zarr` |
+| CQ3K | Yokogawa | `Convert Yokogawa CQ3K Plate to OME-Zarr` |
+| CellVoyager | Yokogawa | `Convert Yokogawa CellVoyager Plate to OME-Zarr` |
 | ImageXpress HCS.ai | Molecular Devices | `Convert MD ImageXpress HCS.ai Plate to OME-Zarr` |
 
 Each converter reads the microscope's native metadata and image files, then produces a well-structured OME-Zarr HCS plate.
