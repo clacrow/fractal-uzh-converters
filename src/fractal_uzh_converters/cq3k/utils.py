@@ -14,6 +14,7 @@ from ome_zarr_converters_tools import (
     Tile,
     TiledImage,
     default_axes_builder,
+    filesystem_for_url,
     join_url_paths,
     tiles_aggregation_pipeline,
 )
@@ -165,7 +166,8 @@ class MeasurementDetail(Base):
 
 def _parse(path: str) -> dict[str, Any]:
     try:
-        with open(path, encoding="utf-8") as f:
+        fs = filesystem_for_url(path)
+        with fs.open(path, encoding="utf-8") as f:
             return xmltodict.parse(
                 f.read(),
                 process_namespaces=True,

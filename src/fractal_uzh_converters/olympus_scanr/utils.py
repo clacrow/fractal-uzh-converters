@@ -16,6 +16,7 @@ from ome_zarr_converters_tools import (
     Tile,
     TiledImage,
     default_axes_builder,
+    filesystem_for_url,
     join_url_paths,
     tiles_aggregation_pipeline,
 )
@@ -312,7 +313,8 @@ def parse_scanr_metadata(
     acquisition_dir = acquisition_model.path
     metadata_path = join_url_paths(acquisition_dir, "data", "metadata.ome.xml")
     try:
-        with open(metadata_path) as f:
+        fs = filesystem_for_url(metadata_path)
+        with fs.open(metadata_path) as f:
             meta = from_xml(f.read())
     except Exception as e:
         raise ValueError(
