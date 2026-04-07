@@ -17,6 +17,7 @@ from ome_zarr_converters_tools import (
     Tile,
     TiledImage,
     default_axes_builder,
+    filesystem_for_url,
     join_url_paths,
     tiles_aggregation_pipeline,
 )
@@ -394,14 +395,17 @@ class MDImageRecord(BaseModel):
 
 def parse_jdce_metadata(file_path: str) -> MDExperimentMeta:
     """Parse JDCE metadata file into a structured model."""
-    with open(file_path) as f:
+    fs = filesystem_for_url(file_path)
+    with fs.open(file_path, encoding="utf-8") as f:
         data = json.load(f)
     return MDExperimentMeta.model_validate(data)
 
 
 def load_csv_metadata(file_path: str) -> list[MDImageRecord]:
     """Load CSV metadata file into structured records."""
-    df = pd.read_csv(file_path)
+    fs = filesystem_for_url(file_path)
+    with fs.open(file_path) as f:
+        df = pd.read_csv(f)
     return [MDImageRecord.model_validate(row.to_dict()) for _, row in df.iterrows()]
 
 
