@@ -77,8 +77,6 @@ jobs:
           python -m build
 
       - name: 🚢 Publish to PyPI
-        # TODO remove the "if: false" line when the package is ready for pypi release
-        if: false
         uses: pypa/gh-action-pypi-publish@release/v1
 
       - uses: softprops/action-gh-release@v2
